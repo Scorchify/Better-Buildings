@@ -1,0 +1,19 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+
+  <p>Issue Area: {{ area.text }}</p>
+
+  <p>Reports:</p>
+  <ul>
+    {% for report in reports %}
+      <li>
+        <p>{{ report.date_added|date:'M d, Y H:i' }}</p>
+        <p>{{ report.text|linebreaks }}</p>
+      </li>
+    {% empty %}
+      <li>There are no entries for this topic yet.</li>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}

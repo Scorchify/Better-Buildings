@@ -1,0 +1,17 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+
+  <p>Issue Areas</p>
+
+  <ul>
+    {% for area in areas %}
+      <li>
+        <a href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a>
+      </li>
+    {% empty %}
+      <li>No issue areas have been added yet.</li>
+    {% endfor %}
+  </ul>
+
+{% endblock content %}

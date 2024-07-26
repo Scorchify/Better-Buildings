@@ -1,0 +1,13 @@
+{% extends "better_buildings/base.html" %}
+
+{% block content %}
+
+  <p>Add a new issue area:</p>
+
+  <form action="{% url 'better_buildings:new_area' %}" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button name="submit">Add area</button>
+  </form>
+
+{% endblock content %}

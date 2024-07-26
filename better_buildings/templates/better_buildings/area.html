@@ -5,14 +5,22 @@
   <p>Issue Area: {{ area.text }}</p>
 
   <p>Reports:</p>
+
+  <p>
+    <a href="{% url 'better_buildings:new_report' area.id %}">Add new entry</a>
+  </p>
+
   <ul>
     {% for report in reports %}
       <li>
         <p>{{ report.date_added|date:'M d, Y H:i' }}</p>
         <p>{{ report.text|linebreaks }}</p>
+        <p>
+          <a href="{% url 'better_buildings:edit_report' report.id %}">Edit report</a>
+        </p>
       </li>
     {% empty %}
-      <li>There are no entries for this topic yet.</li>
+      <li>There are no reports in the issue area yet.</li>
     {% endfor %}
   </ul>
 

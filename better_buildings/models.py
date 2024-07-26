@@ -13,13 +13,13 @@ class Area(models.Model):
 
 class Report(models.Model):
     """A building issue report linked to an issue type"""
-    issue_type = models.ForeignKey(Area, on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, on_delete=models.CASCADE)
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     upvotes = 0
 
     def __str__(self):
-        """Return a simple string representing the entry."""
+        """Return a simple string representing the report."""
         return f"{self.text[:50]}..."
 
     def upvote(self):

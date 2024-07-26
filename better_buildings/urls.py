@@ -12,4 +12,10 @@ urlpatterns = [
     path('areas/', views.areas, name='areas'),
     # Page that displays the reports relating to an issue area
     path('area/<int:area_id>/', views.area, name='area'),
+    # Page for adding a new issue area.
+    path('new_area/', views.new_area, name='new_area'),
+    # Page for creating a new report.
+    path('new_report/<int:area_id>/', views.new_report, name='new_report'),
+    # Page for editing an entry
+    path('edit_report/<int:report_id>/', views.edit_report, name='edit_report'),
 ]

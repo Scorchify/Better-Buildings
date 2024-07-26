@@ -1,0 +1,15 @@
+{% extends "better_buildings/base.html" %}
+
+{% block content %}
+
+  <p><a href="{% url 'better_buildings:area' area.id %}">{{ area }}</a></p>
+
+  <p>Edit report:</p>
+
+  <form action="{% url 'better_buildings:edit_report' report.id %}" method="post">
+    {% csrf_token %}
+    {{ form.as_div }}
+    <button name="submit">Save changes</button>
+  </form>
+
+{% endblock content %}

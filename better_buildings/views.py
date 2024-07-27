@@ -102,6 +102,6 @@ def edit_report(request, report_id):
     context = {'report': report, 'area': area, 'form': form}
     return render(request, 'better_buildings/edit_report.html', context)
 
-def show_client_ip(request):
-    client_ip = request.client_ip
-    return HttpResponse(f'Client IP: {client_ip}')
+def no_permission(request):
+    """Page to be displayed when a user doesn't have acess to a page"""
+    return render(request, 'better_buildings/no_permission.html')

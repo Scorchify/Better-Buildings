@@ -1,0 +1,91 @@
+.input-box {
+    width: 100%;
+    min-height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 20px;
+    resize: none;
+    overflow: hidden;
+}
+
+.input-box:focus {
+    border-width: 4.5px; 
+    border-color: white; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+}
+
+body.light-mode .input-box:focus {
+    border-color: rgba(0, 0, 0, 1); 
+}
+
+.input-box::placeholder {
+    color: white; 
+}
+
+body.light-mode .input-box {
+    color: black;
+    border-color: rgba(0, 0, 0, .2);
+}
+
+body.light-mode .input-box::placeholder {
+    color: black; 
+}
+
+.form-container select {
+    background-color: #0d1450; 
+    color: white; 
+    border: none;
+    border-radius: 10px;
+    padding: 10px;
+    width: 100%; 
+    cursor: pointer;
+}
+
+.form-container select:focus {
+    outline: none; 
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5); 
+}
+
+.form-container select option {
+    background-color: #182285; 
+    color: white; 
+    transition: background-color 0.3s ease; 
+}
+
+.form-container select option:hover {
+    background-color: black; 
+    color: white; 
+}
+
+body.light-mode .form-container select option:hover {
+    background-color: black; 
+}
+
+body.dark-mode .form-container select option:hover {
+    background-color: white; 
+    color: black; 
+}
+
+@keyframes dropdownFade {
+    from {
+        opacity: 0;
+        transform: translateY(-5px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.form-container select option {
+    animation: dropdownFade 0.3s ease; 
+}
+
+.form-container select:focus {
+    animation: none; 
+}

@@ -67,6 +67,7 @@ def new_report(request, area_id):
         if form.is_valid():
             new_report = form.save(commit=False)
             new_report.area = area
+            new_report.owner = request.user
             new_report.save()
             return redirect('better_buildings:area', area_id=area_id)
     

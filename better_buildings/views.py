@@ -4,12 +4,15 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import Area, Report
 from .forms import AreaForm, ReportForm
 
+
+# Custom functions
 def is_supervisor(user):
     return user.groups.filter(name='School Supervisors').exists()
 
 def is_student(user):
     return user.groups.filter(name='Students').exists()
 
+# Views
 
 def index(request):
     """The home page for Better Buildings"""
@@ -27,7 +30,9 @@ def area(request, area_id):
     """Show a single issue area and its reports"""
     area = Area.objects.get(id=area_id)
     reports = area.report_set.order_by('-date_added')
-    context = {'area': area, 'reports': reports}
+    user_reports = area.report_set.filter(owner=request.user).order_by('-date_added')
+
+    context = {'area': area, 'reports': reports, 'user_reports': user_reports}
     return render(request, 'better_buildings/area.html', context)
 
 @login_required
@@ -74,6 +79,8 @@ def edit_report(request, report_id):
     """Edit an existing report."""
     report = Report.objects.get(id=report_id)
     area = report.area
+    if report.owner != request.user:
+        return redirect('better_buildings:no_permission')
 
     if request.method != 'POST':
         # Initial request; pre-fill form with the current entry.

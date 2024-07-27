@@ -12,4 +12,9 @@
     <button name="submit">Save changes</button>
   </form>
 
+  <form method="post">
+    {% csrf_token %}
+    <button type="submit" name="delete">Delete Report</button>
+  </form>
+
 {% endblock content %}

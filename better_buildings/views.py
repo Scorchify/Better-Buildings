@@ -81,6 +81,7 @@ def edit_report(request, report_id):
     """Edit an existing report."""
     report = Report.objects.get(id=report_id)
     area = report.area
+
     if report.owner != request.user:
         return redirect('better_buildings:no_permission')
 
@@ -90,16 +91,16 @@ def edit_report(request, report_id):
     else:
         # POST data submitted; process data.
         form = ReportForm(instance=report, data=request.POST)
-        if form.is_valid():
-            form.save()
+        if 'delete' in request.POST:
+            report.delete()
             return redirect('better_buildings:area', area_id=area.id)
-    
+        else:
+            if form.is_valid():
+                form.save()
+                return redirect('better_buildings:area', area_id=area.id)
+
     context = {'report': report, 'area': area, 'form': form}
     return render(request, 'better_buildings/edit_report.html', context)
-
-def no_permission(request):
-    """Page to be displayed when a user doesn't have acess to a page"""
-    return render(request, 'better_buildings/no_permission.html')
 
 def show_client_ip(request):
     client_ip = request.client_ip

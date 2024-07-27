@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.http import HttpResponse
 
 from .models import Area, Report
 from .forms import AreaForm, ReportForm
@@ -99,3 +100,7 @@ def edit_report(request, report_id):
 def no_permission(request):
     """Page to be displayed when a user doesn't have acess to a page"""
     return render(request, 'better_buildings/no_permission.html')
+
+def show_client_ip(request):
+    client_ip = request.client_ip
+    return HttpResponse(f'Client IP: {client_ip}')

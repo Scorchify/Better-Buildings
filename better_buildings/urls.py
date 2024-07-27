@@ -18,4 +18,6 @@ urlpatterns = [
     path('new_report/<int:area_id>/', views.new_report, name='new_report'),
     # Page for editing an entry
     path('edit_report/<int:report_id>/', views.edit_report, name='edit_report'),
+    # Redirect page for when a user attempts to access a page they don't have access to
+    path('no_permission/', views.no_permission, name='no_permission'),
 ]

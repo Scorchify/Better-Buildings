@@ -1,9 +1,15 @@
 from django.shortcuts import render, redirect
+from django.contrib.auth.decorators import login_required, user_passes_test
 
 from .models import Area, Report
 from .forms import AreaForm, ReportForm
 
-# Create your views here.
+def is_supervisor(user):
+    return user.groups.filter(name='School Supervisors').exists()
+
+def is_student(user):
+    return user.groups.filter(name='Students').exists()
+
 
 def index(request):
     """The home page for Better Buildings"""
@@ -12,9 +18,11 @@ def index(request):
 def areas(request):
     """Show all issue types."""
     areas = Area.objects.order_by('date_added')
-    context = {'areas': areas}
+    supervisor = request.user.groups.filter(name='School Supervisors').exists()
+    context = {'areas': areas, 'supervisor': supervisor}
     return render(request, 'better_buildings/areas.html', context)
 
+@login_required
 def area(request, area_id):
     """Show a single issue area and its reports"""
     area = Area.objects.get(id=area_id)
@@ -22,6 +30,8 @@ def area(request, area_id):
     context = {'area': area, 'reports': reports}
     return render(request, 'better_buildings/area.html', context)
 
+@login_required
+@user_passes_test(is_supervisor, login_url='/no_permission/')
 def new_area(request):
     """Add a new issue area."""
     if request.method != 'POST':
@@ -38,6 +48,7 @@ def new_area(request):
     context = {'form': form}
     return render(request, 'better_buildings/new_area.html', context)
 
+@login_required
 def new_report(request, area_id):
     """Create a new report for a particular issue area."""
     area = Area.objects.get(id=area_id)
@@ -58,6 +69,7 @@ def new_report(request, area_id):
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
 
+@login_required
 def edit_report(request, report_id):
     """Edit an existing report."""
     report = Report.objects.get(id=report_id)
@@ -75,3 +87,7 @@ def edit_report(request, report_id):
     
     context = {'report': report, 'area': area, 'form': form}
     return render(request, 'better_buildings/edit_report.html', context)
+
+def no_permission(request):
+    """Page to be displayed when a user doesn't have acess to a page"""
+    return render(request, 'better_buildings/no_permission.html')

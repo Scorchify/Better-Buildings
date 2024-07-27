@@ -14,6 +14,8 @@
     {% endfor %}
   </ul>
 
-  <a href="{% url 'better_buildings:new_area' %}">Add a new issue area</a>
+  {% if supervisor %}
+    <a href="{% url 'better_buildings:new_area' %}">Add a new issue area</a>
+  {% endif %}
 
 {% endblock content %}

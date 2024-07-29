@@ -9,8 +9,12 @@ class AreaForm(forms.ModelForm):
         labels = {'text': ''}
 
 class ReportForm(forms.ModelForm):
+    area = forms.ModelChoiceField(Area.objects.all())
+    
     class Meta:
         model = Report
         fields = ['text']
         labels = {'text': ''}
-        widgets = {'text': forms.Textarea(attrs={'cols': 80})}
+        widgets = {
+            'text': forms.Textarea(attrs={'cols': 80}),
+        }

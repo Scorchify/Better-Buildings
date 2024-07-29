@@ -57,11 +57,20 @@ def new_area(request):
 @login_required
 def new_report(request, area_id):
     """Create a new report for a particular issue area."""
-    area = Area.objects.get(id=area_id)
+    
+    """    
+    try to set the area to the submitted area, or if first
+    generating the page, set it to the area of the area page
+    previously on.
+    """ 
+    try:
+        area = request.area
+    except AttributeError:
+        area = Area.objects.get(id=area_id)
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
-        form = ReportForm()
+        form = ReportForm(initial={'area': area})
     else:
         # POST data submitted; process data.
         form = ReportForm(data=request.POST)
@@ -80,14 +89,13 @@ def new_report(request, area_id):
 def edit_report(request, report_id):
     """Edit an existing report."""
     report = Report.objects.get(id=report_id)
-    area = report.area
-
+    
     if report.owner != request.user:
         return redirect('better_buildings:no_permission')
 
     if request.method != 'POST':
         # Initial request; pre-fill form with the current entry.
-        form = ReportForm(instance=report)
+        form = ReportForm(instance=report, initial={'area': area})
     else:
         # POST data submitted; process data.
         form = ReportForm(instance=report, data=request.POST)

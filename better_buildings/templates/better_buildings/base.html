@@ -1,20 +1,84 @@
-<p>
-  <a href="{% url 'better_buildings:index' %}">MCPS Better Buildings</a> -
-  <a href="{% url 'better_buildings:areas' %}">Issue Areas</a> -
-  {% if user.is_authenticated %}
-    <a href="{% url 'accounts:profile' %}">Hello, {{ user.username }}</a>
-  {% else %}
-    <a href="{% url 'accounts:register' %}">Register</a> -
-    <a href="{% url 'accounts:login' %}">Login</a>
-  {% endif %}
-</p>
+{% load static %}
+  <head>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://getbootstrap.com/docs/5.3/assets/css/docs.css" rel="stylesheet">
+    <link rel="icon" type="image/x-icon" href="{% static 'images/bb_logo.png' %}">
+    <title>MCPS Better Buildings App</title>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+    <style>
+      .navbar {
+        background-color: #e0f7fa; /* Light blue color */
+      }
+      .navbar-text {
+        position: relative;
+        left: -1rem; 
+        margin-top: -0.5rem; 
+      }
+      .content-container {
+        margin-top: 4rem;
+        margin-left: 0;
+      }
+    </style>
+  </head>
+  <body class="p-0 m-0 border-0">
 
-{% block content %}{% endblock content %}
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg fixed-top">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{% url 'better_buildings:index' %}">MCPS Better Buildings</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <li class="nav-item">
+              <a class="nav-link active" aria-current="page" href="{% url 'better_buildings:index' %}">Home</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="{% url 'better_buildings:areas' %}">Issue Areas</a>
+            </li>
+            {% if user.is_authenticated and user.username == "bb_admin" %}
+              <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                  School
+                </a>
+                <ul class="dropdown-menu">
+                  <li><a class="dropdown-item" href="#">Wheaton HS</a></li> <!--TODO implement functionality for WHS and MBHS database switching-->
+                  <li><a class="dropdown-item" href="#">Montgomery Blair HS</a></li>
+                </ul>
+              </li>
+            {% endif %}
+          </ul>
+          <ul class="navbar-nav mb-2 mb-lg-0">
+            {% if user.is_authenticated %}
+              <li class="nav-item">
+                <span class="navbar-text">
+                  Hello, {{ user.username }} ({{ student_school }})
+                </span>
+              </li>
+              <li class="nav-item">
+                <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">
+                  {% csrf_token %}
+                  <button class="btn btn-outline-danger btn-sm" type="submit">Log out</button>
+                </form>
+              </li>
+            {% else %}
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:register' %}">Register</a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="{% url 'accounts:login' %}">Login</a>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+    </nav>
+    <!-- Navbar End -->
 
-{% if user.is_authenticated %}
-  <hr /> <!-- horizontal rule (bar) element -->
-  <form action="{% url 'accounts:logout' %}" method="post">
-    {% csrf_token %}
-    <button name="submit">Log out</button>
-  </form>
-{% endif %}
+    <div class="container content-container">
+      {% block content %}{% endblock content %}
+    </div>
+
+  </body>
+</html>

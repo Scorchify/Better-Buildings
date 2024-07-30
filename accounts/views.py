@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from django.contrib.auth.forms import UserCreationForm
+from better_buildings.models import Report
 
 def register(request):
     """Register a new user."""
@@ -20,3 +21,13 @@ def register(request):
     # Display a blank or invalid form
     context = {'form': form}
     return render(request, 'registration/register.html', context)
+
+def profile(request):
+    """Allow a user to view account information"""
+    user_reports = Report.objects.filter(owner=request.user)
+    user = request.user
+    context = {
+        'user_reports': user_reports,
+        'username': user.username,
+    }
+    return render(request, 'accounts/profile.html', context)

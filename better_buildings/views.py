@@ -90,6 +90,8 @@ def edit_report(request, report_id):
     """Edit an existing report."""
     report = Report.objects.get(id=report_id)
     
+    area = report.area
+
     if report.owner != request.user:
         return redirect('better_buildings:no_permission')
 

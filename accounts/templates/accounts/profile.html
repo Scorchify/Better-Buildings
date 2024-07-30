@@ -1,0 +1,29 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+
+  <h3>Hello {{ username }}!</h3>
+
+  <h4>My Profile:</h4>
+
+  <p>Active reports:</p>
+  <ul>
+    {% for report in user_reports %}
+      <li>
+        <p>Posted {{ report.date_added|date:'M d, Y' }} at {{ report.date_added|date:'H:i' }} in
+          <a href="{% url 'better_buildings:area' report.area.id %}">{{ report.area }}</a></p>
+        <p>{{ report.text|linebreaks }}</p>
+
+        <p>
+          <a href="{% url 'better_buildings:edit_report' report.id %}">Edit report</a>
+        </p>
+
+      </li>
+    {% empty %}
+      <p>Looks like you haven't made any reports to this area yet.</p>
+    {% endfor %}
+  </ul>
+
+  <hr/ >
+
+{% endblock content %}

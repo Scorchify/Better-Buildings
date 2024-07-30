@@ -4,7 +4,7 @@ from django.contrib.auth.models import User
 # Create your models here.
 
 class Area(models.Model):
-    """A report of a building issue."""
+    """An area a issue is reported in"""
     text = models.CharField(max_length=50, unique=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
@@ -13,7 +13,7 @@ class Area(models.Model):
         return self.text
 
 class Report(models.Model):
-    """A building issue report linked to an issue type"""
+    """A building issue report linked to an issue area"""
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)

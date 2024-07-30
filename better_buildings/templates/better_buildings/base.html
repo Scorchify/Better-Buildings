@@ -2,7 +2,7 @@
   <a href="{% url 'better_buildings:index' %}">MCPS Better Buildings</a> -
   <a href="{% url 'better_buildings:areas' %}">Issue Areas</a> -
   {% if user.is_authenticated %}
-    Hello, {{ user.username }}
+    <a href="{% url 'accounts:profile' %}">Hello, {{ user.username }}</a>
   {% else %}
     <a href="{% url 'accounts:register' %}">Register</a> -
     <a href="{% url 'accounts:login' %}">Login</a>

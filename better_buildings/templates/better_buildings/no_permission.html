@@ -1,7 +1,14 @@
 {% extends "better_buildings/base.html" %}
 
+{% load static %}
+
 {% block content %}
 
-  <p>Sorry, you don't have permission to access this page!</p>
+  <p class="fw-bold">Sorry, you don't have permission to access this page!</p>
+  
+  <!-- Display the image -->
+  <div class="text-center mt-4">
+    <img src="{% static 'images/nopermission.png' %}" alt="No Permission" class="img-fluid">
+  </div>
 
 {% endblock content %}

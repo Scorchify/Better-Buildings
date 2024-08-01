@@ -2,20 +2,29 @@
 
 {% block content %}
 
-  <p>Issue Areas</p>
+  <h3 class="fw-bold">Issue Areas</h3>
+  <br>
 
-  <ul>
-    {% for area in areas %}
-      <li>
-        <a href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a>
-      </li>
-    {% empty %}
-      <li>No issue areas have been added yet.</li>
-    {% endfor %}
-  </ul>
+  <div class="container">
+    <div class="row">
+      {% for area in areas %}
+        <div class="col-12 mb-2">
+          <!-- Add btn-dark for black buttons -->
+          <a href="{% url 'better_buildings:area' area.id %}" class="btn btn-dark w-100">{{ area.text }}</a>
+        </div>
+      {% empty %}
+        <div class="col-12">
+          <button class="btn btn-dark w-100" disabled>No issue areas have been added yet.</button>
+        </div>
+      {% endfor %}
+    </div>
 
-  {% if supervisor %}
-    <a href="{% url 'better_buildings:new_area' %}">Add a new issue area</a>
-  {% endif %}
+    {% if supervisor %}
+      <div class="mt-3">
+        <!-- Add custom class for purple button -->
+        <a href="{% url 'better_buildings:new_area' %}" class="btn btn-purple w-100">Add a new issue area</a>
+      </div>
+    {% endif %}
+  </div>
 
 {% endblock content %}

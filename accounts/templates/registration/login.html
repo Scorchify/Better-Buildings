@@ -1,15 +1,23 @@
 {% extends 'better_buildings/base.html' %}
-
 {% block content %}
+    {% if form.errors %}
+      <div class="alert alert-danger" role="alert">
+        Your username and password didn't match. Please try again.
+      </div>
+    {% endif %}
 
-  {% if form.errors %}
-    <p>Your username and password didn't match. Please try again.</p>
-  {% endif %}
+    <h2 class="mb-4">Login</h2>
 
-  <form action="{% url 'accounts:login' %}" method="post">
-    {% csrf_token %}
-    {{ form.as_div }}
+    <form action="{% url 'accounts:login' %}" method="post" class="form-inline w-100">
+      {% csrf_token %}
+      <div class="ibox mb-3">
+        <input type="text" name="username" placeholder="Username" class="form-control">
+      </div>
+      <div class="ibox mb-3">
+        <input type="password" name="password" placeholder="Password" class="form-control">
+      </div>
 
-    <button name="submit">Log in</button>
-  </form>
+      <button type="submit" class="btn btn-dark">Login</button>
+    </form>
 {% endblock content %}
+

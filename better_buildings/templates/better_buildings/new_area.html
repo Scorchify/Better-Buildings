@@ -2,12 +2,24 @@
 
 {% block content %}
 
-  <p>Add a new issue area:</p>
+  <h3 class="fw-bold">Add a New Issue Area</h3>
+  <br>
 
   <form action="{% url 'better_buildings:new_area' %}" method="post">
     {% csrf_token %}
-    {{ form.as_div }}
-    <button name="submit">Add area</button>
+    <div class="container mt-4">
+      <div class="row mb-3">
+        <div class="col-12">
+          {{ form.as_p }} 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <br>
+          <button type="submit" class="btn btn-dark w-100">Add Area</button>
+        </div>
+      </div>
+    </div>
   </form>
 
 {% endblock content %}

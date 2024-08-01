@@ -1,0 +1,45 @@
+.navbar {
+    background-color: #e0e0fa; /* Light blue color */
+  }
+  .content-container {
+    margin-top: 4rem;
+    margin-left: 0;
+  }
+
+  body { 
+    background: url("../images/light-mode.svg") no-repeat;
+    background-size: cover;
+    background-position: center;
+  }
+  
+  .wrapper {
+    width: 100%; 
+    max-width: 400px; 
+    background: transparent;
+    border: 0.1vw solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(20px);
+    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+    color: #000000;
+    border-radius: 1vw;
+    padding: 2vw; 
+    text-align: center;
+    max-height: 80vh;
+    overflow-y: auto;
+    margin: 0 auto; /* Center the wrapper */
+}
+
+.navbar {
+  padding-top: .9rem;
+  padding-bottom: .9rem; 
+}
+
+.btn-purple {
+  background-color: #3a2267; 
+  color: white; 
+  border: none; 
+}
+
+.btn-purple:hover {
+  background-color: #35204b; 
+  color: white; 
+}

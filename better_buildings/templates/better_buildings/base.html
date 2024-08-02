@@ -24,7 +24,7 @@
               <a class="nav-link active fs-5" aria-current="page" href="{% url 'better_buildings:index' %}">Home</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link fs-5" href="{% url 'better_buildings:areas' %}">Issue Areas</a>
+              <a class="nav-link active fs-5" href="{% url 'better_buildings:areas' %}">Issue Areas</a>
             </li>
             {% if user.is_authenticated and user.username == "bb_admin" %}
               <li class="nav-item dropdown">

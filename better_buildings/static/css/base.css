@@ -26,7 +26,7 @@
     max-height: 80vh;
     overflow-y: auto;
     margin: 0 auto; /* Center the wrapper */
-}
+  }
 
 .navbar {
   padding-top: .9rem;

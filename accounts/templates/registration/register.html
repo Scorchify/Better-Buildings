@@ -1,12 +1,12 @@
 {% extends "better_buildings/base.html" %}
 
 {% block content %}
-
+<div class="wrapper">
   <form action="{% url 'accounts:register' %}" method="post">
     {% csrf_token %}
     {{ form.as_div }}
     <br>
     <button name="submit" class="btn btn-dark">Register</button>
   </form>
-
+</div>
 {% endblock content %}

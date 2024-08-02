@@ -1,14 +1,14 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
-
+<div class="wrapper2">
   <p>Issue Area: {{ area.text }}</p>
 
   <p>
     <a href="{% url 'better_buildings:new_report' area.id %}">Add new report</a>
   </p>
 
-  <hr/ >
+  <hr/>
 
   <p>My reports:</p>
   <ul>
@@ -27,7 +27,7 @@
     {% endfor %}
   </ul>
 
-  <hr/ >
+  <hr/>
 
   <p>All Reports:</p>
   <ul>
@@ -40,5 +40,5 @@
       <li>There are no reports in the issue area yet.</li>
     {% endfor %}
   </ul>
-
+</div>
 {% endblock content %}

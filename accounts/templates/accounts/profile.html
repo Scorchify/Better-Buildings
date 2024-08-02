@@ -1,7 +1,7 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
-
+<div class="box">
   <h3>Hello {{ username }}!</h3>
 
   <p>Active reports:</p>
@@ -21,5 +21,5 @@
       <p>Looks like you don't have any active reports!</p>
     {% endfor %}
   </ul>
-
+</div>
 {% endblock content %}

@@ -11,15 +11,17 @@
 
     <form action="{% url 'accounts:login' %}" method="post" class="form-inline w-100">
       {% csrf_token %}
-      <div class="ibox mb-3">
+      <div class="ibox">
         <input type="text" name="username" placeholder="Username" class="form-control">
+        <span class="icon bi bi-person"></span>
       </div>
-      <div class="ibox mb-3">
+      <div class="ibox">
         <input type="password" name="password" placeholder="Password" class="form-control">
+        <span class="icon bi bi-lock"></span>
       </div>
 
       <button type="submit" class="btn btn-dark">Login</button>
     </form>
 </div>
+  
 {% endblock content %}
-

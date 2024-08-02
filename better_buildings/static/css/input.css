@@ -1,0 +1,51 @@
+.box .form-container .input-box {
+    width: 100%;
+    min-height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(255, 255, 255, .2);
+    border-radius: 10px;
+    font-size: 16px;
+    color: #fff;
+    padding: 10px 20px;
+    resize: none;
+    overflow: hidden;
+}
+
+.box .form-container .input-box:focus {
+    border-width: 4.5px;
+    border-color: white;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.box .form-container .input-box::placeholder {
+    color: white;
+}
+
+/* Styles for the select dropdown */
+.box .form-container select {
+    background-color: #0d1450;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px; 
+    width: 10%; 
+    cursor: pointer;
+}
+
+.box .form-container select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.box .form-container select option {
+    background-color: #182285;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.box .form-container select option:hover {
+    background-color: black;
+    color: white;
+}

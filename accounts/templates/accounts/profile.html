@@ -4,8 +4,6 @@
 
   <h3>Hello {{ username }}!</h3>
 
-  <h4>My Profile:</h4>
-
   <p>Active reports:</p>
   <ul>
     {% for report in user_reports %}
@@ -20,10 +18,8 @@
 
       </li>
     {% empty %}
-      <p>Looks like you haven't made any reports to this area yet.</p>
+      <p>Looks like you don't have any active reports!</p>
     {% endfor %}
   </ul>
-
-  <hr/>
 
 {% endblock content %}

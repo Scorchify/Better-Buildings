@@ -1,6 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.http import JsonResponse
+from .models import Report
 from .models import Area, Report
 from .forms import AreaForm, ReportForm
 
@@ -114,3 +116,17 @@ def edit_report(request, report_id):
 def no_permission(request):
     """Page to be displayed when a user doesn't have acess to a page"""
     return render(request, 'better_buildings/no_permission.html')
+
+def upvote_report(request, report_id): #upvoting
+    if request.method == 'POST':
+        try:
+            report = Report.objects.get(id=report_id)
+            if request.user.is_authenticated:
+                user = request.user
+                report.toggle_upvote(user)
+                return JsonResponse({'upvotes': report.upvotes, 'has_upvoted': report.users_upvoted.filter(id=user.id).exists()})
+            else:
+                return JsonResponse({'error': 'User not authenticated'}, status=403)
+        except Report.DoesNotExist:
+            return JsonResponse({'error': 'Report not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

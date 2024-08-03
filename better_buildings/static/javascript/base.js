@@ -1,22 +1,73 @@
-/*JavaScript for aesthetic scripts*/
-  document.addEventListener('DOMContentLoaded', function () {
-    var textareas = document.querySelectorAll('.input-box');
+document.addEventListener('DOMContentLoaded', function () {
+  // Adjust textarea height based on content
+  var textareas = document.querySelectorAll('.input-box');
 
-    textareas.forEach(function (textarea) {
-      textarea.style.overflow = 'hidden';
-      textarea.style.height = 'auto'; // Reset the height
-      textarea.style.height = textarea.scrollHeight + 'px';
+  textareas.forEach(function (textarea) {
+    textarea.style.overflow = 'hidden';
+    textarea.style.height = 'auto'; // Reset the height
+    textarea.style.height = textarea.scrollHeight + 'px';
 
-      textarea.addEventListener('input', function () {
-        this.style.height = 'auto';
-        this.style.height = (this.scrollHeight) + 'px';
-      });
+    textarea.addEventListener('input', function () {
+      this.style.height = 'auto';
+      this.style.height = (this.scrollHeight) + 'px';
     });
   });
 
-  document.addEventListener('DOMContentLoaded', function () {
-    if (!sessionStorage.getItem('navbarAnimated')) {
-      document.querySelector('.navbar').classList.add('animate');
-      sessionStorage.setItem('navbarAnimated', 'true');
-    }
+  // Add animation to navbar if not already animated
+  if (!sessionStorage.getItem('navbarAnimated')) {
+    document.querySelector('.navbar').classList.add('animate');
+    sessionStorage.setItem('navbarAnimated', 'true');
+  }
+
+  // Function to get CSRF token from meta tag
+  function getCsrfToken() {
+    return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
+  }
+
+  // Function to toggle thumbs-up state
+  function toggleThumbsUp(reportId) {
+    const thumbsUpIcon = document.getElementById(`thumbs-up-${reportId}`);
+    const upvotesCount = document.getElementById(`upvotes-${reportId}`);
+    const hasUpvoted = thumbsUpIcon.classList.contains('bi-hand-thumbs-up-fill');
+    const csrfToken = getCsrfToken();
+
+    fetch(`/upvote/${reportId}/`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRFToken': csrfToken
+      }
+    })
+    .then(response => response.json())
+    .then(data => {
+      if (data.upvotes !== undefined) {
+        upvotesCount.value = data.upvotes; // Update the textbox value
+        if (hasUpvoted) {
+          thumbsUpIcon.classList.remove('bi-hand-thumbs-up-fill');
+          thumbsUpIcon.classList.add('bi-hand-thumbs-up');
+        } else {
+          thumbsUpIcon.classList.remove('bi-hand-thumbs-up');
+          thumbsUpIcon.classList.add('bi-hand-thumbs-up-fill');
+        }
+
+        // Trigger animation
+        thumbsUpIcon.classList.add('animate-thumb');
+        
+        thumbsUpIcon.addEventListener('animationend', () => {
+          thumbsUpIcon.classList.remove('animate-thumb');
+        });
+      } else {
+        console.error('Failed to upvote:', data.error);
+      }
+    })
+    .catch(error => console.error('Error:', error));
+  }
+
+  // Add click event listeners to thumbs-up icons
+  document.querySelectorAll('.thumbs-up-icon').forEach(icon => {
+    icon.addEventListener('click', function () {
+      const reportId = this.id.split('-')[2];
+      toggleThumbsUp(reportId);
+    });
   });
+});

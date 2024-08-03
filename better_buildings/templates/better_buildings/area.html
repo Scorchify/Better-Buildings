@@ -11,15 +11,16 @@
   <hr/>
 
   <h4>My reports:</h4>
-  <ul>
+  <ul class="report-list">
     {% for report in user_reports %}
       <li class="report-item">
-        <div class="report-text">{{ report.text|linebreaks }}</div>
-        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
-        <br>
-        <p>
+        <div class="report-content">
+          <div class="report-text">{{ report.text|linebreaks }}</div>
+          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+        </div>
+        <div class="edit-container">
           <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-primary">Edit report</a>
-        </p>
+        </div>
       </li>
     {% empty %}
       <p>Looks like you haven't made any reports to this area yet.</p>
@@ -29,11 +30,18 @@
   <hr/>
 
   <h4>All Reports:</h4>
-  <ul>
+  <ul class="report-list">
     {% for report in reports %}
       <li class="report-item">
-        <div class="report-text">{{ report.text|linebreaks }}</div>
-        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+        <div class="report-content">
+          <div class="report-text">{{ report.text|linebreaks }}</div>
+          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+        </div>
+        <div class="thumbs-up-container">
+          <i id="thumbs-up-{{ report.id }}" class="bi bi-hand-thumbs-up thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
+          <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
+          <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}">
+        </div>
       </li>
     {% empty %}
       <li>There are no reports in the issue area yet.</li>
@@ -41,60 +49,4 @@
   </ul>
 </div>
 
-<style>
-.box2 {
-  width: 100vw;
-  height: calc(100vh - 13vh);
-  background: transparent;
-  border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
-  backdrop-filter: blur(20px);
-  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
-  color: #000000;
-  border-radius: 2vw;
-  padding: 2vw;
-  margin: -4vh -4vw 4vh; /* Adjusted margin to move the box up */
-  overflow-y: auto;
-  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
-  text-align: left; /* Reset text alignment to default (left) */
-}
-
-.report-item {
-  display: flex;
-  align-items: center;
-  margin-bottom: 1rem;
-}
-
-.report-text {
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  padding: 10px;
-  margin-right: 10px;
-  flex: 1;
-  width: calc(100% - 150px); /* Adjusted to leave space for the date box */
-}
-
-.report-date {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding: 10px;
-  text-align: center;
-  width: 150px; /* Adjust the width to your preference */
-  height: 100%; /* Ensure the height matches the report-text */
-}
-
-@media (max-width: 600px) {
-  .report-item {
-    flex-direction: column;
-    align-items: flex-start;
-  }
-
-  .report-text, .report-date {
-    width: 100%;
-  }
-
-  .report-date {
-    margin-top: 10px;
-  }
-}
-</style>
 {% endblock content %}

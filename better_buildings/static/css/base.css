@@ -72,7 +72,7 @@ body {
   height: calc(100vh - 13vh);
   background: transparent;
   border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
-  backdrop-filter: blur(20px);
+  backdrop-filter: blur(80px);
   box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
   color: #000000;
   border-radius: 2vw;
@@ -140,4 +140,119 @@ body {
   border-color: #000;
   background: transparent;
   outline: none;
+}
+
+.box2 {
+  width: 100vw;
+  height: calc(100vh - 13vh);
+  background: transparent;
+  border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
+  backdrop-filter: blur(40px);
+  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+  color: #000000;
+  border-radius: 2vw;
+  padding: 2vw;
+  margin: -4vh -3vw 5vh; /* Adjusted margin to move the box up */
+  overflow-y: auto;
+  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
+  text-align: left; /* Reset text alignment to default (left) */
+}
+
+.report-list {
+  list-style-type: none; /* Remove bullet points */
+  padding: 0;
+}
+
+.report-item {
+  margin-bottom: 1rem;
+}
+
+.report-content {
+  display: flex;
+  align-items: center;
+}
+
+.report-text {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  padding: 8px;
+  margin-right: 8px;
+  flex: 1;
+  width: calc(100% - 150px); /* Adjusted to leave space for the date box */
+  height: auto; /* Adjusted height */
+}
+
+.report-date {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 8px;
+  text-align: center;
+  width: 150px; /* Adjust the width to your preference */
+  height: auto; /* Adjusted height */
+}
+
+.edit-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.edit-container .btn-primary {
+  margin-right: 10px;
+}
+
+.thumbs-up-container {
+  display: flex;
+  align-items: center;
+  margin-top: 10px;
+}
+
+.thumbs-up-icon {
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+}
+
+.thumbs-up-icon.filled {
+  color: black;
+}
+
+.upvotes-label {
+  margin-left: 10px;
+  font-size: 1rem;
+}
+
+.upvotes-textbox {
+  width: auto;
+  margin-left: 5px;
+}
+
+@keyframes thumbs-up-animation {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.3);
+    opacity: 0.7;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@media (max-width: 600px) {
+  .report-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .report-text, .report-date {
+    width: 100%;
+  }
+
+  .report-date {
+    margin-top: 10px;
+  }
 }

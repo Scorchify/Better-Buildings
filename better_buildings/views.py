@@ -1,12 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
+from django.http import JsonResponse
+from .models import Report
 from .models import Area, Report
 from .forms import AreaForm, ReportForm
-from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from django.shortcuts import get_object_or_404
-from .models import Report
+
 
 # Custom functions
 def is_supervisor(user):
@@ -118,16 +117,13 @@ def no_permission(request):
     """Page to be displayed when a user doesn't have acess to a page"""
     return render(request, 'better_buildings/no_permission.html')
 
-@require_POST
 def upvote_report(request, report_id):
-    try:
-        report = Report.objects.get(id=report_id)
-        # Toggle upvote
-        if request.user in report.upvotes.all():
-            report.upvotes.remove(request.user)
-        else:
-            report.upvotes.add(request.user)
-        report.save()
-        return JsonResponse({'upvotes': report.upvotes.count()})
-    except Report.DoesNotExist:
-        return JsonResponse({'error': 'Report not found'}, status=404)
+    if request.method == 'POST':
+        try:
+            report = Report.objects.get(id=report_id)
+            report.upvotes += 1
+            report.save()
+            return JsonResponse({'upvotes': report.upvotes})
+        except Report.DoesNotExist:
+            return JsonResponse({'error': 'Report not found'}, status=404)
+    return JsonResponse({'error': 'Invalid request method'}, status=400)

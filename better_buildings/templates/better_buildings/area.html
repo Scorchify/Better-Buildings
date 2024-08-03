@@ -2,6 +2,8 @@
 
 {% block content %}
 <div class="box2">
+  <meta name="csrf-token" content="{{ csrf_token }}">
+
   <h3>Issue Area: {{ area.text }}</h3>
 
   <p>
@@ -48,5 +50,5 @@
     {% endfor %}
   </ul>
 </div>
-
 {% endblock content %}
+

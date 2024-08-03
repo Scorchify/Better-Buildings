@@ -11,7 +11,7 @@ class AreaForm(forms.ModelForm):
         model = Area
         fields = ['text']
         labels = {'text': ''}
-
+        
 class ReportForm(forms.ModelForm):
     class Media:
         css = {
@@ -24,5 +24,10 @@ class ReportForm(forms.ModelForm):
         fields = ['text']
         labels = {'text': ''}
         widgets = {
-            'text': forms.Textarea(attrs={'cols': 80}),
+            'text': forms.Textarea(attrs={
+                'class': 'input-box',
+                'placeholder': 'Enter report text here',
+                'cols': 80,
+                'rows': 5,
+            }),
         }

@@ -1,111 +1,143 @@
+body {
+  background: url("../images/light-mode.svg") no-repeat;
+  background-size: cover;
+  background-position: center;
+  overflow-y: hidden;
+}
+
 .navbar {
-    background-color: #e0e0fa; /* Light blue color */
-  }
-  .content-container {
-    margin-top: 4rem;
-    margin-left: 0;
-  }
+  background-color: #e0e0fa; /* Light blue color */
+  border-radius: 30px;
+  padding: 10px 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding-top: 0.9rem;
+  padding-bottom: 0.9rem;
+  position: relative;
+  top: 1vh; /* Move navbar down by 1vh */
+  transform-origin: left;
+  transform: scaleX(1); /* Default to final state */
+}
 
-  body { 
-    background: url("../images/light-mode.svg") no-repeat;
-    background-size: cover;
-    background-position: center;
-  }
-  
-  .wrapper {
-    width: 100%; 
-    max-width: 400px; 
-    background: transparent;
-    border: 0.1vw solid rgba(255, 255, 255, 0.2);
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
-    color: #000000;
-    border-radius: 1vw;
-    padding: 2vw; 
-    text-align: center;
-    max-height: 80vh;
-    overflow-y: auto;
-    margin: 0 auto; /* Center the wrapper */
-  }
+.navbar.animate {
+  animation: scrollIn 1s forwards; /* Add animation */
+}
 
+@keyframes scrollIn {
+  0% {
+    transform: scaleX(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scaleX(1);
+    opacity: 1;
+  }
+}
+
+.content-container {
+  margin-top: 4rem;
+  margin-left: 0;
+}
+
+.wrapper {
+  width: 100%;
+  max-width: 400px;
+  background: transparent;
+  border: 0.1vw solid rgba(255, 255, 255, 0.2);
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+  color: #000000;
+  border-radius: 1vw;
+  padding: 2vw;
+  text-align: center;
+  max-height: 80vh;
+  overflow-y: auto;
+  margin: -4vh -4vw 4vh; /* Adjusted margin to move the box up */
+  overflow-y: auto;
+  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
+  opacity: 0; /* Start with hidden content */
+  animation: fadeIn .5s forwards; /* Apply fade-in animation */
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.box {
+  width: 100vw;
+  height: calc(100vh - 13vh);
+  background: transparent;
+  border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+  color: #000000;
+  border-radius: 2vw;
+  padding: 2vw;
+  text-align: center;
+  margin: -4vh -4vw 4vh; /* Adjusted margin to move the box up */
+  overflow-y: auto;
+  box-sizing: border-box; 
+}
+
+/* Media query for mobile view */
+@media (max-width: 600px) {
   .box {
-    width: 100vw;
-    height: calc(100vh - 13vh); 
-    background: transparent;
-    border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
-    backdrop-filter: blur(20px);
-    box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
-    color: #000000;
-    border-radius: 2vw;
-    padding: 2vw; 
-    text-align: center;
-    margin: 11vh -4vw 2vh; /* Margin of 11vh on top, 2vh on bottom, -4vw on sides */
-    overflow-y: auto;
-    box-sizing: border-box; /* Ensure padding and border are included in the width/height */
+    margin: 4vh 0vw 2vh; /* Adjusted margin for mobile view */
   }
-  
-  /* Media query for mobile view */
-  @media (max-width: 600px) {
-    .box {
-      margin: 11vh 0vw 2vh; /* Margin of 11vh on top, 2vh on bottom, 0vw on sides */
-    }
-  }
-  
-  
-  
-.navbar {
-  padding-top: .9rem;
-  padding-bottom: .9rem; 
 }
 
 .btn-purple {
-  background-color: #3a2267; 
-  color: white; 
-  border: none; 
+  background-color: #3a2267;
+  color: white;
+  border: none;
 }
 
 .btn-purple:hover {
-  background-color: #35204b; 
-  color: white; 
+  background-color: #35204b;
+  color: white;
 }
 
-  /* Styles for the input box in the login page */
-  .wrapper .ibox {
-    position: relative;
-    width: 100%;
-    height: 50px;
-    margin: 30px 0;
+/* Styles for the input box in the login page */
+.wrapper .ibox {
+  position: relative;
+  width: 100%;
+  height: 50px;
+  margin: 30px 0;
 }
 
 .ibox input {
-    width: 100%;
-    height: 100%;
-    background: transparent;
-    border: 2px solid rgba(0, 0, 0, 0.2); 
-    border-radius: 40px;
-    font-size: 16px;
-    color: #000; 
-    padding: 0 40px 0 20px; 
-    transition: border-width 0.3s, box-shadow 0.3s; 
+  width: 100%;
+  height: 100%;
+  background: transparent;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  border-radius: 40px;
+  font-size: 16px;
+  color: #000;
+  padding: 0 40px 0 20px;
+  transition: border-width 0.3s, box-shadow 0.3s;
 }
 
 .ibox input::placeholder {
-    color: #000; 
+  color: #000;
 }
 
 .ibox .icon {
-    position: absolute;
-    right: 10px; 
-    top: 50%;
-    transform: translateY(-50%);
-    font-size: 20px;
-    color: #000; 
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 20px;
+  color: #000;
 }
 
 .ibox input:focus {
-    border-width: 4.5px;
-    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
-    border-color: #000; 
-    background: transparent; 
-    outline: none; 
+  border-width: 4.5px;
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+  border-color: #000;
+  background: transparent;
+  outline: none;
 }

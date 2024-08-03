@@ -1,26 +1,25 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
-<div class="box">
-  <p>Issue Area: {{ area.text }}</p>
+<div class="box2">
+  <h3>Issue Area: {{ area.text }}</h3>
 
   <p>
-    <a href="{% url 'better_buildings:new_report' area.id %}">Add new report</a>
+    <a href="{% url 'better_buildings:new_report' area.id %}" class="btn btn-dark">Add new report</a>
   </p>
 
   <hr/>
 
-  <p>My reports:</p>
+  <h4>My reports:</h4>
   <ul>
     {% for report in user_reports %}
-      <li>
-        <p>{{ report.date_added|date:'M d, Y H:i' }}</p>
-        <p>{{ report.text|linebreaks }}</p>
-
+      <li class="report-item">
+        <div class="report-text">{{ report.text|linebreaks }}</div>
+        <div class="report-date">{{ report.date_added|date:'M d, Y H:i' }}</div>
+        <br>
         <p>
-          <a href="{% url 'better_buildings:edit_report' report.id %}">Edit report</a>
+          <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-primary">Edit report</a>
         </p>
-
       </li>
     {% empty %}
       <p>Looks like you haven't made any reports to this area yet.</p>
@@ -29,16 +28,73 @@
 
   <hr/>
 
-  <p>All Reports:</p>
+  <h4>All Reports:</h4>
   <ul>
     {% for report in reports %}
-      <li>
-        <p>{{ report.date_added|date:'M d, Y H:i' }}</p>
-        <p>{{ report.text|linebreaks }}</p>
+      <li class="report-item">
+        <div class="report-text">{{ report.text|linebreaks }}</div>
+        <div class="report-date">{{ report.date_added|date:'M d, Y H:i' }}</div>
       </li>
     {% empty %}
       <li>There are no reports in the issue area yet.</li>
     {% endfor %}
   </ul>
 </div>
+
+<style>
+.box2 {
+  width: 100vw;
+  height: calc(100vh - 13vh);
+  background: transparent;
+  border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
+  backdrop-filter: blur(20px);
+  box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
+  color: #000000;
+  border-radius: 2vw;
+  padding: 2vw;
+  margin: -4vh -4vw 4vh; /* Adjusted margin to move the box up */
+  overflow-y: auto;
+  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
+  text-align: left; /* Reset text alignment to default (left) */
+}
+
+.report-item {
+  display: flex;
+  align-items: center;
+  margin-bottom: 1rem;
+}
+
+.report-text {
+  background: rgba(255, 255, 255, 0.8);
+  border-radius: 5px;
+  padding: 10px;
+  margin-right: 10px;
+  flex: 1;
+  width: calc(100% - 150px); /* Adjusted to leave space for the date box */
+}
+
+.report-date {
+  background: rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  padding: 10px;
+  text-align: center;
+  width: 150px; /* Adjust the width to your preference */
+  height: 100%; /* Ensure the height matches the report-text */
+}
+
+@media (max-width: 600px) {
+  .report-item {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .report-text, .report-date {
+    width: 100%;
+  }
+
+  .report-date {
+    margin-top: 10px;
+  }
+}
+</style>
 {% endblock content %}

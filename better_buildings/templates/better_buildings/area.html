@@ -1,17 +1,13 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
+<head> <meta name="csrf-token" content="{{ csrf_token }}"> </head>
 <div class="box2">
-  <meta name="csrf-token" content="{{ csrf_token }}">
-
   <h3>Issue Area: {{ area.text }}</h3>
-
   <p>
     <a href="{% url 'better_buildings:new_report' area.id %}" class="btn btn-dark">Add new report</a>
   </p>
-
   <hr/>
-
   <h4>My reports:</h4>
   <ul class="report-list">
     {% for report in user_reports %}
@@ -28,9 +24,7 @@
       <p>Looks like you haven't made any reports to this area yet.</p>
     {% endfor %}
   </ul>
-
   <hr/>
-
   <h4>All Reports:</h4>
   <ul class="report-list">
     {% for report in reports %}
@@ -40,7 +34,7 @@
           <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
         </div>
         <div class="thumbs-up-container">
-          <i id="thumbs-up-{{ report.id }}" class="bi bi-hand-thumbs-up thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
+          <i id="thumbs-up-{{ report.id }}" class="bi {% if request.user in report.users_upvoted.all %}bi-hand-thumbs-up-fill{% else %}bi-hand-thumbs-up{% endif %} thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
           <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
           <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}">
         </div>
@@ -51,4 +45,3 @@
   </ul>
 </div>
 {% endblock content %}
-

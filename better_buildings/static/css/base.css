@@ -13,13 +13,13 @@ body {
   padding-top: 0.9rem;
   padding-bottom: 0.9rem;
   position: relative;
-  top: 1vh; /* Move navbar down by 1vh */
+  top: 1vh; 
   transform-origin: left;
-  transform: scaleX(1); /* Default to final state */
+  transform: scaleX(1); 
 }
 
 .navbar.animate {
-  animation: scrollIn 1s forwards; /* Add animation */
+  animation: scrollIn 1s forwards; 
 }
 
 @keyframes scrollIn {
@@ -51,11 +51,9 @@ body {
   text-align: center;
   max-height: 80vh;
   overflow-y: auto;
-  margin: -4vh -4vw 4vh; /* Adjusted margin to move the box up */
-  overflow-y: auto;
-  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
-  opacity: 0; /* Start with hidden content */
-  animation: fadeIn .5s forwards; /* Apply fade-in animation */
+  margin: -4vh -4vw 4vh; 
+  opacity: 0; 
+  animation: fadeIn .5s forwards; 
 }
 
 @keyframes fadeIn {
@@ -71,14 +69,14 @@ body {
   width: 100vw;
   height: calc(100vh - 13vh);
   background: transparent;
-  border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
+  border: 0.1vw solid rgba(0, 0, 0, 1); 
   backdrop-filter: blur(80px);
   box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
   color: #000000;
   border-radius: 2vw;
   padding: 2vw;
   text-align: center;
-  margin: -4vh -4vw 4vh; /* Adjusted margin to move the box up */
+  margin: -4vh -4vw 4vh; 
   overflow-y: auto;
   box-sizing: border-box; 
 }
@@ -86,7 +84,7 @@ body {
 /* Media query for mobile view */
 @media (max-width: 600px) {
   .box {
-    margin: 4vh 0vw 2vh; /* Adjusted margin for mobile view */
+    margin: 4vh 0vw 2vh; 
   }
 }
 
@@ -146,20 +144,20 @@ body {
   width: 100vw;
   height: calc(100vh - 13vh);
   background: transparent;
-  border: 0.1vw solid rgba(0, 0, 0, 1); /* Black border color */
+  border: 0.1vw solid rgba(0, 0, 0, 1); 
   backdrop-filter: blur(40px);
   box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
   color: #000000;
   border-radius: 2vw;
   padding: 2vw;
-  margin: -4vh -3vw 5vh; /* Adjusted margin to move the box up */
+  margin: -4vh -3vw 5vh; 
   overflow-y: auto;
-  box-sizing: border-box; /* Ensure padding and border are included in the width/height */
-  text-align: left; /* Reset text alignment to default (left) */
+  box-sizing: border-box; 
+  text-align: left; 
 }
 
 .report-list {
-  list-style-type: none; /* Remove bullet points */
+  list-style-type: none; 
   padding: 0;
 }
 
@@ -178,8 +176,8 @@ body {
   padding: 8px;
   margin-right: 8px;
   flex: 1;
-  width: calc(100% - 150px); /* Adjusted to leave space for the date box */
-  height: auto; /* Adjusted height */
+  width: calc(100% - 150px);
+  height: auto; 
 }
 
 .report-date {
@@ -187,8 +185,8 @@ body {
   border-radius: 5px;
   padding: 8px;
   text-align: center;
-  width: 150px; /* Adjust the width to your preference */
-  height: auto; /* Adjusted height */
+  width: 150px; 
+  height: auto;
 }
 
 .edit-container {
@@ -242,6 +240,11 @@ body {
   }
 }
 
+.thumbs-up-icon.animate-thumb {
+  animation: thumbs-up-animation 0.5s;
+}
+
+/* Media query for mobile view */
 @media (max-width: 600px) {
   .report-content {
     flex-direction: column;

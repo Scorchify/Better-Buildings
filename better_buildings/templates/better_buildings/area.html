@@ -15,7 +15,7 @@
     {% for report in user_reports %}
       <li class="report-item">
         <div class="report-text">{{ report.text|linebreaks }}</div>
-        <div class="report-date">{{ report.date_added|date:'M d, Y H:i' }}</div>
+        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
         <br>
         <p>
           <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-primary">Edit report</a>
@@ -33,7 +33,7 @@
     {% for report in reports %}
       <li class="report-item">
         <div class="report-text">{{ report.text|linebreaks }}</div>
-        <div class="report-date">{{ report.date_added|date:'M d, Y H:i' }}</div>
+        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
       </li>
     {% empty %}
       <li>There are no reports in the issue area yet.</li>

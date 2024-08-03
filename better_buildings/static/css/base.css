@@ -1,22 +1,20 @@
 body {
-  background: url("../images/light-mode.svg") no-repeat;
+  background: url("../images/light-mode.svg") no-repeat center center fixed;
   background-size: cover;
-  background-position: center;
   overflow-y: hidden;
-  background-attachment: fixed; /* Added property */
 }
 
 .navbar {
   background-color: #e0e0fa; /* Light blue color */
   border-radius: 30px;
-  padding: 10px 20px;
+  padding: 0.9rem 20px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-  padding-top: 0.9rem;
-  padding-bottom: 0.9rem;
   position: relative;
   top: 1vh;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
   transform-origin: left;
-  transform: scaleX(1);
 }
 
 .navbar.animate {
@@ -36,7 +34,6 @@ body {
 
 .content-container {
   margin-top: 4rem;
-  margin-left: 0;
 }
 
 .wrapper {
@@ -46,13 +43,12 @@ body {
   border: 0.1vw solid rgba(255, 255, 255, 0.2);
   backdrop-filter: blur(20px);
   box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
-  color: #000000;
+  color: #000;
   border-radius: 1vw;
   padding: 2vw;
   text-align: center;
   max-height: 80vh;
   overflow-y: auto;
-  margin: -4vh -4vw 4vh;
   opacity: 0;
   animation: fadeIn .5s forwards;
 }
@@ -73,11 +69,10 @@ body {
   border: 0.1vw solid rgba(0, 0, 0, 1);
   backdrop-filter: blur(80px);
   box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
-  color: #000000;
+  color: #000;
   border-radius: 2vw;
   padding: 2vw;
   text-align: center;
-  margin: -4vh -4vw 4vh;
   overflow-y: auto;
   box-sizing: border-box;
 }
@@ -85,7 +80,20 @@ body {
 /* Media query for mobile view */
 @media (max-width: 600px) {
   .box {
-    margin: 4vh 0vw 2vh;
+    margin: 4vh 0 2vh;
+  }
+
+  .report-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .report-text, .report-date {
+    width: 100%;
+  }
+
+  .report-date {
+    margin-top: 10px;
   }
 }
 
@@ -97,10 +105,8 @@ body {
 
 .btn-purple:hover {
   background-color: #35204b;
-  color: white;
 }
 
-/* Styles for the input box in the login page */
 .wrapper .ibox {
   position: relative;
   width: 100%;
@@ -143,15 +149,15 @@ body {
 
 .box2 {
   width: 100vw;
-  height: calc(100vh - 13vh);
+  height: calc(100vh - 18vh);
   background: transparent;
   border: 0.1vw solid rgba(0, 0, 0, 1);
   backdrop-filter: blur(40px);
   box-shadow: 0 0 2vw rgba(0, 0, 0, 0.2);
-  color: #000000;
+  color: #000;
   border-radius: 2vw;
   padding: 2vw;
-  margin: -3vh -3vw 4vh;
+  margin: -4vh -3vw 4vh;
   overflow-y: auto;
   box-sizing: border-box;
   text-align: left;
@@ -178,7 +184,6 @@ body {
   margin-right: 8px;
   flex: 1;
   width: calc(100% - 150px);
-  height: auto;
 }
 
 .report-date {
@@ -187,7 +192,6 @@ body {
   padding: 8px;
   text-align: center;
   width: 100px;
-  height: auto;
   font-size: 14px;
 }
 
@@ -246,18 +250,24 @@ body {
   animation: thumbs-up-animation 0.5s;
 }
 
-/* Media query for mobile view */
-@media (max-width: 600px) {
-  .report-content {
-    flex-direction: column;
-    align-items: flex-start;
-  }
+.navbar-nav {
+  display: flex;
+  align-items: center;
+}
 
-  .report-text, .report-date {
-    width: 100%;
-  }
+.navbar-nav .nav-item {
+  display: flex;
+  align-items: center;
+}
 
-  .report-date {
-    margin-top: 10px;
-  }
+.navbar-nav .nav-item .btn {
+  margin: 0;
+}
+
+.navbar-nav .user-info {
+  margin-top: 10px;
+}
+
+.navbar-nav .profile-button {
+  margin-top: 10px;
 }

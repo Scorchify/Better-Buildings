@@ -3,8 +3,8 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.http import JsonResponse
 from .models import Report
-from .models import Area, Report
-from .forms import AreaForm, ReportForm
+from .models import Area, Report, BugReport
+from .forms import AreaForm, ReportForm, BugReportForm
 
 
 # Custom functions
@@ -14,11 +14,18 @@ def is_supervisor(user):
 def is_student(user):
     return user.groups.filter(name='Students').exists()
 
+def is_admin(user):
+    return user.is_superuser
+
 # Views
 
 def index(request):
     """The home page for Better Buildings"""
-    return render(request, 'better_buildings/index.html')
+    is_admin = False
+    if request.user.is_authenticated:
+        is_admin = request.user.is_superuser
+    context = {'is_admin': is_admin}
+    return render(request, 'better_buildings/index.html', context)
 
 def areas(request):
     """Show all issue types."""
@@ -130,3 +137,36 @@ def upvote_report(request, report_id): #upvoting
         except Report.DoesNotExist:
             return JsonResponse({'error': 'Report not found'}, status=404)
     return JsonResponse({'error': 'Invalid request method'}, status=400)
+
+def report_bug(request):
+    """Page to report a website bug"""
+    
+    if request.method != 'POST':
+        # No data submitted; create a blank form.
+        form = BugReportForm()
+    else:
+        # POST data submitted; process data.
+        form = BugReportForm(data=request.POST)
+        if form.is_valid():
+            new_report = form.save(commit=False)
+            new_report.owner = request.user
+            new_report.save()
+            return redirect('better_buildings:index')
+    
+    # Display a blank or invalid form.
+    context = {'form': form}
+    return render(request, 'better_buildings/report_bug.html', context)
+
+@login_required
+@user_passes_test(is_admin, login_url='/no_permission/')
+def view_bug_reports(request):
+    """Page for admin account to view bug reports"""
+    if 'delete' in request.POST:
+        report_id = request.POST.get('report_id')
+        bug_report = BugReport.objects.get(id=report_id)
+        bug_report.delete()
+        return redirect('better_buildings:view_bug_reports')
+
+    reports = BugReport.objects.order_by('date_added')
+    context = {'reports': reports}
+    return render(request, 'better_buildings/view_bug_reports.html', context)

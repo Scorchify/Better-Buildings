@@ -2,12 +2,23 @@
 
 {% block content %}
 <div class="wrapper">
-<h2 class="fw-bold">
-  Welcome!
-</h2>
-<p class="fw-bold">
+  <h2 class="fw-bold">
+    Welcome!
+  </h2>
+  <p class="fw-bold">
     MCPS Better Buildings is a webapp designed by MCPS students that allows students
     to report building issues they notice in and around their school.
   </p>
-  </div>
+
+  {% if user.is_authenticated %}
+    <p style="font-size: 14px">
+      Encounter a bug on the website? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.<br>
+    </p>
+    {% if is_admin %}
+      <p style="font-size: 14px">
+        Looks like you're an admin. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.
+      </p>
+    {% endif %}
+  {% endif %}
+</div>
 {% endblock content %}

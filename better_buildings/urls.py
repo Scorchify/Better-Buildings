@@ -22,4 +22,8 @@ urlpatterns = [
     path('no_permission/', views.no_permission, name='no_permission'),
     # Handles Upvoting Logic
     path('upvote/<int:report_id>/', views.upvote_report, name='upvote_report'),
+    # Page for reporting a website bug or suggestion
+    path('report_bug/', views.report_bug, name='report_bug'),
+    # Page for admin account to view bug reports
+    path('view_bug_reports/', views.view_bug_reports, name='view_bug_reports'),
 ]

@@ -59,6 +59,8 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 # my context processors
                 'better_buildings.context_processors.add_student_school', 
+                'better_buildings.context_processors.areas', 
+                'better_buildings.context_processors.supervisor_status', 
             ],
         },
     },

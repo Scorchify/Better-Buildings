@@ -1,7 +1,7 @@
-{% load static %}
 <!DOCTYPE html>
 <html lang="en">
-  <head>
+<head>
+    {% load static %}
     {% load django_bootstrap5 %}
     {% bootstrap_css %}
     {% bootstrap_javascript %}
@@ -10,8 +10,8 @@
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
     <script src="{% static 'javascript/base.js' %}"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"> <!-- Icons -->
-  </head>
-  <body class="p-0 m-0 border-0">
+</head>
+<body class="p-0 m-0 border-0">
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg fixed-top">
       <div class="container-fluid">
@@ -24,20 +24,21 @@
             <li class="nav-item">
               <a class="nav-link active fs-5" aria-current="page" href="{% url 'better_buildings:index' %}">Home</a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link active fs-5" href="{% url 'better_buildings:areas' %}">Issue Areas</a>
+            <li class="nav-item dropdown">
+              <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                Issues
+              </a>
+              <ul class="dropdown-menu">
+                {% for area in areas %}
+                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
+                {% empty %}
+                  <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
+                {% endfor %}
+                {% if user.is_authenticated and user.is_superuser %}
+                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:new_area' %}">Add a new issue area</a></li>
+                {% endif %}
+              </ul>
             </li>
-            {% if user.is_authenticated and user.username == "bb_admin" %}
-              <li class="nav-item dropdown">
-                <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  School
-                </a>
-                <ul class="dropdown-menu">
-                  <li><a class="dropdown-item fs-6" href="#">Wheaton HS</a></li> <!-- Slightly smaller font for dropdown items -->
-                  <li><a class="dropdown-item fs-6" href="#">Montgomery Blair HS</a></li>
-                </ul>
-              </li>
-            {% endif %}
           </ul>
           <ul class="navbar-nav mb-2 mb-lg-0">
             {% if user.is_authenticated %}
@@ -73,8 +74,6 @@
     <main class="container d-flex justify-content-center align-items-center min-vh-100">
         {% block content %}
         {% endblock content %}
-
     </main>
-
-  </body>
+</body>
 </html>

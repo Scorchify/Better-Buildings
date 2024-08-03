@@ -20,11 +20,14 @@ def is_admin(user):
 # Views
 
 def index(request):
-    """The home page for Better Buildings"""
     is_admin = False
     if request.user.is_authenticated:
         is_admin = request.user.is_superuser
-    context = {'is_admin': is_admin}
+    areas = Area.objects.all()  # Fetch all areas here
+    context = {
+        'is_admin': is_admin,
+        'areas': areas
+    }
     return render(request, 'better_buildings/index.html', context)
 
 def areas(request):

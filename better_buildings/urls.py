@@ -24,4 +24,6 @@ urlpatterns = [
     path('report_bug/', views.report_bug, name='report_bug'),
     # Page for admin account to view bug reports
     path('view_bug_reports/', views.view_bug_reports, name='view_bug_reports'),
+    # Page for viewing all reports regardless of issue area
+    path('all_reports.html/', views.all_reports, name='all_reports'),
 ]

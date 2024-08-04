@@ -183,3 +183,28 @@ def view_bug_reports(request):
     reports = BugReport.objects.order_by('date_added')
     context = {'reports': reports}
     return render(request, 'better_buildings/view_bug_reports.html', context)
+
+@login_required
+def all_reports(request):
+    """Page for viewing all reports regardless of issue area"""
+    reports = Report.objects.all()
+    norm_reports = reports.filter(resolved=False).order_by('-date_added')
+    user_reports = reports.filter(owner=request.user, resolved=False).order_by('-date_added')
+    resolved_reports = reports.filter(resolved=True).order_by('-resolved_date')
+    is_supervisor = request.user.groups.filter(name="School Supervisors").exists()
+
+    if request.method == 'POST' and 'resolve' in request.POST:
+        report_id = request.POST.get('report_id')
+        report = Report.objects.get(id=report_id)
+        report.resolve_issue()
+        report.set_resolved_date()
+        report.save()
+        return redirect('better_buildings:all_reports')
+
+    context = {
+        'norm_reports': norm_reports,
+        'user_reports': user_reports,
+        'resolved_reports': resolved_reports,
+        'is_supervisor': is_supervisor
+    }
+    return render(request, 'better_buildings/all_reports.html', context)

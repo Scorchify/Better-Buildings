@@ -14,54 +14,59 @@
 <body class="p-0 m-0 border-0">
     <!-- Navbar Start -->
     <nav class="navbar navbar-expand-lg fixed-top">
-      <div class="container-fluid">
-        <a class="navbar-brand fs-5" href="{% url 'better_buildings:index' %}">MCPS Better Buildings</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-            <li class="nav-item">
-              <a class="nav-link active fs-5" href="{% url 'accounts:profile' %}">Profile</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                Issues
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                {% for area in areas %}
-                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
-                {% empty %}
-                  <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
-                {% endfor %}
-                {% if user.is_authenticated and user.is_superuser %}
-                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:new_area' %}">Add a new issue area</a></li>
-                {% endif %}
-              </ul>
-            </li>
-          </ul>
-          <ul class="navbar-nav mb-2 mb-lg-0">
-            {% if user.is_authenticated %}
-              <li class="nav-item mb-2 me-3 fs-5 user-info">
-                Hello, {{ user.username }} ({{ student_school }})
-              </li>
-              <li class="nav-item">
-                <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn-outline-danger btn-sm fs-6" type="submit">Log out</button>
-                </form>
-              </li>
-            {% else %}
-              <li class="nav-item login-register">
-                <a class="nav-link fs-5" href="{% url 'accounts:register' %}">Register</a>
-              </li>
-              <li class="nav-item login-register">
-                <a class="nav-link fs-5" href="{% url 'accounts:login' %}">Login</a>
-              </li>
-            {% endif %}
-          </ul>
+        <div class="container-fluid">
+            <a class="navbar-brand fs-5" href="{% url 'better_buildings:index' %}">MCPS Better Buildings</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active fs-5" href="{% url 'accounts:profile' %}">Profile</a>
+                    </li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                            Issues
+                        </a>
+                        <ul class="dropdown-menu dropdown-menu-end">
+                            {% for area in areas %}
+                                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
+                            {% empty %}
+                                <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
+                            {% endfor %}
+                            {% if user.is_authenticated and user.is_superuser %}
+                                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:new_area' %}">Add a new issue area</a></li>
+                            {% endif %}
+                        </ul>
+                    </li>
+                </ul>
+                <div class="d-flex align-items-center">
+                    <button id="theme-toggle" class="btn btn-light d-none d-lg-block">
+                        <i id="theme-toggle-icon" class="bi bi-brightness-high"></i>
+                    </button>
+                    <ul class="navbar-nav mb-2 mb-lg-0 ms-3">
+                        {% if user.is_authenticated %}
+                            <li class="nav-item mb-2 fs-5 user-info">
+                                Hello, {{ user.username }} ({{ student_school }})
+                            </li>
+                            <li class="nav-item">
+                                <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">
+                                    {% csrf_token %}
+                                    <button class="btn btn-outline-danger btn-sm fs-6" type="submit">Log out</button>
+                                </form>
+                            </li>
+                        {% else %}
+                            <li class="nav-item login-register">
+                                <a class="nav-link fs-5" href="{% url 'accounts:register' %}">Register</a>
+                            </li>
+                            <li class="nav-item login-register">
+                                <a class="nav-link fs-5" href="{% url 'accounts:login' %}">Login</a>
+                            </li>
+                        {% endif %}
+                    </ul>
+                </div>
+            </div>
         </div>
-      </div>
     </nav>
     <!-- Navbar End -->
 
@@ -69,5 +74,10 @@
         {% block content %}
         {% endblock content %}
     </main>
+
+    <!-- Dark Mode Toggle Button (visible on large screens only) -->
+    <button id="theme-toggle" class="btn btn-light position-fixed top-0 end-0 m-3 d-none d-lg-block">
+      <i id="theme-toggle-icon" class="bi bi-brightness-high"></i>
+    </button>
 </body>
 </html>

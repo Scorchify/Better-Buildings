@@ -71,3 +71,31 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 });
+
+document.addEventListener('DOMContentLoaded', function () {
+  const themeToggleButton = document.getElementById('theme-toggle');
+  const themeToggleIcon = document.getElementById('theme-toggle-icon');
+  const darkModeClass = 'dark-mode';
+  
+  function setTheme(isDarkMode) {
+    if (isDarkMode) {
+      document.body.classList.add(darkModeClass);
+      themeToggleIcon.classList.remove('bi-brightness-high');
+      themeToggleIcon.classList.add('bi-moon');
+    } else {
+      document.body.classList.remove(darkModeClass);
+      themeToggleIcon.classList.remove('bi-moon');
+      themeToggleIcon.classList.add('bi-brightness-high');
+    }
+  }
+
+  // Check local storage for theme preference
+  const isDarkMode = localStorage.getItem('darkMode') === 'true';
+  setTheme(isDarkMode);
+
+  themeToggleButton.addEventListener('click', function () {
+    const isDarkMode = document.body.classList.toggle(darkModeClass);
+    localStorage.setItem('darkMode', isDarkMode);
+    setTheme(isDarkMode);
+  });
+});

@@ -41,13 +41,15 @@
           <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
           <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}" style="width: 50px">
         </div>
-        <div class="edit-container">
-          <form method="post" action="{% url 'better_buildings:area' area.id %}">
-            {% csrf_token %}
-            <input type="hidden" name="report_id" value="{{ report.id }}">
-            <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
-          </form>
-        </div>
+        {% if is_supervisor %}
+          <div class="edit-container">
+            <form method="post" action="{% url 'better_buildings:area' area.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="report_id" value="{{ report.id }}">
+              <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
+            </form>
+          </div>
+        {% endif %}
       </li>
     {% empty %}
       <li>There are no active reports in the issue area yet.</li>

@@ -45,7 +45,7 @@ class Report(models.Model):
         self.resolved = True
     
     def set_resolved_date(self):
-        self.resolved_date = models.DateTimeField(auto_now_add=True)
+        self.resolved_date = timezone.now()
 
 class BugReport(models.Model):
     """A bug report"""

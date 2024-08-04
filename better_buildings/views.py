@@ -37,14 +37,14 @@ def area(request, area_id):
     reports = area.report_set.filter(resolved=False).order_by('-date_added')
     user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-date_added')
     resolved_reports = area.report_set.filter(resolved=True).order_by('-resolved_date')
+    user = request.user
+    is_supervisor = user.groups.filter(name="School Supervisors").exists()
 
     if request.method == 'POST' and 'resolve' in request.POST:
         report_id = request.POST.get('report_id')
         report = Report.objects.get(id=report_id)
-        #report.resolve_issue()
-        #report.set_resolved_date()
-        report.resolved = True
-        report.resolved_date = timezone.now()
+        report.resolve_issue()
+        report.set_resolved_date()
         report.save()
         return redirect('better_buildings:area', area_id=area_id)
 
@@ -52,7 +52,8 @@ def area(request, area_id):
         'area': area,
         'reports': reports,
         'user_reports': user_reports,
-        'resolved_reports': resolved_reports
+        'resolved_reports': resolved_reports,
+        'is_supervisor': is_supervisor
     }
     return render(request, 'better_buildings/area.html', context)
 

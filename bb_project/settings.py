@@ -23,6 +23,9 @@ INSTALLED_APPS = [
     'better_buildings',
     'accounts',
 
+    # 3rd party
+    'django_celery_beat',
+
     # Default django apps
     'django.contrib.admin',
     'django.contrib.auth',
@@ -455,4 +458,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 LOGIN_REDIRECT_URL = 'better_buildings:index'
 LOGOUT_REDIRECT_URL = 'better_buildings:index'
 LOGIN_URL = 'accounts:login'
-

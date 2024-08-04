@@ -1,21 +1,25 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
-<div class="box">
+<head> 
+  <meta name="csrf-token" content="{{ csrf_token }}"> 
+</head>
+<div class="box2">
   <h3>Hello {{ username }}!</h3>
 
   <p>Active reports:</p>
-  <ul>
+  <ul class="report-list">
     {% for report in user_reports %}
-      <li>
-        <p>Posted {{ report.date_added|date:'M d, Y' }} at {{ report.date_added|date:'H:i' }} in
-          <a href="{% url 'better_buildings:area' report.area.id %}">{{ report.area }}</a></p>
-        <p>{{ report.text|linebreaks }}</p>
-
-        <p>
-          <a href="{% url 'better_buildings:edit_report' report.id %}">Edit report</a>
-        </p>
-
+      <li class="report-item">
+        <div class="report-content">
+          <div class="report-text">{{ report.text|linebreaks }}</div>
+          <div class="report-date-edit-container">
+            <div class="report-date text-muted">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+            <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-outline-secondary edit-button">
+              <i class="bi bi-pencil-square"></i>
+            </a>
+          </div>
+        </div>
       </li>
     {% empty %}
       <p>Looks like you don't have any active reports!</p>

@@ -22,13 +22,13 @@
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav me-auto mb-2 mb-lg-0">
             <li class="nav-item">
-              <a class="nav-link active fs-5" aria-current="page" href="{% url 'better_buildings:index' %}">Home</a>
+              <a class="nav-link active fs-5" href="{% url 'accounts:profile' %}">Profile</a>
             </li>
             <li class="nav-item dropdown">
               <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                 Issues
               </a>
-              <ul class="dropdown-menu">
+              <ul class="dropdown-menu dropdown-menu-end">
                 {% for area in areas %}
                   <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
                 {% empty %}
@@ -44,12 +44,6 @@
             {% if user.is_authenticated %}
               <li class="nav-item mb-2 me-3 fs-5 user-info">
                 Hello, {{ user.username }} ({{ student_school }})
-              </li>
-              <li class="nav-item profile-button">
-                <form class="d-inline" action="{% url 'accounts:profile' %}">
-                  {% csrf_token %}
-                  <button class="btn btn-sm btn-outline-primary me-3 mb-2 fs-6">Profile</button> 
-                </form>
               </li>
               <li class="nav-item">
                 <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">

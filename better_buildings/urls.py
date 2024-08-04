@@ -8,8 +8,6 @@ app_name = 'better_buildings'
 urlpatterns = [
     # Home page
     path('', views.index, name='index'),
-    # Page that displays issue areas
-    path('areas/', views.areas, name='areas'),
     # Page that displays the reports relating to an issue area
     path('area/<int:area_id>/', views.area, name='area'),
     # Page for adding a new issue area.

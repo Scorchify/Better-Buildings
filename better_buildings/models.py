@@ -1,4 +1,5 @@
 from django.db import models
+from django.utils import timezone
 from django.contrib.auth.models import User
 
 
@@ -21,6 +22,8 @@ class Report(models.Model):
     upvotes = models.IntegerField(default=0)
     owner = models.ForeignKey(User, on_delete=models.CASCADE)
     users_upvoted = models.ManyToManyField(User, related_name='upvoted_reports', blank=True)
+    resolved = models.BooleanField(default=False)
+    resolved_date = models.DateTimeField(null=True, blank=True)
 
     def __str__(self):
         """Return a simple string representing the report."""
@@ -37,6 +40,12 @@ class Report(models.Model):
             self.upvotes += 1
             self.users_upvoted.add(user)
         self.save()
+    
+    def resolve_issue(self):
+        self.resolved = True
+    
+    def set_resolved_date(self):
+        self.resolved_date = models.DateTimeField(auto_now_add=True)
 
 class BugReport(models.Model):
     """A bug report"""

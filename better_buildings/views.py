@@ -2,10 +2,10 @@ from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.http import HttpResponse
 from django.http import JsonResponse
+from django.utils import timezone
 from .models import Report
 from .models import Area, Report, BugReport
 from .forms import AreaForm, ReportForm, BugReportForm
-
 
 # Custom functions
 def is_supervisor(user):
@@ -30,21 +30,30 @@ def index(request):
     }
     return render(request, 'better_buildings/index.html', context)
 
-def areas(request):
-    """Show all issue types."""
-    areas = Area.objects.order_by('date_added')
-    supervisor = request.user.groups.filter(name='School Supervisors').exists()
-    context = {'areas': areas, 'supervisor': supervisor}
-    return render(request, 'better_buildings/areas.html', context)
-
 @login_required
 def area(request, area_id):
     """Show a single issue area and its reports"""
     area = Area.objects.get(id=area_id)
-    reports = area.report_set.order_by('-date_added')
-    user_reports = area.report_set.filter(owner=request.user).order_by('-date_added')
+    reports = area.report_set.filter(resolved=False).order_by('-date_added')
+    user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-date_added')
+    resolved_reports = area.report_set.filter(resolved=True).order_by('-resolved_date')
 
-    context = {'area': area, 'reports': reports, 'user_reports': user_reports}
+    if request.method == 'POST' and 'resolve' in request.POST:
+        report_id = request.POST.get('report_id')
+        report = Report.objects.get(id=report_id)
+        #report.resolve_issue()
+        #report.set_resolved_date()
+        report.resolved = True
+        report.resolved_date = timezone.now()
+        report.save()
+        return redirect('better_buildings:area', area_id=area_id)
+
+    context = {
+        'area': area,
+        'reports': reports,
+        'user_reports': user_reports,
+        'resolved_reports': resolved_reports
+    }
     return render(request, 'better_buildings/area.html', context)
 
 @login_required
@@ -59,7 +68,7 @@ def new_area(request):
         form = AreaForm(data=request.POST)
         if form.is_valid():
             form.save()
-            return redirect('better_buildings:areas')
+            return redirect('better_buildings:index')
     
     # Display a blank or invalid form.
     context = {'form': form}

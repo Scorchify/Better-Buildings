@@ -19,9 +19,12 @@
         <div class="edit-container">
           <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-primary">Edit report</a>
         </div>
+        <div class="edit-container">
+
+        </div>
       </li>
     {% empty %}
-      <p>Looks like you haven't made any reports to this area yet.</p>
+      <p>Looks like you don't have any active reports in this issue area right now.</p>
     {% endfor %}
   </ul>
   <hr/>
@@ -38,10 +41,19 @@
           <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
           <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}" style="width: 50px">
         </div>
+        <div class="edit-container">
+          <form method="post" action="{% url 'better_buildings:area' area.id %}">
+            {% csrf_token %}
+            <input type="hidden" name="report_id" value="{{ report.id }}">
+            <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
+          </form>
+        </div>
       </li>
     {% empty %}
-      <li>There are no reports in the issue area yet.</li>
+      <li>There are no active reports in the issue area yet.</li>
     {% endfor %}
   </ul>
+  <hr/>
+  {% include "better_buildings/_resolved_issues.html" %}
 </div>
 {% endblock content %}

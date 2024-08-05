@@ -70,32 +70,42 @@ document.addEventListener('DOMContentLoaded', function () {
       toggleThumbsUp(reportId);
     });
   });
-});
 
-document.addEventListener('DOMContentLoaded', function () {
+  // Theme toggle functionality
   const themeToggleButton = document.getElementById('theme-toggle');
+  const themeToggleButtonSmall = document.getElementById('theme-toggle-small');
   const themeToggleIcon = document.getElementById('theme-toggle-icon');
+  const themeToggleIconSmall = document.getElementById('theme-toggle-icon-small');
   const darkModeClass = 'dark-mode';
-  
+
   function setTheme(isDarkMode) {
     if (isDarkMode) {
       document.body.classList.add(darkModeClass);
       themeToggleIcon.classList.remove('bi-brightness-high');
       themeToggleIcon.classList.add('bi-moon');
+      themeToggleIconSmall.classList.remove('bi-brightness-high');
+      themeToggleIconSmall.classList.add('bi-moon');
     } else {
       document.body.classList.remove(darkModeClass);
       themeToggleIcon.classList.remove('bi-moon');
       themeToggleIcon.classList.add('bi-brightness-high');
+      themeToggleIconSmall.classList.remove('bi-moon');
+      themeToggleIconSmall.classList.add('bi-brightness-high');
     }
   }
 
-  // Check local storage for theme preference
-  const isDarkMode = localStorage.getItem('darkMode') === 'true';
-  setTheme(isDarkMode);
-
-  themeToggleButton.addEventListener('click', function () {
+  function toggleTheme() {
     const isDarkMode = document.body.classList.toggle(darkModeClass);
-    localStorage.setItem('darkMode', isDarkMode);
     setTheme(isDarkMode);
-  });
+    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
+  }
+
+  themeToggleButton.addEventListener('click', toggleTheme);
+  themeToggleButtonSmall.addEventListener('click', toggleTheme);
+
+  // Check local storage for theme preference
+  const savedTheme = localStorage.getItem('theme');
+  if (savedTheme) {
+    setTheme(savedTheme === 'dark');
+  }
 });

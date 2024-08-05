@@ -16,9 +16,14 @@
   <nav class="navbar navbar-expand-lg fixed-top">
     <div class="container-fluid">
       <a class="navbar-brand fs-5" href="{% url 'better_buildings:index' %}">MCPS Better Buildings</a>
-      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <div class="d-flex align-items-center">
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        <button id="theme-toggle-small" class="btn btn-light ms-2 d-lg-none">
+          <i id="theme-toggle-icon-small" class="bi bi-brightness-high"></i>
+        </button>
+      </div>
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
@@ -43,31 +48,29 @@
             </ul>
           </li>
         </ul>
-        <div class="d-flex align-items-center">
-          <button id="theme-toggle" class="btn btn-light d-none d-lg-block">
-            <i id="theme-toggle-icon" class="bi bi-brightness-high"></i>
-          </button>
-          <ul class="navbar-nav mb-2 mb-lg-0 ms-3">
-            {% if user.is_authenticated %}
-              <li class="nav-item mb-2 fs-5 user-info">
-                Hello, {{ user.username }} ({{ student_school }})
-              </li>
-              <li class="nav-item">
-                <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">
-                  {% csrf_token %}
-                  <button class="btn btn-outline-danger btn-sm fs-6" type="submit">Log out</button>
-                </form>
-              </li>
-            {% else %}
-              <li class="nav-item login-register">
-                <a class="nav-link fs-5" href="{% url 'accounts:register' %}">Register</a>
-              </li>
-              <li class="nav-item login-register">
-                <a class="nav-link fs-5" href="{% url 'accounts:login' %}">Login</a>
-              </li>
-            {% endif %}
-          </ul>
-        </div>
+        <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+          {% if user.is_authenticated %}
+            <span class="navbar-user-info">
+              Hello, {{ user.username }} ({{ student_school }})
+            </span>
+            <li class="nav-item">
+              <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">
+                {% csrf_token %}
+                <button class="btn btn-outline-danger btn-sm fs-6" type="submit">Log out</button>
+              </form>
+            </li>
+          {% else %}
+            <li class="nav-item login-register">
+              <a class="nav-link fs-5" href="{% url 'accounts:register' %}">Register</a>
+            </li>
+            <li class="nav-item login-register">
+              <a class="nav-link fs-5" href="{% url 'accounts:login' %}">Login</a>
+            </li>
+          {% endif %}
+        </ul>
+        <button id="theme-toggle" class="btn btn-light ms-3 d-none d-lg-block">
+          <i id="theme-toggle-icon" class="bi bi-brightness-high"></i>
+        </button>
       </div>
     </div>
   </nav>

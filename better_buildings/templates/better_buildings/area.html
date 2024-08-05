@@ -36,7 +36,7 @@
         <div class="thumbs-up-container">
           <i id="thumbs-up-{{ report.id }}" class="bi {% if request.user in report.users_upvoted.all %}bi-hand-thumbs-up-fill{% else %}bi-hand-thumbs-up{% endif %} thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
           <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
-          <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}" style="width: 50px">
+          <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}">
         </div>
         {% if is_supervisor %}
           <div class="edit-container">

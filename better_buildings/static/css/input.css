@@ -48,3 +48,19 @@
     background-color: black;
     color: white;
 }
+
+/*Styles for Dark Mode */
+.dark-mode .box .form-container .input-box {
+    background: transparent;
+    border: 1px solid rgb(255, 255, 255);
+    color: #ffffff;
+}
+
+.dark-mode .box .form-container .input-box::placeholder {
+    color: #ffffff;
+}
+
+.dark-mode .box .form-container select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+}

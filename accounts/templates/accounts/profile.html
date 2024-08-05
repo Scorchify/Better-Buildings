@@ -14,7 +14,7 @@
         <div class="report-content">
           <div class="report-text">{{ report.text|linebreaks }}</div>
           <div class="report-date-edit-container">
-            <div class="report-date text-muted">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+            <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
             <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-outline-secondary edit-button">
               <i class="bi bi-pencil-square"></i>
             </a>

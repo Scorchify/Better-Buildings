@@ -234,8 +234,12 @@ body {
 }
 
 .upvotes-textbox {
-  width: auto;
+  width: 30px;
   margin-left: 5px;
+  height: 30px; 
+  padding: 0; 
+  font-size: 16px; 
+  text-align: center; 
 }
 
 .thumbs-up-icon.animate-thumb {
@@ -368,8 +372,7 @@ body {
 }
 
 .dark-mode .form-control {
-  background-color: transparent;
-  color: #ffffff;
+  color: #000000;
   border: 1px solid #ffffff;
 }
 
@@ -398,6 +401,11 @@ body {
 
 .dark-mode .report-date {
   color: #ffffff;
+}
+
+.thumbs-up-container {
+  display: flex;
+  align-items: center;
 }
 
 @keyframes scrollIn {

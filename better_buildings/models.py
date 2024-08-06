@@ -59,3 +59,7 @@ class BugReport(models.Model):
             return self.text
         else:
             return f"{self.text[:50]}..."
+
+class Announcement(models.Model):
+    text = models.TextField()
+    date_added = models.DateTimeField(auto_now_add=True)

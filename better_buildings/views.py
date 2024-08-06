@@ -8,6 +8,8 @@ from .models import Report
 from .models import Area, Report, BugReport
 from .forms import AreaForm, ReportForm, BugReportForm
 from django.shortcuts import get_object_or_404
+from .models import Announcement
+from .forms import AnnouncementForm
 
 # Custom functions
 def is_supervisor(user):
@@ -237,3 +239,34 @@ def remove_area(request, area_id):
 def manage_areas(request):
     areas = Area.objects.all()  # Fetch areas from the database
     return render(request, 'better_buildings/manage_areas.html', {'areas': areas})
+
+@login_required
+def announcements(request):
+    announcements = Announcement.objects.all()
+    is_supervisor = request.user.groups.filter(name='Supervisors').exists()
+    return render(request, 'better_buildings/announcements.html', {'announcements': announcements, 'is_supervisor': is_supervisor})
+
+@login_required
+@user_passes_test(is_admin, login_url='/no_permission/')
+def create_announcement(request):
+    if request.method == 'POST':
+        form = AnnouncementForm(request.POST)
+        if form.is_valid():
+            form.save()
+            return redirect('better_buildings:announcements')
+    else:
+        form = AnnouncementForm()
+    return render(request, 'better_buildings/create_announcement.html', {'form': form})
+
+@login_required
+@user_passes_test(is_admin, login_url='/no_permission/')
+def edit_announcement(request, announcement_id):
+    announcement = get_object_or_404(Announcement, id=announcement_id)
+    if request.method == 'POST':
+        form = AnnouncementForm(request.POST, instance=announcement)
+        if form.is_valid():
+            form.save()
+            return redirect('better_buildings:announcements')
+    else:
+        form = AnnouncementForm(instance=announcement)
+    return render(request, 'better_buildings/edit_announcement.html', {'form': form, 'announcement_id': announcement_id})

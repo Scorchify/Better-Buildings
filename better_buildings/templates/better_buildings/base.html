@@ -39,21 +39,32 @@
           <li class="nav-item">
             <a class="nav-link active fs-5" href="{% url 'better_buildings:new_report_no_area' %}">Report</a>
           </li>
+          <li class="nav-item">
+            <a class="nav-link active fs-5" href="{% url 'better_buildings:announcements' %}">Announcements</a>
+          </li>
           <li class="nav-item dropdown">
             <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-              Issues
+                Issues
             </a>
             <ul class="dropdown-menu dropdown-menu-end">
-              {% for area in areas %}
-                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
-              {% empty %}
-                <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
-              {% endfor %}
-              {% if user.is_authenticated and user.is_superuser %}
-                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
-              {% endif %}
+                {% for area in areas %}
+                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
+                {% empty %}
+                    <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
+                {% endfor %}
             </ul>
           </li>
+          {% if user.is_authenticated and user.is_superuser %}
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Admin Panel
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
+                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
+                </ul>
+            </li>
+          {% endif %}
         </ul>
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
           {% if user.is_authenticated %}

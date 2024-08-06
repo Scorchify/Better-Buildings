@@ -1,6 +1,6 @@
 from django import forms
+from .models import Area, Report, BugReport, Announcement
 
-from .models import Area, Report, BugReport
 
 class AreaForm(forms.ModelForm):
     class Media:
@@ -49,4 +49,22 @@ class BugReportForm(forms.ModelForm):
                 'cols': 80,
                 'rows': 10,
             })
+        }
+
+class AnnouncementForm(forms.ModelForm):
+    class Media:
+        css = {
+            "all": ["css/input.css"]
+        }
+    class Meta:
+        model = Announcement
+        fields = ['text']
+        labels = {'text': ''}
+        widgets = {
+            'text': forms.Textarea(attrs={
+                'class': 'input-box',
+                'placeholder': 'Enter announcement text here',
+                'cols': 80,
+                'rows': 5,
+            }),
         }

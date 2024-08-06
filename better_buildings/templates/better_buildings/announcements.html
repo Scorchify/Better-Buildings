@@ -1,0 +1,33 @@
+{% extends 'better_buildings/base.html' %}
+{% block content %}
+<div class="box2">
+  <h3>Announcements</h3>
+  <hr/>
+  <h4>All Announcements:</h4>
+  <ul class="announcement-list">
+    {% for announcement in announcements %}
+      <li class="announcement-item">
+        <div class="announcement-content">
+          <div class="announcement-text">{{ announcement.text|linebreaks }}</div>
+          <div class="announcement-date">{{ announcement.date_added|date:'M d, Y g:i A' }}</div>
+        </div>
+        <div class="edit-container">
+            <a href="{% url 'edit_announcement' announcement.id %}" class="btn btn-primary">Edit Announcement</a>
+        </div>
+        {% if is_supervisor %}
+          <div class="edit-container">
+            <form method="post" action="{% url 'better_buildings:announcements' %}">
+              {% csrf_token %}
+              <input type="hidden" name="announcement_id" value="{{ announcement.id }}">
+              <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
+            </form>
+          </div>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>There are no announcements yet.</li>
+    {% endfor %}
+  </ul>
+  <hr/>
+</div>
+{% endblock content %}

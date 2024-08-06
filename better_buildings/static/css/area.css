@@ -1,0 +1,31 @@
+    .area-list {
+    list-style-type: none; /* Remove bullet points */
+    padding: 0;
+}
+
+.area-item {
+    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.area-textbox {
+    background-color: white;
+    border: 1px solid #ccc;
+    padding: 5px;
+    flex: 1;
+    margin-right: 20px; /*have to change this to width to make it smaller */
+    border-radius: 5px; 
+}
+
+.button-group {
+    display: flex;
+    gap: 5px; 
+}
+
+.dark-mode .ibox input { 
+    border-color: white;
+    color: white;
+    border-radius: 5px; /* Added border-radius */
+  }

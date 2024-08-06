@@ -25,7 +25,7 @@ urlpatterns = [
     # Page for admin account to view bug reports
     path('view_bug_reports/', views.view_bug_reports, name='view_bug_reports'),
     # Page for viewing all reports regardless of issue area
-    path('all_reports.html/', views.all_reports, name='all_reports'),
+    path('all_reports/', views.all_reports, name='all_reports'),
     #Page for editing areas
     path('edit_area/<int:area_id>/', views.edit_area, name='edit_area'),
     #Path for removing areas

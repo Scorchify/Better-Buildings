@@ -1,6 +1,6 @@
 :root {
-  --navbar-light: #e0e0fa;
-  --navbar-dark: rgb(116, 116, 187);
+  --navbar-light: hsl(240, 72%, 93%);
+  --navbar-dark: rgb(128, 102, 175);
   --text-light: #17181c;
   --text-dark: #e3e4e8;
   --link-light: #17181c;
@@ -234,7 +234,7 @@ body {
 }
 
 .upvotes-textbox {
-  width: 30px;
+  width: 30px !important;
   margin-left: 5px;
   height: 30px; 
   padding: 0; 

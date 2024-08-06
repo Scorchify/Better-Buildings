@@ -36,8 +36,8 @@ def index(request):
 def area(request, area_id):
     """Show a single issue area and its reports"""
     area = Area.objects.get(id=area_id)
-    reports = area.report_set.filter(resolved=False).order_by('-date_added')
-    user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-date_added')
+    reports = area.report_set.filter(resolved=False).order_by('-upvotes', '-date_added')
+    user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
     resolved_reports = area.report_set.filter(resolved=True).order_by('-resolved_date')
     user = request.user
     is_supervisor = user.groups.filter(name="School Supervisors").exists()
@@ -190,8 +190,8 @@ def view_bug_reports(request):
 def all_reports(request):
     """Page for viewing all reports regardless of issue area"""
     reports = Report.objects.all()
-    norm_reports = reports.filter(resolved=False).order_by('-date_added')
-    user_reports = reports.filter(owner=request.user, resolved=False).order_by('-date_added')
+    norm_reports = reports.filter(resolved=False).order_by('-upvotes', '-date_added')
+    user_reports = reports.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
     resolved_reports = reports.filter(resolved=True).order_by('-resolved_date')
     is_supervisor = request.user.groups.filter(name="School Supervisors").exists()
 

@@ -1,11 +1,13 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.views.decorators.http import require_http_methods
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
 from .models import Report
 from .models import Area, Report, BugReport
 from .forms import AreaForm, ReportForm, BugReportForm
+from django.shortcuts import get_object_or_404
 
 # Custom functions
 def is_supervisor(user):
@@ -208,3 +210,26 @@ def all_reports(request):
         'is_supervisor': is_supervisor
     }
     return render(request, 'better_buildings/all_reports.html', context)
+
+def edit_area(request, area_id):
+    area = get_object_or_404(Area, id=area_id)
+    if request.method == 'POST':
+        form = AreaForm(request.POST, instance=area)
+        if form.is_valid():
+            form.save()
+            return redirect('better_buildings:manage_areas')
+    else:
+        form = AreaForm(instance=area)
+    return render(request, 'better_buildings/edit_area.html', {'form': form})
+
+@require_http_methods(["DELETE"])
+def remove_area(request, area_id):
+    area = get_object_or_404(Area, id=area_id)
+    area.delete()
+    return JsonResponse({'success': True})
+
+@login_required
+@user_passes_test(is_admin, login_url='/no_permission/')
+def manage_areas(request):
+    areas = Area.objects.all()  # Fetch areas from the database
+    return render(request, 'better_buildings/manage_areas.html', {'areas': areas})

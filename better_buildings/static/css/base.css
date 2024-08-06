@@ -240,6 +240,7 @@ body {
   padding: 0; 
   font-size: 16px; 
   text-align: center; 
+  color: black;
 }
 
 .thumbs-up-icon.animate-thumb {
@@ -376,13 +377,18 @@ body {
   border: 1px solid #ffffff;
 }
 
-.dark-mode .form-control::placeholder {
+.dark-mode .form-control2::placeholder {
   color: #ffffff;
 }
 
-.dark-mode .form-control:focus {
+.dark-mode .form-control2:focus {
   border: 2px solid #ffffff;
   outline: none;
+}
+
+.dark-mode .form-control2 {
+  color: #ffffff;
+  border: 1px solid #ffffff;
 }
 
 .dark-mode .icon {

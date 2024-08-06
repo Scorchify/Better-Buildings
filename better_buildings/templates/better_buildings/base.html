@@ -43,7 +43,7 @@
                 <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
               {% endfor %}
               {% if user.is_authenticated and user.is_superuser %}
-                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:new_area' %}">Add a new issue area</a></li>
+                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
               {% endif %}
             </ul>
           </li>

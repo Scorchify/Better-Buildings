@@ -26,4 +26,10 @@ urlpatterns = [
     path('view_bug_reports/', views.view_bug_reports, name='view_bug_reports'),
     # Page for viewing all reports regardless of issue area
     path('all_reports.html/', views.all_reports, name='all_reports'),
+    #Page for editing areas
+    path('edit_area/<int:area_id>/', views.edit_area, name='edit_area'),
+    #Path for removing areas
+    path('remove_area/<int:area_id>/', views.remove_area, name='remove_area'),
+    #Page for managing areas
+    path('manage_areas/', views.manage_areas, name='manage_areas'),
 ]

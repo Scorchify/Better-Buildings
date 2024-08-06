@@ -1,0 +1,25 @@
+{% extends "better_buildings/base.html" %}
+
+{% block content %}
+<div class="wrapper">
+  <h3 class="fw-bold">Edit Area</h3>
+  <br>
+
+  <form action="{% url 'better_buildings:edit_area' area.id %}" method="post">
+    {% csrf_token %}
+    <div class="container mt-4">
+      <div class="row mb-3">
+        <div class="col-12">
+          {{ form.as_p }} 
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12">
+          <br>
+          <button type="submit" class="btn btn-dark w-100">Save Changes</button>
+        </div>
+      </div>
+    </div>
+  </form>
+</div>
+{% endblock content %}

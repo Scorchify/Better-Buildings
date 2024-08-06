@@ -17,8 +17,8 @@ class ReportForm(forms.ModelForm):
         css = {
             "all": ["css/input.css"]
         }
-    area = forms.ModelChoiceField(Area.objects.all())
-    
+    area = forms.ModelChoiceField(queryset=Area.objects.all(), required=True)
+
     class Meta:
         model = Report
         fields = ['text']

@@ -78,35 +78,39 @@ def new_area(request):
     return render(request, 'better_buildings/new_area.html', context)
 
 @login_required
-def new_report(request, area_id):
+def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
     
-    """    
-    try to set the area to the submitted area, or if first
-    generating the page, set it to the area of the area page
-    previously on.
-    """ 
-    try:
-        area = request.area
-    except AttributeError:
-        area = Area.objects.get(id=area_id)
+    if area_id:
+        try:
+            area = Area.objects.get(id=area_id)
+        except Area.DoesNotExist:
+            return redirect('better_buildings:index')
+    else:
+        area = None
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
-        form = ReportForm(initial={'area': area})
+        form = ReportForm()
     else:
         # POST data submitted; process data.
         form = ReportForm(data=request.POST)
         if form.is_valid():
             new_report = form.save(commit=False)
-            new_report.area = area
+            new_report.area = form.cleaned_data['area']  # Get the selected area from the form
             new_report.owner = request.user
             new_report.save()
-            return redirect('better_buildings:area', area_id=area_id)
-    
+            if area:
+                return redirect('better_buildings:area', area_id=area.id)
+            else:
+                # Redirect to the display page of the newly created report’s area
+                return redirect('better_buildings:area', area_id=new_report.area.id)
+
     # Display a blank or invalid form.
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
+
+
 
 @login_required
 def edit_report(request, report_id):

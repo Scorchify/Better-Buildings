@@ -3,17 +3,19 @@
 {% block content %}
 <div class="box">
   <div class="form-container">
-    <form action="{% url 'better_buildings:area' area.id %}" method="get">
-      <button type="submit" class="btn btn-primary">{{ area }}</button>
-    </form>
-    <br> 
+    {% if area %}
+      <form action="{% url 'better_buildings:area' area.id %}" method="get">
+        <button type="submit" class="btn btn-primary">{{ area }}</button>
+      </form>
+      <br>
+    {% endif %}
     <h2>Add a new report:</h2>
     <div class="form-container">
-      <form action="{% url 'better_buildings:new_report' area.id %}" method="post">
+      <form action="{% if area %}{% url 'better_buildings:new_report' area.id %}{% else %}{% url 'better_buildings:new_report_no_area' %}{% endif %}" method="post">
         {% csrf_token %}
         {{ form.media }}
         {{ form.as_div }}
-        <br> 
+        <br>
         <button type="submit" class="btn btn-dark">Add report</button>
       </form>
     </div>

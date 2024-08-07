@@ -4,7 +4,7 @@
   <div class="form-container">
     <h2>Edit Announcement:</h2>
     <div class="form-container">
-      <form action="{% url 'better_buildings:edit_announcements' announcement.id %}" method="post">
+      <form action="{% url 'better_buildings:edit_announcement' announcement.id %}" method="post">
         {% csrf_token %}
         {{ form.media }}
         {{ form.as_div }}

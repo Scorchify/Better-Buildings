@@ -31,6 +31,7 @@ urlpatterns = [
     # Page for managing areas
     path('manage_areas/', views.manage_areas, name='manage_areas'),
     # Page for managing announcements
+    path('manage_announcements', views.manage_announcements, name='manage_announcements'),
     path('announcements/', views.announcements, name='announcements'),
     path('create_announcement/', views.create_announcement, name='create_announcement'),
     path('edit_announcement/<int:announcement_id>/', views.edit_announcement, name='edit_announcement'),

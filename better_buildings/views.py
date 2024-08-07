@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_http_methods
+from django.views.decorators.csrf import csrf_exempt
 from django.http import HttpResponse
 from django.http import JsonResponse
 from django.utils import timezone
@@ -271,7 +272,13 @@ def edit_announcement(request, announcement_id):
         form = AnnouncementForm(request.POST, instance=announcement)
         if form.is_valid():
             form.save()
-            return redirect('better_buildings:announcements')
+            return redirect('better_buildings:manage_announcements')
     else:
         form = AnnouncementForm(instance=announcement)
-    return render(request, 'better_buildings/edit_announcement.html', {'form': form, 'announcement_id': announcement_id})
+    return render(request, 'better_buildings/edit_announcement.html', {'form': form, 'announcement': announcement})
+
+@login_required
+@user_passes_test(is_admin, login_url='/no_permission/')
+def manage_announcements(request):
+    announcements = Announcement.objects.all()  # Fetch announcements from the database
+    return render(request, 'better_buildings/manage_announcements.html', {'announcements': announcements})

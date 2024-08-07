@@ -21,7 +21,7 @@ class ReportForm(forms.ModelForm):
 
     class Meta:
         model = Report
-        fields = ['text']
+        fields = ['text', 'area']
         labels = {'text': ''}
         widgets = {
             'text': forms.Textarea(attrs={

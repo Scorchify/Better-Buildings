@@ -79,7 +79,6 @@ def new_area(request):
     context = {'form': form}
     return render(request, 'better_buildings/new_area.html', context)
 
-@login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
     
@@ -93,7 +92,10 @@ def new_report(request, area_id=None):
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
-        form = ReportForm()
+        if area:
+            form = ReportForm(initial={'area': area})
+        else:
+            form = ReportForm()
     else:
         # POST data submitted; process data.
         form = ReportForm(data=request.POST)
@@ -111,7 +113,6 @@ def new_report(request, area_id=None):
     # Display a blank or invalid form.
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
-
 
 
 @login_required

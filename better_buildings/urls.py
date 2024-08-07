@@ -1,7 +1,4 @@
-"""Defines URL patterns for better_buildings."""
-
 from django.urls import path
-
 from . import views
 
 app_name = 'better_buildings'
@@ -27,15 +24,14 @@ urlpatterns = [
     path('view_bug_reports/', views.view_bug_reports, name='view_bug_reports'),
     # Page for viewing all reports regardless of issue area
     path('all_reports/', views.all_reports, name='all_reports'),
-    #Page for editing areas
+    # Page for editing areas
     path('edit_area/<int:area_id>/', views.edit_area, name='edit_area'),
-    #Path for removing areas
+    # Path for removing areas
     path('remove_area/<int:area_id>/', views.remove_area, name='remove_area'),
-    #Page for managing areas
+    # Page for managing areas
     path('manage_areas/', views.manage_areas, name='manage_areas'),
-    #Page for managing announcements
+    # Page for managing announcements
     path('announcements/', views.announcements, name='announcements'),
     path('create_announcement/', views.create_announcement, name='create_announcement'),
     path('edit_announcement/<int:announcement_id>/', views.edit_announcement, name='edit_announcement'),
-
 ]

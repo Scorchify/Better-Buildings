@@ -72,8 +72,8 @@ def new_area(request):
         # POST data submitted; process data.
         form = AreaForm(data=request.POST)
         if form.is_valid():
-            form.save()
-            return redirect('better_buildings:index')
+            new_area = form.save()
+            return redirect('better_buildings:area', area_id=new_area.id)
     
     # Display a blank or invalid form.
     context = {'form': form}
@@ -221,13 +221,17 @@ def all_reports(request):
 def edit_area(request, area_id):
     area = get_object_or_404(Area, id=area_id)
     if request.method == 'POST':
-        form = AreaForm(request.POST, instance=area)
-        if form.is_valid():
-            form.save()
+        if 'delete' in request.POST:
+            area.delete()
             return redirect('better_buildings:manage_areas')
+        else:
+            form = AreaForm(request.POST, instance=area)
+            if form.is_valid():
+                form.save()
+                return redirect('better_buildings:manage_areas')
     else:
         form = AreaForm(instance=area)
-    return render(request, 'better_buildings/edit_area.html', {'form': form})
+    return render(request, 'better_buildings/edit_area.html', {'form': form, 'area': area})
 
 @require_http_methods(["DELETE"])
 def remove_area(request, area_id):

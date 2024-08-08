@@ -63,3 +63,7 @@ class BugReport(models.Model):
 class Announcement(models.Model):
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
+    resolved = models.BooleanField(default=False)  # Defaulted to False
+
+    def __str__(self):
+        return self.text

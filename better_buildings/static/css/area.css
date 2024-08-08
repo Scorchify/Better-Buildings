@@ -1,4 +1,4 @@
-    .area-list {
+.area-list {
     list-style-type: none; /* Remove bullet points */
     padding: 0;
 }
@@ -21,11 +21,38 @@
 
 .button-group {
     display: flex;
-    gap: 5px; 
+    gap: 10px; /* Updated gap to 10px */
 }
 
 .dark-mode .ibox input { 
     border-color: white;
     color: white;
-    border-radius: 5px; /* Added border-radius */
-  }
+}
+
+.dark-mode announcement-date {
+    color: rgb(0, 0, 0);
+}
+
+.dark-mode annoncement-text {
+    color: rgb(0, 0, 0);
+}
+
+.announcement-item, .report-item {
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
+}
+
+.announcement-content, .report-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.edit-container {
+    display: flex;
+    gap: 10px; /* Updated gap to 10px */
+    margin-top: 10px;
+}

@@ -11,6 +11,7 @@ from .forms import AreaForm, ReportForm, BugReportForm
 from django.shortcuts import get_object_or_404
 from .models import Announcement
 from .forms import AnnouncementForm
+import json
 
 # Custom functions
 def is_supervisor(user):
@@ -248,9 +249,13 @@ def manage_areas(request):
 
 @login_required
 def announcements(request):
-    announcements = Announcement.objects.all()
-    is_supervisor = request.user.groups.filter(name='Supervisors').exists()
-    return render(request, 'better_buildings/announcements.html', {'announcements': announcements, 'is_supervisor': is_supervisor})
+    unresolved_announcements = Announcement.objects.filter(resolved=False)
+    resolved_announcements = Announcement.objects.filter(resolved=True)
+    context = {
+        'announcements': unresolved_announcements,
+        'resolved_announcements': resolved_announcements,
+    }
+    return render(request, 'better_buildings/announcements.html', context)
 
 @login_required
 @user_passes_test(is_admin, login_url='/no_permission/')
@@ -280,5 +285,28 @@ def edit_announcement(request, announcement_id):
 @login_required
 @user_passes_test(is_admin, login_url='/no_permission/')
 def manage_announcements(request):
-    announcements = Announcement.objects.all()  # Fetch announcements from the database
-    return render(request, 'better_buildings/manage_announcements.html', {'announcements': announcements})
+    if request.method == 'POST':
+        data = json.loads(request.body)
+        announcement_id = data.get('announcement_id')
+        action = data.get('action')
+
+        try:
+            announcement = Announcement.objects.get(id=announcement_id)
+            if action == 'delete':
+                announcement.delete()
+                return JsonResponse({'success': True})
+            elif action == 'resolve':
+                announcement.resolved = True
+                announcement.save()
+                return JsonResponse({'success': True})
+        except Announcement.DoesNotExist:
+            return JsonResponse({'success': False, 'error': 'Announcement not found'})
+
+    unresolved_announcements = Announcement.objects.filter(resolved=False)
+    resolved_announcements = Announcement.objects.filter(resolved=True)
+    context = {
+        'announcements': unresolved_announcements,
+        'resolved_announcements': resolved_announcements,
+        'is_supervisor': is_supervisor(request.user)
+    }
+    return render(request, 'better_buildings/manage_announcements.html', context)

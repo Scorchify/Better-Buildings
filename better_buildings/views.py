@@ -16,6 +16,20 @@ from django.contrib import messages
 from difflib import SequenceMatcher
 import re
 
+#dictionary
+ordinal_map = {
+    'first': '1',
+    'second': '2',
+    'third': '3',
+    'fourth': '4',
+    'fifth': '5',
+    'sixth': '6',
+    'seventh': '7',
+    'eighth': '8',
+    'ninth': '9',
+    'tenth': '10'
+    # Add more as needed
+}
 
 # Custom functions
 def is_supervisor(user):
@@ -30,10 +44,19 @@ def is_admin(user):
 def extract_numbers(text):
     return re.findall(r'\d+', text)
 
-def is_similar(text1, text2, threshold=0.6): #TODO test threshold 
+def convert_ordinals(text):
+    for word, number in ordinal_map.items():
+        text = re.sub(r'\b' + word + r'\b', number, text)
+    return text
+
+def is_similar(text1, text2, threshold=0.6):
     # Convert text to lowercase
     text1 = text1.lower()
     text2 = text2.lower()
+    
+    # Convert ordinal words to numbers
+    text1 = convert_ordinals(text1)
+    text2 = convert_ordinals(text2)
     
     # Extract numbers
     numbers1 = extract_numbers(text1)
@@ -51,6 +74,7 @@ def is_similar(text1, text2, threshold=0.6): #TODO test threshold
     
     # Consider the reports similar only if both text similarity and numbers match
     return text_similarity > threshold and numbers_match
+
 
 # Views
 

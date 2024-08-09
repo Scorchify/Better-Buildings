@@ -12,6 +12,10 @@ from django.shortcuts import get_object_or_404
 from .models import Announcement
 from .forms import AnnouncementForm
 import json
+from django.contrib import messages
+from difflib import SequenceMatcher
+import re
+
 
 # Custom functions
 def is_supervisor(user):
@@ -22,6 +26,31 @@ def is_student(user):
 
 def is_admin(user):
     return user.is_superuser
+
+def extract_numbers(text):
+    return re.findall(r'\d+', text)
+
+def is_similar(text1, text2, threshold=0.6): #TODO test threshold 
+    # Convert text to lowercase
+    text1 = text1.lower()
+    text2 = text2.lower()
+    
+    # Extract numbers
+    numbers1 = extract_numbers(text1)
+    numbers2 = extract_numbers(text2)
+    
+    # Remove numbers from the text
+    text1_without_numbers = re.sub(r'\d+', '', text1)
+    text2_without_numbers = re.sub(r'\d+', '', text2)
+    
+    # Compare text similarity without numbers
+    text_similarity = SequenceMatcher(None, text1_without_numbers, text2_without_numbers).ratio()
+    
+    # Compare numbers (if any)
+    numbers_match = numbers1 == numbers2
+    
+    # Consider the reports similar only if both text similarity and numbers match
+    return text_similarity > threshold and numbers_match
 
 # Views
 
@@ -83,7 +112,6 @@ def new_area(request):
 
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
-    
     if area_id:
         try:
             area = Area.objects.get(id=area_id)
@@ -102,15 +130,28 @@ def new_report(request, area_id=None):
         # POST data submitted; process data.
         form = ReportForm(data=request.POST)
         if form.is_valid():
-            new_report = form.save(commit=False)
-            new_report.area = form.cleaned_data['area']  # Get the selected area from the form
-            new_report.owner = request.user
-            new_report.save()
+            new_report_text = form.cleaned_data['text']
+            # Check for similar reports in the same area
+            similar_report = None
             if area:
-                return redirect('better_buildings:area', area_id=area.id)
+                for report in area.report_set.all():
+                    if is_similar(new_report_text, report.text):
+                        similar_report = report
+                        break
+
+            if similar_report:
+                # Display a Bootstrap alert if a similar report is found
+                messages.warning(request, f'A similar report already exists: "{similar_report.text}"')
             else:
-                # Redirect to the display page of the newly created report’s area
-                return redirect('better_buildings:area', area_id=new_report.area.id)
+                new_report = form.save(commit=False)
+                new_report.area = form.cleaned_data['area']  # Get the selected area from the form
+                new_report.owner = request.user
+                new_report.save()
+                if area:
+                    return redirect('better_buildings:area', area_id=area.id)
+                else:
+                    # Redirect to the display page of the newly created report’s area
+                    return redirect('better_buildings:area', area_id=new_report.area.id)
 
     # Display a blank or invalid form.
     context = {'area': area, 'form': form}

@@ -64,6 +64,16 @@ class Announcement(models.Model):
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     resolved = models.BooleanField(default=False)  # Defaulted to False
+    resolved_date = models.DateTimeField(null=True, blank=True)  # New field
+
+    def save(self, *args, **kwargs):
+        if self.resolved and not self.resolved_date:
+            self.resolved_date = timezone.now()
+        elif not self.resolved:
+            self.resolved_date = None
+        super().save(*args, **kwargs)
 
     def __str__(self):
+        if self.resolved:
+            return f"{self.text} (Resolved on {self.resolved_date})"
         return self.text

@@ -1,6 +1,6 @@
 from django.db import models
 from django.utils import timezone
-from django.contrib.auth.models import User
+from django.conf import settings  # Import settings to use AUTH_USER_MODEL
 
 
 # Create your models here.
@@ -20,8 +20,8 @@ class Report(models.Model):
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
-    users_upvoted = models.ManyToManyField(User, related_name='upvoted_reports', blank=True)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    users_upvoted = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='upvoted_reports', blank=True)
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
 
@@ -51,7 +51,7 @@ class BugReport(models.Model):
     """A bug report"""
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
-    owner = models.ForeignKey(User, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
         """Return a string representation of the report."""

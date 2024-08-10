@@ -1,5 +1,6 @@
-from django.urls import path
+from django.urls import path, include
 from . import views
+from django.contrib import admin
 
 app_name = 'better_buildings'
 urlpatterns = [
@@ -35,4 +36,6 @@ urlpatterns = [
     path('announcements/', views.announcements, name='announcements'),
     path('create_announcement/', views.create_announcement, name='create_announcement'),
     path('edit_announcement/<int:announcement_id>/', views.edit_announcement, name='edit_announcement'),
+    path('accounts/', include('accounts.urls')),
+    path('admin/', admin.site.urls),
 ]

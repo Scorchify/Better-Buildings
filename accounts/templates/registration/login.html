@@ -9,7 +9,7 @@
 
     <h2 class="mb-4">Login</h2>
 
-    <form action="{% url 'accounts:login' %}" method="post" class="form-inline w-100">
+    <form action="{% url 'login' %}" method="post" class="form-inline w-100">
       {% csrf_token %}
       <div class="ibox">
         <input type="text" name="username" placeholder="Username or Email" class="form-control2">
@@ -23,8 +23,9 @@
       <button type="submit" class="btn btn-dark">Login</button>
     </form>
     <div class="mt-3">
-      <a href="{% url 'accounts:register' %}">Don't have an account? Register here</a>
-      <a href="{% url 'accounts:password_reset' %}">Forgot Password?</a>
+      <a href="{% url 'register' %}">Don't have an account? Register here</a>
+      <br>
+      <a href="{% url 'password_reset' %}">Forgot Password?</a>
     </div>
 </div>
 

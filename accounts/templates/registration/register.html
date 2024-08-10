@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="wrapper">
-  <form action="{% url 'accounts:register' %}" method="post">
+  <form action="{% url 'register' %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <br>

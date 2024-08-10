@@ -457,7 +457,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # My settings
 LOGIN_REDIRECT_URL = 'better_buildings:index'
 LOGOUT_REDIRECT_URL = 'better_buildings:index'
-LOGIN_URL = 'accounts:login'
+LOGIN_URL = 'login'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = [
     'django.contrib.auth.backends.ModelBackend',  

@@ -56,11 +56,11 @@ def suspend_user(request, user_id):
     """Suspend a user."""
     user = CustomUser.objects.get(id=user_id)
     user.suspend()
-    return redirect('accounts:profile')
+    return redirect('profile')
 
 @login_required
 def unsuspend_user(request, user_id):
     """Unsuspend a user."""
     user = CustomUser.objects.get(id=user_id)
     user.unsuspend()
-    return redirect('accounts:profile')
+    return redirect('profile')

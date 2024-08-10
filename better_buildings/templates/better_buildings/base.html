@@ -30,7 +30,7 @@
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav me-auto mb-2 mb-lg-0">
           <li class="nav-item">
-            <a class="nav-link active fs-5" href="{% url 'accounts:profile' %}">Profile</a>
+            <a class="nav-link active fs-5" href="{% url 'profile' %}">Profile</a>
           </li>
           <li class="nav-item">
             <a class="nav-link active fs-5" href="{% url 'better_buildings:all_reports' %}">All Reports</a>
@@ -72,17 +72,17 @@
               Hello, {{ user.username }} ({{ student_school }})
             </span>
             <li class="nav-item">
-              <form class="d-inline" action="{% url 'accounts:logout' %}" method="post">
+              <form class="d-inline" action="{% url 'logout' %}" method="post">
                 {% csrf_token %}
                 <button class="btn btn-danger btn-sm fs-6" type="submit">Log out</button>
               </form>
             </li>
           {% else %}
             <li class="nav-item login-register">
-              <a class="nav-link fs-5" href="{% url 'accounts:register' %}">Register</a>
+              <a class="nav-link fs-5" href="{% url 'register' %}">Register</a>
             </li>
             <li class="nav-item login-register">
-              <a class="nav-link fs-5" href="{% url 'accounts:login' %}">Login</a>
+              <a class="nav-link fs-5" href="{% url 'login' %}">Login</a>
             </li>
           {% endif %}
         </ul>

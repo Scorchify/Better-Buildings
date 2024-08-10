@@ -134,6 +134,7 @@ def new_area(request):
     context = {'form': form}
     return render(request, 'better_buildings/new_area.html', context)
 
+@login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
     if area_id:

@@ -23,6 +23,7 @@
       <button type="submit" class="btn btn-dark">Login</button>
     </form>
     <div class="mt-3">
+      <a href="{% url 'accounts:register' %}">Don't have an account? Register here</a>
       <a href="{% url 'accounts:password_reset' %}">Forgot Password?</a>
     </div>
 </div>

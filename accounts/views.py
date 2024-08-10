@@ -4,17 +4,21 @@ from django.contrib.auth import login, authenticate
 from django.contrib.auth.decorators import login_required
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from better_buildings.models import Report
+from django.contrib.auth import get_backends
+from django.conf import settings
 
 def register(request):
     """Register a new user."""
-    if request.method != 'POST':
-        form = CustomUserCreationForm()
-    else:
+    if request.method == 'POST':
         form = CustomUserCreationForm(data=request.POST)
         if form.is_valid():
             new_user = form.save()
-            login(request, new_user)
+            backend = settings.AUTHENTICATION_BACKENDS[0]  # Get the first backend path
+            login(request, new_user, backend=backend)
             return redirect('better_buildings:index')
+    else:
+        form = CustomUserCreationForm()
     
     context = {'form': form}
     return render(request, 'registration/register.html', context)
@@ -35,8 +39,17 @@ def custom_login(request):
 
 @login_required
 def profile(request):
-    """User profile view."""
-    return render(request, 'registration/profile.html')
+    """Allow a user to view account information"""
+    user_reports_active = Report.objects.filter(owner=request.user, resolved=False)
+    user_reports_resolved = Report.objects.filter(owner=request.user, resolved=True)
+    user = request.user
+    context = {
+        'user_reports_active': user_reports_active,
+        'user_reports_resolved': user_reports_resolved,
+        'username': user.username,
+    }
+    return render(request, 'accounts/profile.html', context)
+
 
 @login_required
 def suspend_user(request, user_id):

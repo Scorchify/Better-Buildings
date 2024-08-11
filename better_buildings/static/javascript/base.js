@@ -28,7 +28,6 @@ document.addEventListener('DOMContentLoaded', function () {
   function toggleThumbsUp(reportId) {
     const thumbsUpIcon = document.getElementById(`thumbs-up-${reportId}`);
     const upvotesCount = document.getElementById(`upvotes-${reportId}`);
-    const hasUpvoted = thumbsUpIcon.classList.contains('bi-hand-thumbs-up-fill');
     const csrfToken = getCsrfToken();
 
     fetch(`/upvote/${reportId}/`, {
@@ -41,23 +40,12 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response => response.json())
     .then(data => {
       if (data.upvotes !== undefined) {
-        upvotesCount.value = data.upvotes; // Update the textbox value
-        if (hasUpvoted) {
-          thumbsUpIcon.classList.remove('bi-hand-thumbs-up-fill');
-          thumbsUpIcon.classList.add('bi-hand-thumbs-up');
-        } else {
-          thumbsUpIcon.classList.remove('bi-hand-thumbs-up');
-          thumbsUpIcon.classList.add('bi-hand-thumbs-up-fill');
-        }
-
-        // Trigger animation
-        thumbsUpIcon.classList.add('animate-thumb');
-        
-        thumbsUpIcon.addEventListener('animationend', () => {
-          thumbsUpIcon.classList.remove('animate-thumb');
-        });
-      } else {
-        console.error('Failed to upvote:', data.error);
+        upvotesCount.value = data.upvotes;
+        thumbsUpIcon.classList.toggle('bi-hand-thumbs-up-fill');
+        thumbsUpIcon.classList.toggle('bi-hand-thumbs-up');
+        // Store the state in local storage
+        const isUpvoted = thumbsUpIcon.classList.contains('bi-hand-thumbs-up-fill');
+        localStorage.setItem(`thumbs-up-${reportId}`, isUpvoted);
       }
     })
     .catch(error => console.error('Error:', error));
@@ -69,6 +57,17 @@ document.addEventListener('DOMContentLoaded', function () {
       const reportId = this.id.split('-')[2];
       toggleThumbsUp(reportId);
     });
+
+    // Retrieve the state from local storage and set the icon state
+    const reportId = icon.id.split('-')[2];
+    const isUpvoted = localStorage.getItem(`thumbs-up-${reportId}`) === 'true';
+    if (isUpvoted) {
+      icon.classList.add('bi-hand-thumbs-up-fill');
+      icon.classList.remove('bi-hand-thumbs-up');
+    } else {
+      icon.classList.add('bi-hand-thumbs-up');
+      icon.classList.remove('bi-hand-thumbs-up-fill');
+    }
   });
 
   // Theme toggle functionality
@@ -81,16 +80,8 @@ document.addEventListener('DOMContentLoaded', function () {
   function setTheme(isDarkMode) {
     if (isDarkMode) {
       document.body.classList.add(darkModeClass);
-      themeToggleIcon.classList.remove('bi-brightness-high');
-      themeToggleIcon.classList.add('bi-moon');
-      themeToggleIconSmall.classList.remove('bi-brightness-high');
-      themeToggleIconSmall.classList.add('bi-moon');
     } else {
       document.body.classList.remove(darkModeClass);
-      themeToggleIcon.classList.remove('bi-moon');
-      themeToggleIcon.classList.add('bi-brightness-high');
-      themeToggleIconSmall.classList.remove('bi-moon');
-      themeToggleIconSmall.classList.add('bi-brightness-high');
     }
   }
 

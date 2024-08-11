@@ -34,10 +34,16 @@
           <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
         </div>
         <div class="thumbs-up-container">
-          <i id="thumbs-up-{{ report.id }}" class="bi {% if request.user in report.users_upvoted.all %}bi-hand-thumbs-up-fill{% else %}bi-hand-thumbs-up{% endif %} thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
+          <i id="thumbs-up-{{ report.id }}" class="bi 
+            {% if user in report.upvoted_by.all %}
+              bi-hand-thumbs-up-fill
+            {% else %}
+              bi-hand-thumbs-up
+            {% endif %}
+            thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
           <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
           <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}">
-        </div>
+        </div>        
         {% if is_supervisor %}
           <div class="edit-container">
             <form method="post" action="{% url 'better_buildings:area' area.id %}">

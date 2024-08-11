@@ -15,15 +15,23 @@ class Area(models.Model):
         return self.text
 
 class Report(models.Model):
-    """A building issue report linked to an issue area"""
     area = models.ForeignKey(Area, on_delete=models.CASCADE)
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    users_upvoted = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='upvoted_reports', blank=True)
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
+    upvoted_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='upvoted_reports', blank=True)
+
+    def toggle_upvote(self, user):
+        if user in self.upvoted_by.all():
+            self.upvotes -= 1
+            self.upvoted_by.remove(user)
+        else:
+            self.upvotes += 1
+            self.upvoted_by.add(user)
+        self.save()
 
     def __str__(self):
         """Return a simple string representing the report."""
@@ -32,15 +40,6 @@ class Report(models.Model):
         else:
             return f"{self.text[:50]}..."
 
-    def toggle_upvote(self, user):
-        if self.users_upvoted.filter(id=user.id).exists():
-            self.upvotes -= 1
-            self.users_upvoted.remove(user)
-        else:
-            self.upvotes += 1
-            self.users_upvoted.add(user)
-        self.save()
-    
     def resolve_issue(self):
         self.resolved = True
     

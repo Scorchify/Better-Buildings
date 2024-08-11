@@ -2,9 +2,6 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings  # Import settings to use AUTH_USER_MODEL
 
-
-# Create your models here.
-
 class Area(models.Model):
     """An area a issue is reported in"""
     text = models.CharField(max_length=50, unique=True)
@@ -15,7 +12,7 @@ class Area(models.Model):
         return self.text
 
 class Report(models.Model):
-    area = models.ForeignKey(Area, on_delete=models.CASCADE)
+    area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)  # Allow null
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)

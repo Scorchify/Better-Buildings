@@ -51,6 +51,9 @@
               <input type="hidden" name="report_id" value="{{ report.id }}">
               <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
             </form>
+            <a href="{% url 'user_profile' report.owner.id %}" class="btn btn-secondary">
+              <i class="bi bi-person"></i> View Profile
+            </a>
           </div>
         {% endif %}
       </li>

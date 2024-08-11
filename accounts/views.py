@@ -1,12 +1,26 @@
 # views.py
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth import login, authenticate
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import CustomUser
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from better_buildings.models import Report
 from django.contrib.auth import get_backends
 from django.conf import settings
+from .models import CustomUser
+
+@login_required
+@user_passes_test(lambda u: u.is_supervisor(), login_url='/no_permission/')
+def user_profile(request, user_id):
+    user = get_object_or_404(CustomUser, id=user_id)
+    user_reports_active = Report.objects.filter(owner=user, resolved=False)
+    user_reports_resolved = Report.objects.filter(owner=user, resolved=True)
+    context = {
+        'user': user,
+        'user_reports_active': user_reports_active,
+        'user_reports_resolved': user_reports_resolved,
+    }
+    return render(request, 'accounts/user_profile.html', context)
 
 def register(request):
     """Register a new user."""
@@ -52,15 +66,15 @@ def profile(request):
 
 
 @login_required
+@user_passes_test(lambda u: u.is_supervisor(), login_url='/no_permission/')
 def suspend_user(request, user_id):
-    """Suspend a user."""
-    user = CustomUser.objects.get(id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     user.suspend()
-    return redirect('profile')
+    return redirect('user_profile', user_id=user_id)
 
 @login_required
+@user_passes_test(lambda u: u.is_supervisor(), login_url='/no_permission/')
 def unsuspend_user(request, user_id):
-    """Unsuspend a user."""
-    user = CustomUser.objects.get(id=user_id)
+    user = get_object_or_404(CustomUser, id=user_id)
     user.unsuspend()
-    return redirect('profile')
+    return redirect('user_profile', user_id=user_id)

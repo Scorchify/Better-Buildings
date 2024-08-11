@@ -1,20 +1,12 @@
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
-from django.views.decorators.http import require_http_methods
-from django.views.decorators.csrf import csrf_exempt
-from django.http import HttpResponse
+from django.views.decorators.http import require_http_methods, require_POST
 from django.http import JsonResponse
-from django.views.decorators.http import require_POST
-from django.utils import timezone
-from .models import Report
-from .models import Area, Report, BugReport
-from .forms import AreaForm, ReportForm, BugReportForm
-from django.shortcuts import get_object_or_404
-from .models import Announcement
-from .forms import AnnouncementForm
-import json
 from django.contrib import messages
+from .models import Area, Report, BugReport, Announcement
+from .forms import AreaForm, ReportForm, BugReportForm, AnnouncementForm
 from difflib import SequenceMatcher
+import json
 import re
 
 #dictionary

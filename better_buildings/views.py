@@ -84,17 +84,20 @@ def index(request):
 
 @login_required
 def area(request, area_id):
-    """Show a single issue area and its reports"""
-    area = Area.objects.get(id=area_id)
+    """Show a single issue area and its reports."""
+    area = get_object_or_404(Area, id=area_id)
     reports = area.report_set.filter(resolved=False).order_by('-upvotes', '-date_added')
     user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
     resolved_reports = area.report_set.filter(resolved=True).order_by('-resolved_date')
     user = request.user
     is_supervisor = user.groups.filter(name="School Supervisors").exists()
 
+    # Dictionary to check if the current user has upvoted each report
+    upvoted_reports = {report.id: report.upvoted_by.filter(id=user.id).exists() for report in reports}
+
     if request.method == 'POST' and 'resolve' in request.POST:
         report_id = request.POST.get('report_id')
-        report = Report.objects.get(id=report_id)
+        report = get_object_or_404(Report, id=report_id)
         report.resolve_issue()
         report.set_resolved_date()
         report.save()
@@ -105,9 +108,34 @@ def area(request, area_id):
         'reports': reports,
         'user_reports': user_reports,
         'resolved_reports': resolved_reports,
-        'is_supervisor': is_supervisor
+        'is_supervisor': is_supervisor,
+        'upvoted_reports': upvoted_reports
     }
     return render(request, 'better_buildings/area.html', context)
+
+@login_required
+@require_POST
+def upvote_report(request, report_id):
+    """Toggle the upvote status of a report."""
+    report = get_object_or_404(Report, id=report_id)
+    user = request.user
+    
+    if report.upvoted_by.filter(id=user.id).exists():
+        report.upvoted_by.remove(user)
+        report.upvotes -= 1
+    else:
+        report.upvoted_by.add(user)
+        report.upvotes += 1
+    
+    report.save()
+    return JsonResponse({'upvotes': report.upvotes})
+
+@login_required
+def report_state(request, report_id):
+    """Provide the upvote state of a report."""
+    report = get_object_or_404(Report, id=report_id)
+    is_upvoted = report.upvoted_by.filter(id=request.user.id).exists()
+    return JsonResponse({'is_upvoted': is_upvoted})
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
@@ -196,14 +224,6 @@ def edit_report(request, report_id):
 def no_permission(request):
     """Page to be displayed when a user doesn't have acess to a page"""
     return render(request, 'better_buildings/no_permission.html')
-
-@login_required
-@require_POST
-def upvote_report(request, report_id):
-    report = get_object_or_404(Report, id=report_id)
-    user = request.user
-    report.toggle_upvote(user)
-    return JsonResponse({'upvotes': report.upvotes})
 
 def report_bug(request):
     """Page to report a website bug"""

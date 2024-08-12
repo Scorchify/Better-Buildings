@@ -456,3 +456,7 @@ body {
     opacity: 1;
   }
 }
+
+.thumbs-up-animate {
+  animation: thumbs-up-animation 0.5s ease-in-out;
+}

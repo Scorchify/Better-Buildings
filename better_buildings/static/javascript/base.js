@@ -30,7 +30,7 @@ document.addEventListener('DOMContentLoaded', function () {
     const upvotesCount = document.getElementById(`upvotes-${reportId}`);
     const csrfToken = getCsrfToken();
 
-    fetch(`/upvote/${reportId}/`, {
+    fetch(`/upvote/${reportId}/`, { // Correct URL pattern
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -43,12 +43,34 @@ document.addEventListener('DOMContentLoaded', function () {
         upvotesCount.value = data.upvotes;
         thumbsUpIcon.classList.toggle('bi-hand-thumbs-up-fill');
         thumbsUpIcon.classList.toggle('bi-hand-thumbs-up');
-        // Store the state in local storage
-        const isUpvoted = thumbsUpIcon.classList.contains('bi-hand-thumbs-up-fill');
-        localStorage.setItem(`thumbs-up-${reportId}`, isUpvoted);
+
+        // Apply animation
+        thumbsUpIcon.classList.add('thumbs-up-animate');
+        setTimeout(() => {
+          thumbsUpIcon.classList.remove('thumbs-up-animate');
+        }, 500); // Duration of the animation
       }
     })
     .catch(error => console.error('Error:', error));
+  }
+
+  // Function to set the initial state of thumbs-up icons
+  function setInitialThumbsUpState() {
+    document.querySelectorAll('.thumbs-up-icon').forEach(icon => {
+      const reportId = icon.id.split('-')[2];
+      fetch(`/report-state/${reportId}/`)
+        .then(response => response.json())
+        .then(data => {
+          if (data.is_upvoted) {
+            icon.classList.add('bi-hand-thumbs-up-fill');
+            icon.classList.remove('bi-hand-thumbs-up');
+          } else {
+            icon.classList.add('bi-hand-thumbs-up');
+            icon.classList.remove('bi-hand-thumbs-up-fill');
+          }
+        })
+        .catch(error => console.error('Error:', error));
+    });
   }
 
   // Add click event listeners to thumbs-up icons
@@ -57,18 +79,10 @@ document.addEventListener('DOMContentLoaded', function () {
       const reportId = this.id.split('-')[2];
       toggleThumbsUp(reportId);
     });
-
-    // Retrieve the state from local storage and set the icon state
-    const reportId = icon.id.split('-')[2];
-    const isUpvoted = localStorage.getItem(`thumbs-up-${reportId}`) === 'true';
-    if (isUpvoted) {
-      icon.classList.add('bi-hand-thumbs-up-fill');
-      icon.classList.remove('bi-hand-thumbs-up');
-    } else {
-      icon.classList.add('bi-hand-thumbs-up');
-      icon.classList.remove('bi-hand-thumbs-up-fill');
-    }
   });
+
+  // Set initial state of thumbs-up icons
+  setInitialThumbsUpState();
 
   // Theme toggle functionality
   const themeToggleButton = document.getElementById('theme-toggle');

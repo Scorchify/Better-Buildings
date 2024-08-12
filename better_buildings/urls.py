@@ -38,4 +38,5 @@ urlpatterns = [
     path('edit_announcement/<int:announcement_id>/', views.edit_announcement, name='edit_announcement'),
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
+    path('report-state/<int:report_id>/', views.report_state, name='report_state'),
 ]

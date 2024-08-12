@@ -130,48 +130,38 @@ def new_area(request):
 @login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
+    area = None
     if area_id:
-        try:
-            area = Area.objects.get(id=area_id)
-        except Area.DoesNotExist:
-            return redirect('better_buildings:index')
-    else:
-        area = None
+        area = get_object_or_404(Area, id=area_id)
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
-        if area:
-            form = ReportForm(initial={'area': area})
-        else:
-            form = ReportForm()
+        form = ReportForm(initial={'area': area} if area else None)
     else:
-        # POST data submitted; process data.
         form = ReportForm(data=request.POST)
         if form.is_valid():
             new_report_text = form.cleaned_data['text']
-            # Check for similar reports in the same area
-            similar_report = None
             if area:
+                similar_report = None
                 for report in area.report_set.all():
                     if is_similar(new_report_text, report.text):
                         similar_report = report
                         break
-
-            if similar_report:
-                # Display a Bootstrap alert if a similar report is found
-                messages.warning(request, f'A similar report already exists: "{similar_report.text}"')
+                if similar_report:
+                    messages.warning(request, f'A similar report already exists: "{similar_report.text}"')
+                else:
+                    new_report = form.save(commit=False)
+                    new_report.area = form.cleaned_data['area']
+                    new_report.owner = request.user
+                    new_report.save()
+                    return redirect('better_buildings:area', area_id=area.id)
             else:
+                # If area is None, set the area based on form input
                 new_report = form.save(commit=False)
-                new_report.area = form.cleaned_data['area']  # Get the selected area from the form
                 new_report.owner = request.user
                 new_report.save()
-                if area:
-                    return redirect('better_buildings:area', area_id=area.id)
-                else:
-                    # Redirect to the display page of the newly created report’s area
-                    return redirect('better_buildings:area', area_id=new_report.area.id)
+                return redirect('better_buildings:area', area_id=new_report.area.id)
 
-    # Display a blank or invalid form.
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
 

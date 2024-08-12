@@ -1,22 +1,20 @@
 from django.db import models
 from django.utils import timezone
-from django.conf import settings  # Import settings to use AUTH_USER_MODEL
+from django.conf import settings
 
 class Area(models.Model):
-    """An area a issue is reported in"""
     text = models.CharField(max_length=50, unique=True)
     date_added = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        """Return a string representation of the model."""
         return self.text
 
 class Report(models.Model):
-    area = models.ForeignKey(Area, null=True, on_delete=models.SET_NULL)  # Allow null
+    area = models.ForeignKey(Area, null=True, blank=True, on_delete=models.SET_NULL)
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)
-    owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    owner = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, blank=True, on_delete=models.SET_NULL)
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
     upvoted_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='upvoted_reports', blank=True)
@@ -31,36 +29,28 @@ class Report(models.Model):
         self.save()
 
     def __str__(self):
-        """Return a simple string representing the report."""
-        if len(self.text) < 50:
-            return self.text
-        else:
-            return f"{self.text[:50]}..."
+        return self.text if len(self.text) < 50 else f"{self.text[:50]}..."
 
     def resolve_issue(self):
         self.resolved = True
-    
+        self.set_resolved_date()
+
     def set_resolved_date(self):
         self.resolved_date = timezone.now()
 
 class BugReport(models.Model):
-    """A bug report"""
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     owner = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
 
     def __str__(self):
-        """Return a string representation of the report."""
-        if len(self.text) < 50:
-            return self.text
-        else:
-            return f"{self.text[:50]}..."
+        return self.text if len(self.text) < 50 else f"{self.text[:50]}..."
 
 class Announcement(models.Model):
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
-    resolved = models.BooleanField(default=False)  # Defaulted to False
-    resolved_date = models.DateTimeField(null=True, blank=True)  # New field
+    resolved = models.BooleanField(default=False)
+    resolved_date = models.DateTimeField(null=True, blank=True)
 
     def save(self, *args, **kwargs):
         if self.resolved and not self.resolved_date:

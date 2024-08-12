@@ -62,6 +62,7 @@
                     <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
                     <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
                     <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_announcements' %}">Manage Announcements</a></li>
+                    <li><a class="dropdown-item fs-6" href="{% url 'suspended_users' %}">Suspended Users</a></li>
                 </ul>
             </li>
           {% endif %}
@@ -69,7 +70,11 @@
         <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
           {% if user.is_authenticated %}
             <span class="navbar-user-info">
-              Hello, {{ user.username }} ({{ student_school }})
+              {% if viewing_profile %}
+                Viewing {{ user.username }}'s profile
+              {% else %}
+                Hello, {{ user.username }} ({{ student_school }})
+              {% endif %}
             </span>
             <li class="nav-item">
               <form class="d-inline" action="{% url 'logout' %}" method="post">

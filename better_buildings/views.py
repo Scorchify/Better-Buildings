@@ -298,6 +298,15 @@ def edit_area(request, area_id):
         form = AreaForm(instance=area)
     return render(request, 'better_buildings/edit_area.html', {'form': form, 'area': area})
 
+@login_required
+@user_passes_test(is_supervisor, login_url='/no_permission/')
+@require_POST
+def delete_report(request, report_id):
+    """Delete a report."""
+    report = get_object_or_404(Report, id=report_id)
+    report.delete()
+    return redirect(request.META.get('HTTP_REFERER', 'better_buildings:index'))
+
 @require_http_methods(["DELETE"])
 def remove_area(request, area_id):
     area = get_object_or_404(Area, id=area_id)

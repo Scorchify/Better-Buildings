@@ -39,4 +39,5 @@ urlpatterns = [
     path('accounts/', include('accounts.urls')),
     path('admin/', admin.site.urls),
     path('report-state/<int:report_id>/', views.report_state, name='report_state'),
+    path('delete_report/<int:report_id>/', views.delete_report, name='delete_report'),
 ]

@@ -1,0 +1,23 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+<div class="box2">
+  <h3>Suspended Users</h3>
+  <ul class="user-list">
+    {% for user in suspended_users %}
+      <li class="user-item">
+        <div class="user-content">
+          <div class="user-name">{{ user.username }}</div>
+          <div class="user-email">{{ user.email }}</div>
+          <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-warning">Unsuspend User</button>
+          </form>
+        </div>
+      </li>
+    {% empty %}
+      <p>No suspended users.</p>
+    {% endfor %}
+  </ul>
+</div>
+{% endblock content %}

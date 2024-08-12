@@ -56,6 +56,10 @@
             <a href="{% url 'user_profile' report.owner.id %}" class="btn btn-secondary">
               <i class="bi bi-person"></i> View Profile
             </a>
+            <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
           </div>
         {% endif %}
       </li>

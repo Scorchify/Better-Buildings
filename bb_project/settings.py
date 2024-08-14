@@ -22,6 +22,12 @@ INSTALLED_APPS = [
     # My apps
     'better_buildings',
     'accounts',
+    #google apps
+    'django.contrib.sites',
+    'allauth',
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.google',  # Google provider
 
     # 3rd party
     'django_celery_beat',
@@ -45,6 +51,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'better_buildings.middleware.getIPAddressMw',
+    'allauth.account.middleware.AccountMiddleware'
 ]
 
 ROOT_URLCONF = 'bb_project.urls'
@@ -460,13 +467,33 @@ LOGOUT_REDIRECT_URL = 'better_buildings:index'
 LOGIN_URL = 'login'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 AUTHENTICATION_BACKENDS = [
-    'django.contrib.auth.backends.ModelBackend',  
+    'django.contrib.auth.backends.ModelBackend',  #standard django backend
     'accounts.backends.EmailOrUsernameModelBackend',  # Custom backend
+    'allauth.account.auth_backends.AuthenticationBackend', # allauth backend
 ]
 
+#Google Sign-In Settings
+SITE_ID = 1
+SOCIALACCOUNT_PROVIDERS = {
+    "google": {
+        "SCOPE": [
+            "profile",
+            "email",
+        ],
+        "AUTH_PARAMS": {
+            "access_type": "online"
+        }
+    }
+}
+ACCOUNT_EMAIL_VERIFICATION = 'none'
+ACCOUNT_AUTHENTICATION_METHOD = 'username'
+ACCOUNT_EMAIL_REQUIRED = True
+
+
+#email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '171524@mcpsmd.net'
-EMAIL_HOST_PASSWORD = 'AngryBirds911'
+EMAIL_HOST_PASSWORD = 'password' 

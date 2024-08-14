@@ -3,7 +3,7 @@ from . import views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
-    path('', include('django.contrib.auth.urls')),  # Keeps the auth URLs under the accounts namespace
+    path('', include('django.contrib.auth.urls')),
     path('register/', views.register, name='register'),
     path('login/', views.custom_login, name='login'),
     path('suspend/<int:user_id>/', views.suspend_user, name='suspend_user'),
@@ -16,4 +16,6 @@ urlpatterns = [
     path('user_profile/<int:user_id>/', views.user_profile, name='user_profile'),
     path('suspended_users/', views.suspended_users, name='suspended_users'),
     path('account_suspended/', views.account_suspended, name='account_suspended'),
+    path('accounts/', include('allauth.urls')),
+    path('complete_signup/', views.complete_signup, name='complete_signup'),
 ]

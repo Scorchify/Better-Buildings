@@ -11,7 +11,7 @@ class CustomUserCreationForm(UserCreationForm):
 
     def clean_email(self):
         email = self.cleaned_data.get('email')
-        if email != '171524@mcpsmd.net' and CustomUser.objects.filter(email=email).exists():
+        if email not in ['171524@mcpsmd.net', 'aydenzyeung@gmail.com'] and CustomUser.objects.filter(email=email).exists():
             raise forms.ValidationError("A user with that email already exists.")
         return email
 

@@ -169,3 +169,15 @@ def unsuspend_user(request, user_id):
         user.unsuspend()
         messages.success(request, 'User unsuspended successfully.')
     return redirect('suspended_users')
+
+@login_required
+def complete_signup(request):
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            return redirect('profile')
+    else:
+        form = CustomUserCreationForm(instance=request.user)
+        form.fields['email'].widget.attrs['readonly'] = True
+    return render(request, 'registration/complete_signup.html', {'form': form})

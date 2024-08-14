@@ -1,17 +1,24 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.contrib.auth import login, authenticate
+from django.contrib.auth import login, authenticate, get_user_model, get_backends
+from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import CustomUser
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, CompleteSignupForm
 from django.contrib.auth.forms import AuthenticationForm
 from better_buildings.models import Report
-from django.contrib.auth import get_backends
 from django.conf import settings
 from .models import CustomUser
 from django.contrib import messages
 
+
+User = get_user_model()
+
+
 def is_supervisor(user):
     return user.groups.filter(name='School Supervisors').exists()
+
+def not_authenticated(user):
+    return not user.is_authenticated
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
@@ -26,21 +33,6 @@ def user_profile(request, user_id):
         'viewing_profile': True,
     }
     return render(request, 'accounts/user_profile.html', context)
-
-def register(request):
-    """Register a new user."""
-    if request.method == 'POST':
-        form = CustomUserCreationForm(data=request.POST)
-        if form.is_valid():
-            new_user = form.save()
-            backend = settings.AUTHENTICATION_BACKENDS[0]  # Get the first backend path
-            login(request, new_user, backend=backend)
-            return redirect('better_buildings:index')
-    else:
-        form = CustomUserCreationForm()
-    
-    context = {'form': form}
-    return render(request, 'registration/register.html', context)
 
 def custom_login(request):
     if request.method == 'POST':
@@ -170,14 +162,29 @@ def unsuspend_user(request, user_id):
         messages.success(request, 'User unsuspended successfully.')
     return redirect('suspended_users')
 
-@login_required
 def complete_signup(request):
     if request.method == 'POST':
-        form = CustomUserCreationForm(request.POST, instance=request.user)
-        if form.is_valid():
-            form.save()
-            return redirect('profile')
-    else:
-        form = CustomUserCreationForm(instance=request.user)
-        form.fields['email'].widget.attrs['readonly'] = True
-    return render(request, 'registration/complete_signup.html', {'form': form})
+        username = request.POST.get('username')
+        password = request.POST.get('password')
+        user = request.user
+
+        if username and password:
+            user.username = username
+            user.set_password(password)
+            user.save()
+
+            # Re-login the user after setting the password
+            login(request, user)
+            return redirect('home')  # Redirect to the homepage or any other page
+
+        else:
+            # Handle the error case where username or password is missing
+            return render(request, 'registration/complete_signup.html', {
+                'error': 'Username and password are required.'
+            })
+
+    return render(request, 'registration/complete_signup.html')
+
+@user_passes_test(not_authenticated, login_url='/')
+def register(request):
+    return render(request, 'registration/register.html')

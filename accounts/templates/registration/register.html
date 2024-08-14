@@ -2,8 +2,25 @@
 {% load socialaccount %}
 {% block content %}
 <div class="wrapper">
-    <a href="{% provider_login_url 'google' %}" class="btn btn-danger">
-        <i class="fab fa-google"></i> Sign up with Google
-    </a>
+  <h2 class="fw-bold">Sign up with Google</h2>
+  <br>
+  <a href="{% provider_login_url 'google' %}" class="google-btn">
+    <i class="bi bi-google"></i> 
+  </a>
 </div>
+
+<style>
+  .google-btn {
+    background-color: black;
+    color: white;
+    padding: 15px 30px;
+    font-size: 18px;
+    border-radius: 5px;
+    text-align: center;
+    display: inline-block;
+  }
+  .google-btn:hover {
+    background-color: #333;
+  }
+</style>
 {% endblock content %}

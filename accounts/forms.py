@@ -31,3 +31,7 @@ class CustomAuthenticationForm(AuthenticationForm):
                 "This account is suspended.",
                 code='inactive',
             )
+class CompleteSignupForm(UserCreationForm):
+    class Meta:
+        model = CustomUser
+        fields = ("username", "password1", "password2")

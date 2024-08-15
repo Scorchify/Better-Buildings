@@ -1,5 +1,5 @@
 from pathlib import Path
-from accounts.pipelines import redirect_to_complete_signup
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -492,6 +492,7 @@ ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
 ACCOUNT_EMAIL_REQUIRED = True
 SOCIALACCOUNT_AUTO_SIGNUP = True
 SOCIALACCOUNT_LOGIN_ON_GET = True #Removes Intermediate Page for Google Sign-In
+SOCIALACCOUNT_ADAPTER = 'accounts.adapters.CustomSocialAccountAdapter'
 
 #email settings
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -500,13 +501,3 @@ EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = '171524@mcpsmd.net'
 EMAIL_HOST_PASSWORD = 'password' 
-
-SOCIAL_AUTH_PIPELINE = (
-    'social_core.pipeline.social_auth.social_details',  # Existing steps
-    'social_core.pipeline.social_auth.social_uid',       # Existing steps
-    'social_core.pipeline.social_auth.social_user',      # Existing steps
-    'social_core.pipeline.social_auth.associate_user',   # Existing steps
-    'social_core.pipeline.social_auth.load_extra_data',  # Existing steps
-    'social_core.pipeline.social_auth.user_details',     # Existing steps
-    'accounts.pipelines.redirect_to_complete_signup',  
-)

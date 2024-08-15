@@ -17,5 +17,4 @@ urlpatterns = [
     path('suspended_users/', views.suspended_users, name='suspended_users'),
     path('account_suspended/', views.account_suspended, name='account_suspended'),
     path('accounts/', include('allauth.urls')),
-    path('complete_signup/', views.complete_signup, name='complete_signup'),
 ]

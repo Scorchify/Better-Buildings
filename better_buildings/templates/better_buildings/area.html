@@ -53,9 +53,15 @@
               <input type="hidden" name="report_id" value="{{ report.id }}">
               <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
             </form>
-            <a href="{% url 'user_profile' report.owner.id %}" class="btn btn-secondary">
-              <i class="bi bi-person"></i> View Profile
-            </a>
+            {% if report.owner.id %}
+              <a href="{% url 'user_profile' report.owner.id %}" class="btn btn-secondary">
+                <i class="bi bi-person"></i> View Profile
+              </a>
+            {% else %}
+              <span class="btn btn-secondary disabled">
+                <i class="bi bi-person"></i> View Profile
+              </span>
+            {% endif %}
             <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" style="display:inline;">
               {% csrf_token %}
               <button type="submit" class="btn btn-danger">Delete</button>

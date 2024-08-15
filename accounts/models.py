@@ -16,4 +16,3 @@ class CustomUser(AbstractUser):
     
     def is_supervisor(self):
         return self.groups.filter(name='Supervisor').exists()
-v

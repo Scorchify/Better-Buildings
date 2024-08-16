@@ -10,6 +10,7 @@ from django.conf import settings
 from .models import CustomUser
 from django.contrib import messages
 from allauth.socialaccount.models import SocialAccount
+from django.http import JsonResponse
 
 User = get_user_model()
 
@@ -18,6 +19,15 @@ def is_supervisor(user):
 
 def not_authenticated(user):
     return not user.is_authenticated
+
+def anonymous_required(view_function):
+    def wrapper_function(request, *args, **kwargs):
+        if request.user.is_authenticated:
+            return redirect('better_buildings:index')
+        else:
+            return view_function(request, *args, **kwargs)
+    return wrapper_function
+
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
@@ -33,13 +43,14 @@ def user_profile(request, user_id):
     }
     return render(request, 'accounts/user_profile.html', context)
 
+@anonymous_required
 def custom_login(request):
     if request.method == 'POST':
-        form = CustomAuthenticationForm(request, data=request.POST)
+        form = CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
             login(request, user)
-            return redirect('index')
+            return redirect('profile')
     else:
         form = CustomAuthenticationForm()
     
@@ -71,33 +82,33 @@ def suspend_user(request, user_id):
 def unsuspend_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     user.unsuspend()
-    return redirect('user_profile', user_id=user_id)
+    return redirect('suspended_users')
 
+@anonymous_required
 def register(request):
     if request.method == 'POST':
         form = CustomSocialSignupForm(request.POST)
         if form.is_valid():
-            user = form.save(request)
-            user.username = form.cleaned_data.get('username')
-            user.set_password(form.cleaned_data.get('password1'))
-            user.save()
-
-            # If user signed up with Google, link social account
-            social_account = SocialAccount.objects.filter(user=user, provider='google').first()
-            if social_account:
-                user.email = social_account.extra_data['email']
-                user.save()
-
-            login(request, user)
-            return redirect('index')
+            # Store username and password in session instead of creating the user
+            request.session['signup_username'] = form.cleaned_data['username']
+            request.session['signup_password'] = form.cleaned_data['password1']
+            return JsonResponse({'success': True})
+        else:
+            errors = []
+            for field, error_list in form.errors.items():
+                for error in error_list:
+                    if field == 'username' and 'already exists' in error:
+                        errors.append('That username already exists')
+                    elif field == 'password2' and 'passwords do not match' in error:
+                        errors.append('Passwords do not match')
+                    else:
+                        errors.append(error)
+            return JsonResponse({'success': False, 'errors': errors})
     else:
         form = CustomSocialSignupForm()
     
     context = {'form': form}
     return render(request, 'registration/register.html', context)
-
-def account_suspended(request):
-    return render(request, 'accounts/account_suspended.html')
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
@@ -105,3 +116,6 @@ def suspended_users(request):
     suspended_users = CustomUser.objects.filter(is_suspended=True)
     context = {'suspended_users': suspended_users}
     return render(request, 'accounts/suspended_users.html', context)
+
+def account_suspended(request):
+    return render(request, 'accounts/account_suspended.html')

@@ -1,6 +1,7 @@
 from allauth.socialaccount.signals import pre_social_login
 from django.dispatch import receiver
 from django.contrib.auth import get_user_model
+from django.contrib import messages
 
 User = get_user_model()
 
@@ -8,7 +9,7 @@ User = get_user_model()
 def pre_social_login_handler(request, sociallogin, **kwargs):
     user = sociallogin.user
 
-    # Fetch username and password from the session or other storage
+    # Fetch username and password from the session
     username = request.session.get('signup_username')
     password = request.session.get('signup_password')
 

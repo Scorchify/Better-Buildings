@@ -1,26 +1,38 @@
 from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
-from django.utils.text import slugify
 from django.contrib.auth import get_user_model
+from django.shortcuts import redirect
+from django.contrib import messages
+from allauth.exceptions import ImmediateHttpResponse
 from .forms import CustomSocialSignupForm
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
-    def populate_user(self, request, sociallogin, data):
-        user = super().populate_user(request, sociallogin, data)
-        User = get_user_model()
-        username = slugify(user.username)
-        unique_username = username
-        counter = 1
+    def pre_social_login(self, request, sociallogin):
+        email = sociallogin.account.extra_data.get('email')
+        user_model = get_user_model()
 
-        while User.objects.filter(username=unique_username).exists():
-            unique_username = f"{username}-{counter}"
-            counter += 1
+        if not email:
+            messages.error(request, 'Google account does not have an email.')
+            raise ImmediateHttpResponse(redirect('register'))
 
-        user.username = unique_username
-        return user
+        try:
+            user = user_model.objects.get(email=email)
+            if not user.username or not user.has_usable_password():
+                messages.error(request, 'No account associated with this Google email. Please register first.')
+                raise ImmediateHttpResponse(redirect('register'))
+
+            sociallogin.connect(request, user)
+        except user_model.DoesNotExist:
+            messages.error(request, 'No account associated with this Google email. Please register first.')
+            raise ImmediateHttpResponse(redirect('register'))
 
     def save_user(self, request, sociallogin, form=None):
-        user = super().save_user(request, sociallogin, form=form)
-        if isinstance(form, CustomSocialSignupForm):
+        # Only save the user if the form is complete and valid
+        if form and isinstance(form, CustomSocialSignupForm):
+            user = super().save_user(request, sociallogin, form=form)
             user.set_password(form.cleaned_data["password1"])
             user.save()
-        return user
+        else:
+            # Prevent account creation if form is not valid
+            return None
+
+        return super().save_user(request, sociallogin, form=form)

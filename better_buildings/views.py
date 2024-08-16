@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_http_methods, require_POST
 from django.http import JsonResponse
 from django.contrib import messages
+from .resources.blacklist import blacklist
 from .models import Area, Report, BugReport, Announcement
 from .forms import AreaForm, ReportForm, BugReportForm, AnnouncementForm
 from difflib import SequenceMatcher
@@ -67,6 +68,12 @@ def is_similar(text1, text2, threshold=0.6):
     
     # Consider the reports similar only if both text similarity and numbers match
     return text_similarity > threshold and numbers_match
+
+def check_blacklist(text):
+    for word in blacklist:
+        if word in text:
+            return True
+    return False
 
 
 # Views
@@ -169,26 +176,29 @@ def new_report(request, area_id=None):
         form = ReportForm(data=request.POST)
         if form.is_valid():
             new_report_text = form.cleaned_data['text']
-            if area:
-                similar_report = None
-                for report in area.report_set.all():
-                    if is_similar(new_report_text, report.text):
-                        similar_report = report
-                        break
-                if similar_report:
-                    messages.warning(request, f'A similar report already exists: "{similar_report.text}"')
+            if check_blacklist(new_report_text):
+                form.add_error('text', 'Your report contains inappropriate language. Please revise and resubmit.')
+            else:
+                if area:
+                    similar_report = None
+                    for report in area.report_set.all():
+                        if is_similar(new_report_text, report.text):
+                            similar_report = report
+                            break
+                    if similar_report:
+                        messages.warning(request, f'A similar report already exists: "{similar_report.text}"')
+                    else:
+                        new_report = form.save(commit=False)
+                        new_report.area = form.cleaned_data['area']
+                        new_report.owner = request.user
+                        new_report.save()
+                        return redirect('better_buildings:area', area_id=area.id)
                 else:
+                    # If area is None, set the area based on form input
                     new_report = form.save(commit=False)
-                    new_report.area = form.cleaned_data['area']
                     new_report.owner = request.user
                     new_report.save()
-                    return redirect('better_buildings:area', area_id=area.id)
-            else:
-                # If area is None, set the area based on form input
-                new_report = form.save(commit=False)
-                new_report.owner = request.user
-                new_report.save()
-                return redirect('better_buildings:area', area_id=new_report.area.id)
+                    return redirect('better_buildings:area', area_id=new_report.area.id)
 
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)

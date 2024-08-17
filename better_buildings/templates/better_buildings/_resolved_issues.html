@@ -1,0 +1,17 @@
+<h4>Resolved Reports:</h4>
+<p>Below you can find the reports resolved by your building services team in the past week.</p>
+<ul class="report-list">
+  {% for report in resolved_reports %}
+    <li class="report-item">
+      <div class="report-content">
+        <div class="report-text">{{ report.text|linebreaks }}</div>
+        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+      </div>
+      <div>
+        <p>Resolved on: {{ report.resolved_date|date:'M d, Y g:i A' }}</p> 
+      </div>
+    </li>
+    {% empty %}
+      <p class="fw-bold">No reports have been resolved in the past week.</p>
+    {% endfor %}
+</ul>

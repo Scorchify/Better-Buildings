@@ -1,0 +1,34 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+
+<head> <meta name="csrf-token" content="{{ csrf_token }}"> </head>
+<div class="box">
+  <h3>Bug Reports</h3>
+  <br>
+  <h4>All reports:</h4>
+  <ul class="report-list">
+    {% for report in reports %}
+      <li class="report-item">
+        
+        <div class="report-content">
+          <div class="report-text">{{ report.text|linebreaks }}</div>
+          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+        </div>
+
+        <div class="form-container mt-2">
+          <form action="{% url 'better_buildings:view_bug_reports' %}" method="post">
+            {% csrf_token %}
+            <input type="hidden" name="report_id" value="{{ report.id }}">
+            <button type="submit" name="delete" class="btn btn-danger">Resolve report</button>
+          </form>
+        </div>      
+      
+      </li>
+    {% empty %}
+      <p>Looks like there aren't any bug reports right now. Hooray!</p>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock content %}

@@ -1,0 +1,36 @@
+{% extends 'better_buildings/base.html' %}
+{% block content %}
+<div class="box2">
+  <h2>Announcements</h2>
+  <hr/>
+  <h4>All Announcements:</h4>
+  <div class="announcement-container">
+    {% for announcement in announcements %}
+    <div class="announcement-item">
+      <div class="announcement-content">
+        <div class="announcement-text">{{ announcement.text|linebreaks }}</div>
+        <div class="announcement-date">{{ announcement.date_added|date:'M d, Y g:i A' }}</div>
+      </div>
+    </div>
+    {% empty %}
+    <p class='fw-bold'>There are no announcements yet, check back later!</p>
+    {% endfor %}
+  </div>
+  <hr/>
+  <h4>Resolved Announcements:</h4>
+  <div class="announcement-container">
+    {% for announcement in resolved_announcements %}
+    <div class="announcement-item">
+      <div class="announcement-content">
+        <div class="announcement-text">{{ announcement.text|linebreaks }}</div>
+        <div class="announcement-date"> Created on: {{ announcement.date_added|date:'M d, Y g:i A' }}</div>
+        <div class="announcement-resolved-date">Resolved on: {{ announcement.resolved_date|date:'M d, Y g:i A' }}</div>
+      </div>
+    </div>
+    {% empty %}
+    <p class='fw-bold'>There are no resolved announcements yet.</p>
+    {% endfor %}
+  </div>
+  <hr/>
+</div>
+{% endblock content %}

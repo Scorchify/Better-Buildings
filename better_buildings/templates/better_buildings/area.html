@@ -1,0 +1,79 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+<head> 
+  <meta name="csrf-token" content="{{ csrf_token }}"> 
+</head>
+<div class="box2">
+  <h3>Issue Area: {{ area.text }}</h3>
+  <p>
+    <a href="{% url 'better_buildings:new_report' area.id %}" class="btn btn-dark">Add new report</a>
+  </p>
+  <hr/>
+  <h4>My reports:</h4>
+  <ul class="report-list">
+    {% for report in user_reports %}
+      <li class="report-item">
+        <div class="report-content">
+          <div class="report-text">{{ report.text|linebreaks }}</div>
+          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+        </div>
+        <div class="edit-container">
+          <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-primary">Edit report</a>
+        </div>
+      </li>
+    {% empty %}
+      <p>Looks like you don't have any active reports in this issue area right now.</p>
+    {% endfor %}
+  </ul>
+  <hr/>
+  <h4>All Reports:</h4>
+  <ul class="report-list">
+    {% for report in reports %}
+      <li class="report-item">
+        <div class="report-content">
+          <div class="report-text">{{ report.text|linebreaks }}</div>
+          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+        </div>
+        <div class="thumbs-up-container">
+          <i id="thumbs-up-{{ report.id }}" class="bi 
+            {% if user in report.upvoted_by.all %}
+              bi-hand-thumbs-up-fill
+            {% else %}
+              bi-hand-thumbs-up
+            {% endif %}
+            thumbs-up-icon" onclick="toggleThumbsUp({{ report.id }})"></i>
+          <label for="upvotes-{{ report.id }}" class="upvotes-label">Upvotes:</label>
+          <input type="text" id="upvotes-{{ report.id }}" class="form-control upvotes-textbox" readonly value="{{ report.upvotes }}">
+        </div>        
+        {% if is_supervisor %}
+          <div class="edit-container">
+            <form method="post" action="{% url 'better_buildings:area' area.id %}">
+              {% csrf_token %}
+              <input type="hidden" name="report_id" value="{{ report.id }}">
+              <button type="submit" name="resolve" class="btn btn-primary">Resolve</button>
+            </form>
+            {% if report.owner.id %}
+              <a href="{% url 'user_profile' report.owner.id %}" class="btn btn-secondary">
+                <i class="bi bi-person"></i> View Profile
+              </a>
+            {% else %}
+              <span class="btn btn-secondary disabled">
+                <i class="bi bi-person"></i> View Profile
+              </span>
+            {% endif %}
+            <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-danger">Delete</button>
+            </form>
+          </div>
+        {% endif %}
+      </li>
+    {% empty %}
+      <li>There are no active reports in the issue area yet.</li>
+    {% endfor %}
+  </ul>
+  <hr/>
+  {% include "better_buildings/_resolved_issues.html" %}
+</div>
+{% endblock content %}

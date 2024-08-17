@@ -1,0 +1,144 @@
+{% extends "better_buildings/base.html" %}
+
+{% block content %}
+<div class="box2">
+    <h2>Manage Areas</h2>
+    <button onclick="location.href='{% url 'better_buildings:new_area' %}'" class="btn btn-primary">Add an Area</button>
+    <br><br><br>
+    {% csrf_token %}
+    <ul class="area-list">
+        {% if areas %}
+            {% for area in areas %}
+                <li id="area-{{ area.id }}" class="area-item">
+                    <input type="text" value="{{ area.text }}" class="area-textbox" readonly>
+                    <div class="button-group">
+                        <button onclick="location.href='{% url 'better_buildings:edit_area' area.id %}'" class="btn btn-secondary">Edit</button>
+                        <button onclick="deleteArea({{ area.id }})" class="btn btn-danger">Remove</button>
+                    </div>
+                </li>
+            {% endfor %}
+        {% else %}
+            <li>No areas available.</li>
+        {% endif %}
+    </ul>
+</div>
+<script>
+    function deleteArea(areaId) {
+        if (confirm('Are you sure you want to delete this area?')) {
+            const removeAreaUrl = "{% url 'better_buildings:remove_area' 0 %}".replace('0', areaId);
+            fetch(removeAreaUrl, {
+                method: 'DELETE',
+                headers: {
+                    'X-CSRFToken': document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.ok) {
+                    document.getElementById(`area-${areaId}`).remove();
+                } else {
+                    alert('Failed to delete the area.');
+                }
+            });
+        }
+    }
+</script>
+
+
+<style>
+    .area-list {
+        list-style-type: none; 
+        padding: 0;
+        margin: 0;
+    }
+    
+    .area-item {
+        margin-bottom: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        padding: 1rem;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f9f9f9;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+        transition: background-color 0.3s ease;
+    }
+    
+    .area-item:hover {
+        background-color: #f1f1f1;
+    }
+    
+    .area-textbox {
+        background-color: white;
+        border: 1px solid #ccc;
+        padding: 10px;
+        flex: 1;
+        width: calc(100% - 150px); 
+        border-radius: 5px;
+        font-size: 1rem;
+        transition: border-color 0.3s ease;
+    }
+    
+    .area-textbox:focus {
+        border-color: #007bff;
+    }
+    
+    .button-group {
+        display: flex;
+        gap: 10px; 
+    }
+    
+    .button-group .btn {
+        padding: 0.5rem 1rem;
+        font-size: 0.9rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .button-group .btn-secondary {
+        background-color: #6c757d;
+        color: white;
+    }
+    
+    .btn-secondary {
+        margin-left: 10px;
+    }
+    .button-group .btn-secondary:hover {
+        background-color: #5a6268;
+    }
+    
+    .button-group .btn-danger {
+        background-color: #dc3545;
+        color: white;
+    }
+    
+    .button-group .btn-danger:hover {
+        background-color: #c82333;
+    }
+    
+    h2 {
+        font-size: 2rem;
+        margin-bottom: 1rem;
+        color: black;
+    }
+    
+    .btn-primary {
+        background-color: #007bff;
+        color: white;
+        padding: 0.5rem 1rem;
+        font-size: 1rem;
+        border-radius: 5px;
+        transition: background-color 0.3s ease, color 0.3s ease;
+    }
+    
+    .btn-primary:hover {
+        background-color: #0056b3;
+    }
+
+    .dark-mode h2 {
+        color: white;
+    }
+
+</style>
+{% endblock content %}

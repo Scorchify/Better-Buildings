@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="box2">
-  <h3>User Profile: {{ user.username }}</h3>
+  <h3>User Profile: {{ user.display_name }}</h3>
   <p>Email: {{ user.email }}</p>
   <hr/>
   <h4>Active Reports:</h4>
@@ -33,13 +33,25 @@
     {% endfor %}
   </ul>
   <hr/>
+  
+  <!-- Display messages -->
+  {% if messages %}
+    <div class="alert-container">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+  {% endif %}
+
   <form method="post" action="{% url 'suspend_user' user.id %}" style="display:inline;">
     {% csrf_token %}
     <button type="submit" class="btn btn-danger">Suspend User</button>
   </form>
   <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
     {% csrf_token %}
-    <button type="submit" class="btn btn-warning">Unsuspend User</button>
+    <button type="submit" class="btn btn-success">Unsuspend User</button>
   </form>
 </div>
 {% endblock content %}

@@ -3,11 +3,10 @@ from django.contrib.auth import login, authenticate, get_user_model, get_backend
 from django.contrib.auth.models import User
 from django.contrib.auth.decorators import login_required, user_passes_test
 from .models import CustomUser
-from .forms import CustomAuthenticationForm, CustomSocialSignupForm
+from .forms import CustomAuthenticationForm
 from django.contrib.auth.forms import AuthenticationForm
 from better_buildings.models import Report
 from django.conf import settings
-from .models import CustomUser
 from django.contrib import messages
 from allauth.socialaccount.models import SocialAccount
 from django.http import JsonResponse
@@ -27,7 +26,6 @@ def anonymous_required(view_function):
         else:
             return view_function(request, *args, **kwargs)
     return wrapper_function
-
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
@@ -76,41 +74,23 @@ def profile(request):
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def suspend_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    user.suspend()
+    if user.is_suspended:
+        messages.info(request, "User is already suspended.")
+    else:
+        user.suspend()
+        messages.success(request, "User suspended successfully.")
     return redirect('user_profile', user_id=user_id)
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def unsuspend_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
-    user.unsuspend()
-    return redirect('suspended_users')
-
-@anonymous_required
-def register(request):
-    if request.method == 'POST':
-        form = CustomSocialSignupForm(request.POST)
-        if form.is_valid():
-            # Store username and password in session instead of creating the user
-            request.session['signup_username'] = form.cleaned_data['username']
-            request.session['signup_password'] = form.cleaned_data['password1']
-            return JsonResponse({'success': True})
-        else:
-            errors = []
-            for field, error_list in form.errors.items():
-                for error in error_list:
-                    if field == 'username' and 'already exists' in error:
-                        errors.append('That username already exists')
-                    elif field == 'password2' and 'passwords do not match' in error:
-                        errors.append('Passwords do not match')
-                    else:
-                        errors.append(error)
-            return JsonResponse({'success': False, 'errors': errors})
+    if not user.is_suspended:
+        messages.info(request, "User is not suspended.")
     else:
-        form = CustomSocialSignupForm()
-    
-    context = {'form': form}
-    return render(request, 'registration/register.html', context)
+        user.unsuspend()
+        messages.success(request, "User unsuspended successfully.")
+    return redirect('user_profile', user_id=user_id)
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')

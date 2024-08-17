@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
   {% load static %}
+  {% load socialaccount %} 
   {% load django_bootstrap5 %}
+  {% load custom_tags %} <!-- Load custom template tags -->
 
-  <!-- Boostrap CSS -->
+  <!-- Boostrap CSS/JS -->
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 
@@ -30,8 +32,8 @@
 
   <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg fixed-top">
-    <a class="navbar-brand fs-5" href="{% url 'better_buildings:index' %}">
-      <img src="{% static 'images/bb_logo_text2.png' %}" alt="MCPS Better Buildings Logo" style="height: 50px; width: auto;">
+    <a class="navbar-brand" href="{% url 'better_buildings:index' %}">
+      <img src="{% static 'images/bb_logo_text2.png' %}" alt="MCPS Better Buildings" style="height: 50px; width: auto;">
     </a>
     <div class="d-flex align-items-center">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -67,7 +69,7 @@
               </ul>
             </li>
           {% endif %}
-          {% if user.is_authenticated and user.is_superuser %}
+          {% if user.is_authenticated and user|has_group:"School Supervisors" %}
             <li class="nav-item dropdown">
                 <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
                     Admin Panel
@@ -86,13 +88,13 @@
       </div>
       <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
         {% if user.is_authenticated %}
-          <span class="navbar-user-info">
-            {% if viewing_profile %}
-              Viewing {{ user.username }}'s profile
-            {% else %}
-              Hello, {{ user.username }} ({{ student_school }})
-            {% endif %}
-          </span>
+        <span class="navbar-user-info">
+          {% if viewing_profile %}
+            Viewing {{ user.display_name|default:user.username }}'s profile
+          {% else %}
+            Hello, {{ user.display_name|default:user.username }} ({{ student_school }})
+          {% endif %}
+        </span>
           <li class="nav-item">
             <a href="{% url 'better_buildings:new_report_no_area' %}">
                 <button class="btn btn-primary btn-sm fs-6" type="button" style="margin-right: 10px;">Report</button>
@@ -106,10 +108,10 @@
           </li>
         {% else %}
           <li class="nav-item login-register">
-            <a class="nav-link fs-5" href="{% url 'register' %}">Register</a>
+            <a class="nav-link fs-5" href="{% provider_login_url 'google' %}">Students</a>
           </li>
           <li class="nav-item login-register">
-            <a class="nav-link fs-5" href="{% url 'login' %}">Login</a>
+            <a class="nav-link fs-5" href="{% url 'login' %}">Staff</a>
           </li>
         {% endif %}
       </ul>

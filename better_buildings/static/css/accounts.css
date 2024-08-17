@@ -178,3 +178,7 @@
   background-color: #a70000;
   color: white !important;
 }
+.user-actions {
+  display: flex;
+  gap: 10px; /* Adjust the gap as needed */
+}

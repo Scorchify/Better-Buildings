@@ -79,12 +79,12 @@ def check_blacklist(text):
 # Views
 
 def index(request):
-    is_admin = False
+    is_supervisor = False
     if request.user.is_authenticated:
-        is_admin = request.user.is_superuser
+        is_supervisor = request.user.groups.filter(name='School Supervisors').exists()
     areas = Area.objects.all()  # Fetch all areas here
     context = {
-        'is_admin': is_admin,
+        'is_supervisor': is_supervisor,
         'areas': areas
     }
     return render(request, 'better_buildings/index.html', context)
@@ -255,9 +255,9 @@ def report_bug(request):
     return render(request, 'better_buildings/report_bug.html', context)
 
 @login_required
-@user_passes_test(is_admin, login_url='/no_permission/')
+@user_passes_test(is_supervisor, login_url='/no_permission/')
 def view_bug_reports(request):
-    """Page for admin account to view bug reports"""
+    """Page for supervisor account to view bug reports"""
     if 'delete' in request.POST:
         report_id = request.POST.get('report_id')
         bug_report = BugReport.objects.get(id=report_id)
@@ -324,7 +324,7 @@ def remove_area(request, area_id):
     return JsonResponse({'success': True})
 
 @login_required
-@user_passes_test(is_admin, login_url='/no_permission/')
+@user_passes_test(is_supervisor, login_url='/no_permission/')
 def manage_areas(request):
     areas = Area.objects.all()  # Fetch areas from the database
     return render(request, 'better_buildings/manage_areas.html', {'areas': areas})
@@ -340,7 +340,7 @@ def announcements(request):
     return render(request, 'better_buildings/announcements.html', context)
 
 @login_required
-@user_passes_test(is_admin, login_url='/no_permission/')
+@user_passes_test(is_supervisor, login_url='/no_permission/')
 def create_announcement(request):
     if request.method == 'POST':
         form = AnnouncementForm(request.POST)
@@ -352,7 +352,7 @@ def create_announcement(request):
     return render(request, 'better_buildings/create_announcement.html', {'form': form})
 
 @login_required
-@user_passes_test(is_admin, login_url='/no_permission/')
+@user_passes_test(is_supervisor, login_url='/no_permission/')
 def edit_announcement(request, announcement_id):
     announcement = get_object_or_404(Announcement, id=announcement_id)
     if request.method == 'POST':
@@ -365,7 +365,7 @@ def edit_announcement(request, announcement_id):
     return render(request, 'better_buildings/edit_announcement.html', {'form': form, 'announcement': announcement})
 
 @login_required
-@user_passes_test(is_admin, login_url='/no_permission/')
+@user_passes_test(is_supervisor, login_url='/no_permission/')
 def manage_announcements(request):
     if request.method == 'POST':
         data = json.loads(request.body)

@@ -1,6 +1,5 @@
 from django import forms
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
-from .models import CustomUser
+from django.contrib.auth.forms import AuthenticationForm
 from allauth.account.forms import SignupForm
 
 class CustomAuthenticationForm(AuthenticationForm):
@@ -21,16 +20,16 @@ class CustomSocialSignupForm(SignupForm):
         label='Username', 
         max_length=150, 
         required=True,
-        widget=forms.TextInput(attrs={'class': 'accounts-field'})
+        widget=forms.TextInput(attrs={'class': 'accounts-field', 'placeholder': 'Username'})
     )
     password1 = forms.CharField(
         label='Password', 
-        widget=forms.PasswordInput(attrs={'class': 'accounts-field'}), 
+        widget=forms.PasswordInput(attrs={'class': 'password-field'}), 
         required=True
     )
     password2 = forms.CharField(
         label='Password (again)', 
-        widget=forms.PasswordInput(attrs={'class': 'accounts-field'}), 
+        widget=forms.PasswordInput(attrs={'class': 'password-field'}), 
         required=True
     )
 
@@ -38,6 +37,9 @@ class CustomSocialSignupForm(SignupForm):
         super().__init__(*args, **kwargs)
         if 'email' in self.fields:
             del self.fields['email']
+        # Override the default password fields to remove the help text
+        self.fields['password1'].help_text = ''
+        self.fields['password2'].help_text = ''
 
     def clean_password2(self):
         password1 = self.cleaned_data.get("password1")
@@ -52,4 +54,3 @@ class CustomSocialSignupForm(SignupForm):
         user.set_password(self.cleaned_data["password1"])
         user.save()
         return user
-    

@@ -2,8 +2,9 @@ from allauth.socialaccount.adapter import DefaultSocialAccountAdapter
 from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.contrib import messages
-from allauth.exceptions import ImmediateHttpResponse
+from allauth.core.exceptions import ImmediateHttpResponse
 from .forms import CustomSocialSignupForm
+from django.conf import settings
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):
@@ -19,6 +20,10 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
             if not user.username or not user.has_usable_password():
                 messages.error(request, 'No account associated with this Google email. Please register first.')
                 raise ImmediateHttpResponse(redirect('register'))
+
+            if not user.is_active:
+                messages.error(request, 'Your account is suspended.')
+                raise ImmediateHttpResponse(redirect('account_suspended'))
 
             sociallogin.connect(request, user)
         except user_model.DoesNotExist:

@@ -1,8 +1,10 @@
 {% extends "better_buildings/base.html" %}
+
 {% block content %}
 <div class="box2">
+  <h2>Manage Announcements</h2>
   <button onclick="location.href='{% url 'better_buildings:create_announcement' %}'" class="btn btn-primary">Create Announcement</button>
-
+  <br><br>
   <h4>Unresolved Announcements:</h4>
   <ul class="announcement-list">
     {% for announcement in announcements %}
@@ -12,9 +14,9 @@
         <div class="announcement-date">{{ announcement.date_added|date:'M d, Y g:i A' }}</div>
       </div>
       <div class="edit-container">
-        <a href="{% url 'better_buildings:edit_announcement' announcement.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'better_buildings:edit_announcement' announcement.id %}" class="btn btn-secondary">Edit</a>
         {% if is_supervisor %}
-        <form method="post" action="{% url 'better_buildings:announcements' %}">
+        <form method="post" action="{% url 'better_buildings:announcements' %}" class="d-inline">
           {% csrf_token %}
           <input type="hidden" name="announcement_id" value="{{ announcement.id }}">
         </form>
@@ -25,7 +27,7 @@
     </li>
     {% endfor %}
   </ul>
-
+  
   <h4>Resolved Announcements:</h4>
   <ul class="announcement-list">
     {% for announcement in resolved_announcements %}
@@ -35,9 +37,9 @@
         <div class="announcement-date">{{ announcement.date_added|date:'M d, Y g:i A' }}</div>
       </div>
       <div class="edit-container">
-        <a href="{% url 'better_buildings:edit_announcement' announcement.id %}" class="btn btn-primary">Edit</a>
+        <a href="{% url 'better_buildings:edit_announcement' announcement.id %}" class="btn btn-secondary">Edit</a>
         {% if is_supervisor %}
-        <form method="post" action="{% url 'better_buildings:announcements' %}">
+        <form method="post" action="{% url 'better_buildings:announcements' %}" class="d-inline">
           {% csrf_token %}
           <input type="hidden" name="announcement_id" value="{{ announcement.id }}">
         </form>
@@ -70,4 +72,116 @@
     });
   }
 </script>
+
+<style>
+  .announcement-list {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.announcement-item {
+    position: relative;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    background-color: #fff;
+    color: black;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    transition: background-color 0.3s ease;
+}
+
+.announcement-item:hover {
+    background-color: #f1f1f1;
+}
+
+.announcement-item::after {
+    content: '';
+    position: absolute;
+    bottom: -10px;
+    right: 20px;
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-top: 10px solid #fff;
+}
+
+.announcement-content {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+}
+
+.announcement-text {
+    margin-bottom: 5px;
+    font-size: 1rem;
+    color: #333;
+}
+
+.announcement-date,
+.announcement-resolved-date {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.edit-container {
+    display: flex;
+    gap: 10px;
+    margin-top: 10px;
+}
+
+.btn-primary {
+    background-color: #007bff;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-primary:hover {
+    background-color: #0056b3;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-secondary:hover {
+    background-color: #5a6268;
+}
+
+.btn-danger {
+    background-color: #dc3545;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-danger:hover {
+    background-color: #c82333;
+}
+
+.btn-success {
+    background-color: #28a745;
+    color: white;
+    padding: 0.5rem 1rem;
+    font-size: 0.9rem;
+    border-radius: 5px;
+    transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.btn-success:hover {
+    background-color: #218838;
+}
+</style>
 {% endblock content %}

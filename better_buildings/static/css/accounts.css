@@ -132,3 +132,49 @@
   background-color: #001d35;
   opacity: 8%;
 }
+
+
+.user-list {
+  list-style-type: none;
+  padding: 0;
+}
+
+.user-item {
+  margin-bottom: 15px;
+}
+
+.user-content {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 15px;
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.user-info {
+  display: flex;
+  flex-direction: column;
+}
+
+.user-name {
+  font-weight: bold;
+  font-size: 1.2em;
+  color: black;
+}
+
+.user-email {
+  color: #666;
+}
+
+.btn-warning {
+  background-color: rgb(235, 3, 3);
+  color: #fff;
+}
+
+.btn-warning:hover {
+  background-color: #a70000;
+  color: white !important;
+}

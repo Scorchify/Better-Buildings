@@ -49,6 +49,8 @@ def custom_login(request):
         form = CustomAuthenticationForm(data=request.POST)
         if form.is_valid():
             user = form.get_user()
+            if not user.is_active:
+                return redirect('account_suspended')
             login(request, user)
             return redirect('profile')
     else:

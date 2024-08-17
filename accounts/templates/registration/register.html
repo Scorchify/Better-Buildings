@@ -2,18 +2,32 @@
 {% load socialaccount %}
 {% block content %}
 <div class="wrapper">
-  {% if messages %}
-    {% for message in messages %}
-      <div class="alert {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
-        {{ message }}
-      </div>
-    {% endfor %}
-  {% endif %}
-  <h3 class="fw-bold">Sign up</h3>
+  <h2 class="fw-bold">Sign up</h2>
   <br>
   <form method="post" id="signup-form">
     {% csrf_token %}
-    {{ form.as_p }}
+    <div class="input-container">
+      <label for="{{ form.username.id_for_label }}">{{ form.username.label }}</label>
+      {{ form.username }}
+    </div>
+    <div class="input-container">
+      <label for="{{ form.password1.id_for_label }}">{{ form.password1.label }}</label>
+      {{ form.password1 }}
+    </div>
+    <div class="input-container">
+      <label for="{{ form.password2.id_for_label }}">{{ form.password2.label }}</label>
+      {{ form.password2 }}
+    </div>
+    <a href="#" id="toggle-password-requirements" style="font-size: 0.8rem; display: block; margin-bottom: 10px;">Password Requirements</a>
+    <div id="password-requirements" style="display: none; transition: opacity 0.5s ease-out; opacity: 0;">
+      <ul>
+        <li>At least 8 characters</li>
+        <li>At least one uppercase letter</li>
+        <li>At least one lowercase letter</li>
+        <li>At least one number</li>
+        <li>At least one special character</li>
+      </ul>
+    </div>
     <button type="submit" class="btn btn-dark" id="register-button">Confirm Credentials</button>
   </form>
   <div id="alert-message" class="alert" style="display: none;"></div>
@@ -36,6 +50,7 @@
       <span style="display: none;">Continue with Google</span>
     </div>
   </button>
+  <br>
 </div>
 
 <script>
@@ -44,7 +59,24 @@
     const registerButton = document.getElementById('register-button');
     const alertMessage = document.getElementById('alert-message');
     const googleButton = document.getElementById('google-button');
+    const togglePasswordRequirementsLink = document.getElementById('toggle-password-requirements');
+    const passwordRequirements = document.getElementById('password-requirements');
     let isRegistered = false;
+
+    togglePasswordRequirementsLink.addEventListener('click', function(event) {
+      event.preventDefault();
+      if (passwordRequirements.style.display === 'none') {
+        passwordRequirements.style.display = 'block';
+        setTimeout(() => {
+          passwordRequirements.style.opacity = '1';
+        }, 10); // Small delay to trigger the transition
+      } else {
+        passwordRequirements.style.opacity = '0';
+        setTimeout(() => {
+          passwordRequirements.style.display = 'none';
+        }, 500); // Match the transition duration
+      }
+    });
 
     form.addEventListener('submit', function(event) {
       event.preventDefault();
@@ -60,7 +92,7 @@
         if (data.success) {
           alertMessage.style.display = 'block';
           alertMessage.className = 'alert alert-success';
-          alertMessage.textContent = 'Registration successful!';
+          alertMessage.textContent = 'Your credentials are valid. Please confirm to register.';
           registerButton.disabled = true;
           googleButton.disabled = false;
           isRegistered = true;

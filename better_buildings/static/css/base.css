@@ -37,10 +37,6 @@ body {
   margin: 0 auto;
 }
 
-.navbar.animate {
-  animation: scrollIn 1s forwards;
-}
-
 .content-container {
   margin-top: 4rem;
 }
@@ -421,18 +417,6 @@ body {
   display: flex;
   align-items: center;
 }
-
-@keyframes scrollIn {
-  0% {
-    transform: scaleX(0);
-    opacity: 0;
-  }
-  100% {
-    transform: scaleX(1);
-    opacity: 1;
-  }
-}
-
 @keyframes fadeIn {
   from {
     opacity: 0;

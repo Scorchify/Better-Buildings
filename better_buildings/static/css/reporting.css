@@ -1,0 +1,77 @@
+.report-list {
+    list-style-type: none;
+    padding: 0;
+  }
+  
+  .report-item {
+    margin-bottom: 1rem;
+  }
+  
+  .report-content {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+  
+  .report-date-edit-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+  
+  .report-text {
+    flex: 1;
+    background: rgba(255, 255, 255, 0.8);
+    border-radius: 5px;
+    padding: 8px;
+    margin-right: 8px;
+  }
+  
+  .report-date {
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 5px;
+    padding: 8px;
+    text-align: center;
+    font-size: 14px;
+    height: 3.438rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .edit-button {
+    height: 3.438rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-left: 10px;
+    width: 3.438rem;
+    color: rgba(0, 0, 0, 0.753);
+  }
+  
+  .edit-button i {
+    font-size: 1.25rem;
+  }
+  
+  .edit-container {
+    display: flex;
+    align-items: center;
+    margin-top: 10px;
+  }
+  
+  .edit-container .btn-outline-secondary {
+    border-color: var(--link-light);
+    color: var(--link-light);
+    height: 40px;
+  }
+  
+  .edit-container .btn-outline-secondary i {
+    font-size: 1.2rem;
+  }
+
+  .dark-mode .edit-button {
+    color: #ffffff;
+    border: 1px solid #ffffff;
+    background-color: transparent;
+  }

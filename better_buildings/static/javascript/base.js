@@ -13,12 +13,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
   });
 
-  // Add animation to navbar if not already animated
-  if (!sessionStorage.getItem('navbarAnimated')) {
-    document.querySelector('.navbar').classList.add('animate');
-    sessionStorage.setItem('navbarAnimated', 'true');
-  }
-
   // Function to get CSRF token from meta tag
   function getCsrfToken() {
     return document.querySelector('meta[name="csrf-token"]').getAttribute('content');
@@ -94,16 +88,24 @@ document.addEventListener('DOMContentLoaded', function () {
   function setTheme(isDarkMode) {
     if (isDarkMode) {
       document.body.classList.add(darkModeClass);
-      themeToggleIcon.classList.remove('bi-brightness-high');
-      themeToggleIcon.classList.add('bi-moon');
-      themeToggleIconSmall.classList.remove('bi-brightness-high');
-      themeToggleIconSmall.classList.add('bi-moon');
+      themeToggleIcon.classList.remove('bi-brightness-high-fill');
+      themeToggleIcon.classList.add('bi-moon-stars-fill');
+      themeToggleIconSmall.classList.remove('bi-brightness-high-fill');
+      themeToggleIconSmall.classList.add('bi-moon-stars-fill');
+      themeToggleButton.classList.add('btn-dark2');
+      themeToggleButtonSmall.classList.add('btn-dark2'); 
+      themeToggleButton.classList.remove('btn-light')
+      themeToggleButtonSmall.classList.remove('btn-light')
     } else {
       document.body.classList.remove(darkModeClass);
-      themeToggleIcon.classList.remove('bi-moon');
-      themeToggleIcon.classList.add('bi-brightness-high');
-      themeToggleIconSmall.classList.remove('bi-moon');
-      themeToggleIconSmall.classList.add('bi-brightness-high');
+      themeToggleIcon.classList.remove('bi-moon-stars-fill');
+      themeToggleIcon.classList.add('bi-brightness-high-fill');
+      themeToggleIconSmall.classList.remove('bi-moon-stars-fill');
+      themeToggleIconSmall.classList.add('bi-brightness-high-fill');
+      themeToggleButton.classList.remove('btn-dark2'); 
+      themeToggleButtonSmall.classList.remove('btn-dark2'); 
+      themeToggleButton.classList.add('btn-light')
+      themeToggleButtonSmall.classList.add('btn-light')
     }
   }
 

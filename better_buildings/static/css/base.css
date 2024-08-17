@@ -1,5 +1,5 @@
 :root {
-  --navbar-light: hsl(240, 72%, 93%);
+  --navbar-light: hsl(240, 100%, 85%);
   --navbar-dark: rgb(128, 102, 175);
   --text-light: #17181c;
   --text-dark: #e3e4e8;
@@ -23,8 +23,8 @@ body {
 
 .navbar {
   background-color: var(--navbar-light);
-  border-radius: 20px;
-  padding: 0.9rem 20px 0.9rem 2.5rem;
+  border-radius: 15px;
+  padding: 15px 30px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   top: 1vh;
@@ -32,9 +32,8 @@ body {
   align-items: center;
   justify-content: space-between;
   transform-origin: left;
-  width: calc(100% - 20px);
   max-width: 4000px;
-  margin: 0 auto;
+  margin: 0 10px;
 }
 
 .content-container {
@@ -64,7 +63,8 @@ body {
 
 .box {
   width: 100vw;
-  height: calc(100vh - 13vh);
+  height: calc(100vh - 18vh);
+  margin: -4vh -2vw 4vh;
   background: transparent;
   border: 0.1vw solid var(--text-light);
   backdrop-filter: blur(80px);
@@ -93,117 +93,6 @@ body {
   text-align: left;
 }
 
-.report-list {
-  list-style-type: none;
-  padding: 0;
-}
-
-.report-item {
-  margin-bottom: 1rem;
-}
-
-.report-content {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.report-date-edit-container {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-  flex-wrap: wrap;
-}
-
-.report-text {
-  flex: 1;
-  background: rgba(255, 255, 255, 0.8);
-  border-radius: 5px;
-  padding: 8px;
-  margin-right: 8px;
-}
-
-.report-date {
-  background: rgba(0, 0, 0, 0.1);
-  border-radius: 5px;
-  padding: 8px;
-  text-align: center;
-  font-size: 14px;
-  height: 3.438rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-}
-
-.edit-button {
-  height: 3.438rem;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  margin-left: 10px;
-  width: 3.438rem;
-}
-
-.edit-button i {
-  font-size: 1.25rem;
-}
-
-.edit-container {
-  display: flex;
-  align-items: center;
-  margin-top: 10px;
-}
-
-.edit-container .btn-outline-secondary {
-  border-color: var(--link-light);
-  color: var(--link-light);
-  height: 40px;
-}
-
-.edit-container .btn-outline-secondary i {
-  font-size: 1.2rem;
-}
-
-.ibox {
-  position: relative;
-  width: 100%;
-  height: 50px;
-  margin: 30px 0;
-}
-
-.ibox input {
-  width: 100%;
-  height: 100%;
-  background: transparent;
-  border: 2px solid rgba(0, 0, 0, 0.2);
-  border-radius: 40px;
-  font-size: 16px;
-  color: var(--text-light);
-  padding: 0 40px 0 20px;
-  transition: border-width 0.3s, box-shadow 0.3s;
-}
-
-.ibox input::placeholder {
-  color: var(--text-light);
-}
-
-.ibox .icon {
-  position: absolute;
-  right: 10px;
-  top: 50%;
-  transform: translateY(-50%);
-  font-size: 20px;
-  color: var(--text-light);
-}
-
-.ibox input:focus {
-  border-width: 2px;
-  box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
-  border-color: var(--text-light);
-  background: transparent;
-  outline: none;
-}
-
 .btn-purple {
   background-color: #3a2267;
   color: var(--button-text-light);
@@ -214,38 +103,19 @@ body {
   background-color: #35204b;
 }
 
-.thumbs-up-icon {
-  font-size: 1.5rem;
-  cursor: pointer;
-  transition: color 0.3s, transform 0.3s;
-}
-
-.thumbs-up-icon.filled {
-  color: var(--text-light);
-}
-
-.upvotes-label {
-  margin-left: 10px;
-  font-size: 1rem;
-}
-
-.upvotes-textbox {
-  width: 30px !important;
-  margin-left: 5px;
-  height: 30px; 
-  padding: 0; 
-  font-size: 16px; 
-  text-align: center; 
-  color: black;
-}
-
-.thumbs-up-icon.animate-thumb {
-  animation: thumbs-up-animation 0.5s;
-}
-
 .navbar-nav {
   display: flex;
-  align-items: center;
+  align-items: left;
+}
+
+@media (max-width: 992px) {
+  .bg-box {
+    display: flex;
+    align-items: left;  
+    background-color: #d6c7f3;
+    border-radius: 15px;
+    margin-top: 5px;
+  }
 }
 
 .navbar-nav .nav-item {
@@ -253,9 +123,19 @@ body {
   align-items: center;
 }
 
-.navbar-nav .nav-item .btn {
-  margin: 0;
+.navbar-nav .nav-item .text {
+  padding-left: 10px;
 }
+
+.navbar-nav .nav-item .btn {
+  margin-right: 10;
+}
+
+@media (max-width: 992px) {
+  .navbar-nav .nav-item .btn {
+    margin-top: 10px;
+  }  
+  }
 
 .navbar-nav .user-info {
   margin-top: 10px;
@@ -283,7 +163,7 @@ body {
 }
 
 #theme-toggle {
-  margin-left: 10px;
+  margin-left: 0px;
 }
 
 #theme-toggle-small {
@@ -291,7 +171,7 @@ body {
 }
 
 .navbar-brand {
-  margin-left: -30px;
+  margin-left: 10px;
 }
 
 .navbar-user-info {
@@ -299,7 +179,7 @@ body {
   font-size: 1.25rem;
 }
 
-@media (min-width: 992px) {
+@media (min-width: 1500px) {
   .navbar-user-info {
     display: inline;
     margin-left: 0;
@@ -307,26 +187,28 @@ body {
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 992px) {
+  
   .navbar-nav .dropdown-menu {
+    position: absolute;
+    z-index: 1000;
     top: 100%;
     left: 0;
     right: 0;
     margin-top: 0;
     border-radius: 0.375rem;
     box-shadow: 0 0 0.5rem rgba(0, 0, 0, 0.15);
+    min-width: 220px;
+    white-space: nowrap; /* Prevent text from wrapping */
   }
 
-  .issues-container {
-    margin-top: 10px;
-    margin-left: 0;
-  }
 
   .theme-toggle-container {
     margin-top: 10px;
     margin-left: 0;
   }
 }
+
 .errorlist {
   list-style-type: none;
   padding: 0;
@@ -358,10 +240,6 @@ body {
   color: var(--text-dark);
 }
 
-.dark-mode .edit-button {
-  background-color: var(--button-background-dark);
-}
-
 .dark-mode .btn-purple {
   background-color: #2d0d5b;
   color: var(--button-text-dark);
@@ -376,47 +254,14 @@ body {
   color: #000000;
 }
 
-.dark-mode .form-control {
-  color: #000000;
-  border: 1px solid #ffffff;
-}
-
-.dark-mode .form-control2::placeholder {
+.dark-mode .btn-dark2 { 
+  background-color: #000000ce;
   color: #ffffff;
 }
-
-.dark-mode .form-control2:focus {
-  border: 2px solid #ffffff;
-  outline: none;
-}
-
-.dark-mode .form-control2 {
-  color: #ffffff;
-  border: 1px solid #ffffff;
-}
-
 .dark-mode .icon {
   color: #ffffff;
 }
 
-.dark-mode .report-content {
-  color: #000000;
-}
-
-.dark-mode .edit-button {
-  color: #ffffff;
-  border: 1px solid #ffffff;
-  background-color: transparent;
-}
-
-.dark-mode .report-date {
-  color: #ffffff;
-}
-
-.thumbs-up-container {
-  display: flex;
-  align-items: center;
-}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -424,23 +269,4 @@ body {
   to {
     opacity: 1;
   }
-}
-
-@keyframes thumbs-up-animation {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  50% {
-    transform: scale(1.3);
-    opacity: 0.7;
-  }
-  100% {
-    transform: scale(1);
-    opacity: 1;
-  }
-}
-
-.thumbs-up-animate {
-  animation: thumbs-up-animation 0.5s ease-in-out;
 }

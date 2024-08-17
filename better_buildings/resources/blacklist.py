@@ -1,6 +1,5 @@
 # A list of words that are not allowed in site content
 blacklist = [
-    "skddksdldkslglsglsgl",
     "a55",
     "a55hole",
     "aeolus",

@@ -80,12 +80,15 @@ def check_blacklist(text):
 
 def index(request):
     is_supervisor = False
+    unseen_count = 0
     if request.user.is_authenticated:
         is_supervisor = request.user.groups.filter(name='School Supervisors').exists()
+        unseen_count = Announcement.objects.exclude(seen_by=request.user).count()
     areas = Area.objects.all()  # Fetch all areas here
     context = {
         'is_supervisor': is_supervisor,
-        'areas': areas
+        'areas': areas,
+        'unseen_count': unseen_count
     }
     return render(request, 'better_buildings/index.html', context)
 
@@ -331,11 +334,21 @@ def manage_areas(request):
 
 @login_required
 def announcements(request):
-    unresolved_announcements = Announcement.objects.filter(resolved=False)
-    resolved_announcements = Announcement.objects.filter(resolved=True)
+    user = request.user
+    all_announcements = Announcement.objects.all()
+    unseen_announcements = all_announcements.exclude(seen_by=user)
+    
+    # Mark all announcements as seen by the user
+    for announcement in unseen_announcements:
+        announcement.seen_by.add(user)
+    
+    # Update unseen_count to zero
+    unseen_count = 0
+    
     context = {
-        'announcements': unresolved_announcements,
-        'resolved_announcements': resolved_announcements,
+        'announcements': all_announcements.filter(resolved=False),
+        'resolved_announcements': all_announcements.filter(resolved=True),
+        'unseen_count': unseen_count
     }
     return render(request, 'better_buildings/announcements.html', context)
 

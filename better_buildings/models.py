@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
 class Area(models.Model):
     text = models.CharField(max_length=50, unique=True)
@@ -51,6 +52,7 @@ class Announcement(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
+    seen_by = models.ManyToManyField(get_user_model(), related_name='seen_announcements', blank=True)
 
     def save(self, *args, **kwargs):
         if self.resolved and not self.resolved_date:

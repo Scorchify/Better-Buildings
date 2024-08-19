@@ -3,6 +3,13 @@ from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth import get_user_model
 
+class School(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    domain = models.CharField(max_length=100, unique=True)  # store IP 
+    
+    def __str__(self):
+        return self.name
+
 class Area(models.Model):
     text = models.CharField(max_length=50, unique=True)
     date_added = models.DateTimeField(auto_now_add=True)

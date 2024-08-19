@@ -24,7 +24,7 @@ body {
 .navbar {
   background-color: var(--navbar-light);
   border-radius: 15px;
-  padding: 15px 30px;
+  padding: 10px 15px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   position: relative;
   top: 1vh;

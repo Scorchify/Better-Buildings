@@ -1,6 +1,6 @@
 from django.shortcuts import redirect
 from django.urls import resolve
-
+from better_buildings.models import School # Import the School model
 class getIPAddressMw:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -8,8 +8,8 @@ class getIPAddressMw:
     def __call__(self, request):
         # List of URL names to exclude from IP check
         excluded_urls = ['no_permission']
-
         current_url_name = resolve(request.path_info).url_name
+        
         # Prevents infinite redirect
         if current_url_name not in excluded_urls:
             request.client_ip = self.get_client_ip_address(request)
@@ -39,9 +39,8 @@ class getIPAddressMw:
 
     # Maps IP address to student_school
     def get_student_school(self, ip_addr):
-        ip_school_map = {
-            '127.0.0.1': 'Wheaton High',  # Example mapping
-            '::1': 'Wheaton High',
-            #TODO Upload to server and put other school ips here to do testing 
-        }
-        return ip_school_map.get(ip_addr, 'Unknown School')
+        try:
+            school = School.objects.get(ip_address=ip_addr)
+            return school
+        except School.DoesNotExist:
+            return None

@@ -5,11 +5,12 @@ from django.contrib.auth import get_user_model
 
 class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    domain = models.CharField(max_length=100, unique=True)  # store IP 
-    
+    domain = models.CharField(max_length=100, unique=True)  # store website domain
+    ip_address = models.CharField(max_length=45, unique=True)  # IPv4 and IPv6
+
     def __str__(self):
         return self.name
-
+    
 class Area(models.Model):
     text = models.CharField(max_length=50, unique=True)
     date_added = models.DateTimeField(auto_now_add=True)

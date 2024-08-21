@@ -1,1 +1,1 @@
-web: gunicorn better-buildings.wsgi
+web: gunicorn bb_project.wsgi

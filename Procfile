@@ -1,1 +1,1 @@
-web: gunicorn better-buildings.wsgi --log-file--
+web: gunicorn better-buildings.wsgi

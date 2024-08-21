@@ -1,6 +1,7 @@
 from django.shortcuts import redirect
 from django.urls import resolve
-from better_buildings.models import School # Import the School model
+from better_buildings.models import School  # Import the School model
+
 class getIPAddressMw:
     def __init__(self, get_response):
         self.get_response = get_response
@@ -41,6 +42,8 @@ class getIPAddressMw:
     def get_student_school(self, ip_addr):
         try:
             school = School.objects.get(ip_address=ip_addr)
-            return school
+            # Remove the word "School" from the name
+            student_school = school.name.replace("School", "").strip()
+            return student_school
         except School.DoesNotExist:
             return None

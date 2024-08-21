@@ -15,7 +15,7 @@ class getIPAddressMw:
         if current_url_name not in excluded_urls:
             request.client_ip = self.get_client_ip_address(request)
             if not self.is_allowed_ip(request.client_ip):
-                return redirect('no_permission')
+                return redirect('better_buildings:no_permission')
 
             # Set the student_school based on IP address
             request.student_school = self.get_student_school(request.client_ip)

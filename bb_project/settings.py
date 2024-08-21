@@ -11,12 +11,12 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-c^x4r3&xt3_3)7r_ja&!g*^brcun)blx+x_9hg^+wb1z6n6#@b'
+SECRET_KEY = os.getenv('DJANGO_SECRET_KEY', 'default-secret-key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
-ALLOWED_HOSTS = ['better-buildings-0b1289e952d7.herokuapp.com']
+ALLOWED_HOSTS = ['better-buildings-0b1289e952d7.herokuapp.com', '127.0.0.1']
 
 
 # Application definition

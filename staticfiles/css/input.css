@@ -1,0 +1,188 @@
+.box .form-container .input-box {
+    width: 60%; /* Adjusted width to 60% */
+    min-height: 50px;
+    background: transparent;
+    border: none;
+    outline: none;
+    border: 2px solid rgba(0, 0, 0, .2);
+    border-radius: 10px;
+    font-size: 16px;
+    color: #000;
+    padding: 10px 20px;
+    overflow: hidden;
+}
+
+.box .form-container .input-box:focus {
+    border-width: 4.5px;
+    border-color: black;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.box .form-container .input-box::placeholder {
+    color: black;
+}
+
+/* Styles for the select dropdown */
+.box .form-container select {
+    background-color: #0d1450;
+    color: white;
+    border: none;
+    border-radius: 10px;
+    padding: 5px;
+    width: 10%;
+    cursor: pointer;
+}
+
+.box .form-container select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.5);
+}
+
+.box .form-container select option {
+    background-color: #182285;
+    color: white;
+    transition: background-color 0.3s ease;
+}
+
+.box .form-container select option:hover {
+    background-color: black;
+    color: white;
+}
+
+.ibox {
+    position: relative;
+    width: 100%;
+    height: 50px;
+    margin: 30px 0;
+  }
+  
+  .ibox input {
+    width: 100%;
+    height: 100%;
+    background: transparent;
+    border: 2px solid rgba(0, 0, 0, 0.2);
+    border-radius: 40px;
+    font-size: 16px;
+    color: var(--text-light);
+    padding: 0 40px 0 20px;
+    transition: border-width 0.3s, box-shadow 0.3s;
+  }
+  
+  .ibox input::placeholder {
+    color: var(--text-light);
+  }
+  
+  .ibox .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 20px;
+    color: var(--text-light);
+  }
+  
+  .ibox input:focus {
+    border-width: 2px;
+    box-shadow: 0 0 5px rgba(255, 255, 255, 0.5);
+    border-color: var(--text-light);
+    background: transparent;
+    outline: none;
+  }
+
+/*Styles for Dark Mode */
+.dark-mode .box .form-container .input-box {
+    background: transparent;
+    border: 1px solid rgb(255, 255, 255);
+    color: #ffffff;
+}
+
+.dark-mode .box .form-container .input-box::placeholder {
+    color: #ffffff;
+}
+
+.dark-mode .box .form-container select:focus {
+    outline: none;
+    box-shadow: 0 0 5px rgb(255, 255, 255);
+}
+
+.thumbs-up-icon {
+    font-size: 1.5rem;
+    cursor: pointer;
+    transition: color 0.3s, transform 0.3s;
+  }
+  
+  .thumbs-up-icon.filled {
+    color: var(--text-light);
+  }
+  
+  .upvotes-label {
+    margin-left: 10px;
+    font-size: 1rem;
+  }
+  
+  .upvotes-textbox {
+    width: 30px !important;
+    margin-left: 5px;
+    height: 30px; 
+    padding: 0; 
+    font-size: 16px; 
+    text-align: center; 
+    color: black;
+  }
+
+  .thumbs-up-container {
+    display: flex;
+    align-items: center;
+  }
+  
+  
+  .thumbs-up-icon.animate-thumb {
+    animation: thumbs-up-animation 0.5s;
+  }
+
+  @keyframes thumbs-up-animation {
+    0% {
+      transform: scale(1);
+      opacity: 1;
+    }
+    50% {
+      transform: scale(1.3);
+      opacity: 0.7;
+    }
+    100% {
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
+  
+.thumbs-up-animate {
+    animation: thumbs-up-animation 0.5s ease-in-out;
+}
+
+  
+.dark-mode .report-content {
+  color: #000000;
+}
+
+.dark-mode .report-date {
+  color: #ffffff;
+}
+
+.dark-mode .form-control {
+  color: #000000;
+  border: 1px solid #ffffff;
+}
+
+.dark-mode .form-control2::placeholder {
+  color: #ffffff;
+}
+
+.dark-mode .form-control2:focus {
+  border: 2px solid #ffffff;
+  outline: none;
+}
+
+.dark-mode .form-control2 {
+  color: #ffffff;
+  border: 1px solid #ffffff;
+}

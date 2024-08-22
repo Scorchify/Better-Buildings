@@ -45,50 +45,48 @@
       </button>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="bg-box">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link text active fs-5" href="{% url 'profile' %}">Profile</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Issues
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <div class="issues-container">
-                {% for area in areas %}
-                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
-                {% empty %}
-                  <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
-                {% endfor %}
-                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:all_reports' %}">All Reports</a></li>
-                </div>
-              </ul>
-            </li>
-          {% endif %}
-          {% if user.is_authenticated %}
-          <li class="nav-item">
-            <a class="nav-link text active fs-5" href="{% url 'better_buildings:announcements' %}"> Announcements{% if unseen_count > 0 %} (<span class="unseen-count">{{ unseen_count }}</span>){% endif %} </a>
-          </li>
-          {% endif %}
-          {% if user.is_authenticated and user|has_group:"School Supervisors" %}
-            <li class="nav-item dropdown">
+      {% if user.is_authenticated %}
+        <div class="bg-box">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link text active fs-5" href="{% url 'profile' %}">Profile</a>
+              </li>
+              <li class="nav-item dropdown">
                 <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Supervisor Panel
+                    Issues
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                  <div class="admin-container"> 
-                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
-                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
-                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_announcements' %}">Manage Announcements</a></li>
-                    <li><a class="dropdown-item fs-6" href="{% url 'suspended_users' %}">Suspended Users</a></li>
+                  <div class="issues-container">
+                  {% for area in areas %}
+                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
+                  {% empty %}
+                    <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
+                  {% endfor %}
+                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:all_reports' %}">All Reports</a></li>
                   </div>
                 </ul>
+              </li>
+            <li class="nav-item">
+              <a class="nav-link text active fs-5" href="{% url 'better_buildings:announcements' %}"> Announcements{% if unseen_count > 0 %} (<span class="unseen-count">{{ unseen_count }}</span>){% endif %} </a>
             </li>
-          {% endif %}
-        </ul>
-      </div>
+            {% if user|has_group:"School Supervisors" %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Supervisor Panel
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <div class="admin-container"> 
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_announcements' %}">Manage Announcements</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'suspended_users' %}">Suspended Users</a></li>
+                    </div>
+                  </ul>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
       <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
         {% if user.is_authenticated %}
         <span class="navbar-user-info">

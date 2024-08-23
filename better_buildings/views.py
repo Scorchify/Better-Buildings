@@ -77,14 +77,14 @@ def check_blacklist(text):
 
 
 # Views
-
 def index(request):
     is_supervisor = False
     unseen_count = 0
+    user_school = get_user_school(request)
     if request.user.is_authenticated:
         is_supervisor = request.user.groups.filter(name='School Supervisors').exists()
-        unseen_count = Announcement.objects.exclude(seen_by=request.user).count()
-    areas = Area.objects.all()  # Fetch all areas here
+        unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=request.user).count()
+    areas = Area.objects.filter(school=user_school)
     context = {
         'is_supervisor': is_supervisor,
         'areas': areas,
@@ -95,7 +95,8 @@ def index(request):
 @login_required
 def area(request, area_id):
     """Show a single issue area and its reports."""
-    area = get_object_or_404(Area, id=area_id)
+    user_school = get_user_school(request)
+    area = get_object_or_404(Area, id=area_id, school=user_school)
     reports = area.report_set.filter(resolved=False).order_by('-upvotes', '-date_added')
     user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
     resolved_reports = area.report_set.filter(resolved=True).order_by('-resolved_date')
@@ -122,6 +123,7 @@ def area(request, area_id):
         'upvoted_reports': upvoted_reports
     }
     return render(request, 'better_buildings/area.html', context)
+
 
 @login_required
 @require_POST
@@ -158,19 +160,23 @@ def new_area(request):
         # POST data submitted; process data.
         form = AreaForm(data=request.POST)
         if form.is_valid():
-            new_area = form.save()
+            new_area = form.save(commit=False)
+            new_area.school = get_user_school(request)
+            new_area.save()
             return redirect('better_buildings:area', area_id=new_area.id)
     
     # Display a blank or invalid form.
     context = {'form': form}
     return render(request, 'better_buildings/new_area.html', context)
 
+
 @login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
     area = None
+    user_school = get_user_school(request)
     if area_id:
-        area = get_object_or_404(Area, id=area_id)
+        area = get_object_or_404(Area, id=area_id, school=user_school)
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
@@ -194,17 +200,20 @@ def new_report(request, area_id=None):
                         new_report = form.save(commit=False)
                         new_report.area = form.cleaned_data['area']
                         new_report.owner = request.user
+                        new_report.school = user_school
                         new_report.save()
                         return redirect('better_buildings:area', area_id=area.id)
                 else:
                     # If area is None, set the area based on form input
                     new_report = form.save(commit=False)
                     new_report.owner = request.user
+                    new_report.school = user_school
                     new_report.save()
                     return redirect('better_buildings:area', area_id=new_report.area.id)
 
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
+
 
 
 @login_required
@@ -335,10 +344,11 @@ def manage_areas(request):
 @login_required
 def announcements(request):
     user = request.user
-    all_announcements = Announcement.objects.all()
+    user_school = get_user_school(request)  # Get the user's school
+    all_announcements = Announcement.objects.filter(school=user_school)  # Filter by school
     unseen_announcements = all_announcements.exclude(seen_by=user)
     
-    # Mark all announcements as seen by the user
+    # Mark all unseen announcements as seen by the user
     for announcement in unseen_announcements:
         announcement.seen_by.add(user)
     
@@ -351,6 +361,7 @@ def announcements(request):
         'unseen_count': unseen_count
     }
     return render(request, 'better_buildings/announcements.html', context)
+
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')

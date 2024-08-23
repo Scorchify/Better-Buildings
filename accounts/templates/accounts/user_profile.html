@@ -2,7 +2,7 @@
 
 {% block content %}
 <div class="box2">
-  <h3>User Profile: {{ user.display_name }}</h3>
+  <h3>User Profile: {{ user.display_name|default:user.username }}</h3>
   <p>Email: {{ user.email }}</p>
   <hr/>
   <h4>Active Reports:</h4>

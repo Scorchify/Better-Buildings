@@ -93,7 +93,7 @@
           {% if viewing_profile %}
             Viewing {{ user.display_name|default:user.username }}'s profile
           {% else %}
-          Hello, {{ user.display_name|default:user.username }} {% if student_school %} ({{ student_school }}) {% endif %}
+          Hello, {{ user.display_name|default:user.username }} {% if school %} ({{ school }}) {% endif %}
           {% endif %}
         </span>
           <li class="nav-item">

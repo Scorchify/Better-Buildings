@@ -11,9 +11,23 @@ class School(models.Model):
     def __str__(self):
         return self.name
     
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        if is_new:
+            default_areas = [
+                'Bathrooms',
+                'Hallways',
+                'Classrooms',
+                'Cafeteria',
+            ]
+        for area_name in default_areas:
+            Area.objects.create(text=area_name, school=self)
+    
 class Area(models.Model):
     text = models.CharField(max_length=50, unique=True)
     date_added = models.DateTimeField(auto_now_add=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def __str__(self):
         return self.text
@@ -27,6 +41,7 @@ class Report(models.Model):
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
     upvoted_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='upvoted_reports', blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def toggle_upvote(self, user):
         if user in self.upvoted_by.all():
@@ -61,6 +76,7 @@ class Announcement(models.Model):
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
     seen_by = models.ManyToManyField(get_user_model(), related_name='seen_announcements', blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE)
 
     def save(self, *args, **kwargs):
         if self.resolved and not self.resolved_date:

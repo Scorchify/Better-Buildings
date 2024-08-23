@@ -80,7 +80,7 @@ def check_blacklist(text):
 def index(request):
     is_supervisor = False
     unseen_count = 0
-    user_school = get_user_school(request)
+    user_school = getattr(request, 'student_school', None)
     if request.user.is_authenticated:
         is_supervisor = request.user.groups.filter(name='School Supervisors').exists()
         unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=request.user).count()
@@ -92,10 +92,11 @@ def index(request):
     }
     return render(request, 'better_buildings/index.html', context)
 
+
 @login_required
 def area(request, area_id):
     """Show a single issue area and its reports."""
-    user_school = get_user_school(request)
+    user_school = getattr(request, 'student_school', None)
     area = get_object_or_404(Area, id=area_id, school=user_school)
     reports = area.report_set.filter(resolved=False).order_by('-upvotes', '-date_added')
     user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
@@ -161,7 +162,7 @@ def new_area(request):
         form = AreaForm(data=request.POST)
         if form.is_valid():
             new_area = form.save(commit=False)
-            new_area.school = get_user_school(request)
+            new_area.school = getattr(request, 'student_school', None)
             new_area.save()
             return redirect('better_buildings:area', area_id=new_area.id)
     
@@ -169,12 +170,11 @@ def new_area(request):
     context = {'form': form}
     return render(request, 'better_buildings/new_area.html', context)
 
-
 @login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
     area = None
-    user_school = get_user_school(request)
+    user_school = getattr(request, 'student_school', None)
     if area_id:
         area = get_object_or_404(Area, id=area_id, school=user_school)
 
@@ -213,7 +213,6 @@ def new_report(request, area_id=None):
 
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
-
 
 
 @login_required
@@ -344,16 +343,21 @@ def manage_areas(request):
 @login_required
 def announcements(request):
     user = request.user
-    user_school = get_user_school(request)  # Get the user's school
-    all_announcements = Announcement.objects.filter(school=user_school)  # Filter by school
+    user_school = getattr(request, 'student_school', None)  # Get the user's school from middleware
+
+    if not user_school:
+        return redirect('no_permission')  
+
+    # Fetch all announcements related to the user's school
+    all_announcements = Announcement.objects.filter(school=user_school)
     unseen_announcements = all_announcements.exclude(seen_by=user)
     
     # Mark all unseen announcements as seen by the user
     for announcement in unseen_announcements:
         announcement.seen_by.add(user)
-    
-    # Update unseen_count to zero
-    unseen_count = 0
+
+    # Update unseen_count
+    unseen_count = unseen_announcements.count()
     
     context = {
         'announcements': all_announcements.filter(resolved=False),

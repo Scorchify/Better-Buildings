@@ -14,18 +14,18 @@ class School(models.Model):
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         super().save(*args, **kwargs)
+        default_areas = [
+            'Bathrooms',
+            'Hallways',
+            'Classrooms',
+            'Cafeteria',
+        ]
         if is_new:
-            default_areas = [
-                'Bathrooms',
-                'Hallways',
-                'Classrooms',
-                'Cafeteria',
-            ]
-        for area_name in default_areas:
-            Area.objects.create(text=area_name, school=self)
+            for area_name in default_areas:
+                Area.objects.create(text=area_name, school=self)
     
 class Area(models.Model):
-    text = models.CharField(max_length=50, unique=True)
+    text = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
     school = models.ForeignKey(School, on_delete=models.CASCADE, default=1)
 

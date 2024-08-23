@@ -70,11 +70,11 @@ def is_similar(text1, text2, threshold=0.6):
     return text_similarity > threshold and numbers_match
 
 def check_blacklist(text):
-    for word in blacklist:
-        if word in text:
+    words = text.split() #Splits the text into words
+    for word in words:
+        if word in blacklist:
             return True
     return False
-
 
 # Views
 def index(request):
@@ -213,7 +213,6 @@ def new_report(request, area_id=None):
 
     context = {'area': area, 'form': form}
     return render(request, 'better_buildings/new_report.html', context)
-
 
 @login_required
 def edit_report(request, report_id):

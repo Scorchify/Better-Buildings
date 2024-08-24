@@ -30,7 +30,10 @@ INSTALLED_APPS = [
     'allauth',
     'allauth.account',
     'allauth.socialaccount',
-    'allauth.socialaccount.providers.google',  # Google provider
+    'allauth.socialaccount.providers.google',
+
+    #pwa configuration
+    'pwa',
 
     # 3rd party
     'django_celery_beat',
@@ -92,7 +95,7 @@ WSGI_APPLICATION = 'bb_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',    #overwritten by postgresql
     },
 }
 
@@ -197,3 +200,35 @@ STORAGES = {
     },
 }
 
+PWA_SERVICE_WORKER_PATH = os.path.join(BASE_DIR, 'staticfiles', 'serviceworker.js')
+
+#PWA Settings 
+PWA_APP_NAME = 'Better-Buildings'
+PWA_APP_DESCRIPTION = "Better Buildings, Ayden Yeung and Julian Givens (2024)"
+PWA_APP_THEME_COLOR = '#000000'
+PWA_APP_BACKGROUND_COLOR = '#ffffff'
+PWA_APP_DISPLAY = 'standalone'
+PWA_APP_SCOPE = '/'
+PWA_APP_ORIENTATION = 'portrait'
+PWA_APP_START_URL = '/'
+PWA_APP_STATUS_BAR_COLOR = 'default'
+PWA_APP_ICONS = [
+    {
+        'src': 'static/images/bb_logo.png',  # Updated to use the logo
+        'sizes': '160x160'  # Adjust sizes as needed for your logo
+    }
+]
+PWA_APP_ICONS_APPLE = [
+    {
+        'src': 'static/images/bb_logo.png',  # Updated to use the logo
+        'sizes': '160x160'  # Adjust sizes as needed for your logo
+    }
+]
+PWA_APP_SPLASH_SCREEN = [
+    {
+        'src': 'static/images/bb_logo.png',  # Updated to use the logo
+        'media': '(device-width: 320px) and (device-height: 568px) and (-webkit-device-pixel-ratio: 2)'
+    }
+]
+PWA_APP_DIR = 'ltr'
+PWA_APP_LANG = 'en-US'

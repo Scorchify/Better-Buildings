@@ -173,16 +173,18 @@ def new_area(request):
 @login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
-    area = None
     user_school = getattr(request, 'student_school', None)
+    area = None
     if area_id:
         area = get_object_or_404(Area, id=area_id, school=user_school)
 
     if request.method != 'POST':
         # No data submitted; create a blank form.
         form = ReportForm(initial={'area': area} if area else None)
+        form.fields['area'].queryset = Area.objects.filter(school=user_school)  # Filter areas by school
     else:
         form = ReportForm(data=request.POST)
+        form.fields['area'].queryset = Area.objects.filter(school=user_school)  # Filter areas by school
         if form.is_valid():
             new_report_text = form.cleaned_data['text']
             if check_blacklist(new_report_text):
@@ -202,9 +204,8 @@ def new_report(request, area_id=None):
                         new_report.owner = request.user
                         new_report.school = user_school
                         new_report.save()
-                        return redirect('better_buildings:area', area_id=area.id)
+                        return redirect('better_buildings:area', area_id=new_report.area.id)
                 else:
-                    # If area is None, set the area based on form input
                     new_report = form.save(commit=False)
                     new_report.owner = request.user
                     new_report.school = user_school
@@ -336,7 +337,8 @@ def remove_area(request, area_id):
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def manage_areas(request):
-    areas = Area.objects.all()  # Fetch areas from the database
+    user_school = getattr(request, 'student_school', None)
+    areas = Area.objects.filter(school=user_school)  # Fetch areas for the user's school
     return render(request, 'better_buildings/manage_areas.html', {'areas': areas})
 
 @login_required
@@ -372,7 +374,9 @@ def create_announcement(request):
     if request.method == 'POST':
         form = AnnouncementForm(request.POST)
         if form.is_valid():
-            form.save()
+            announcement = form.save(commit=False)
+            announcement.school = getattr(request, 'student_school', None)
+            announcement.save()
             return redirect('better_buildings:announcements')
     else:
         form = AnnouncementForm()
@@ -394,13 +398,14 @@ def edit_announcement(request, announcement_id):
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def manage_announcements(request):
+    user_school = getattr(request, 'student_school', None)
     if request.method == 'POST':
         data = json.loads(request.body)
         announcement_id = data.get('announcement_id')
         action = data.get('action')
 
         try:
-            announcement = Announcement.objects.get(id=announcement_id)
+            announcement = Announcement.objects.get(id=announcement_id, school=user_school)
             if action == 'delete':
                 announcement.delete()
                 return JsonResponse({'success': True})
@@ -411,8 +416,8 @@ def manage_announcements(request):
         except Announcement.DoesNotExist:
             return JsonResponse({'success': False, 'error': 'Announcement not found'})
 
-    unresolved_announcements = Announcement.objects.filter(resolved=False)
-    resolved_announcements = Announcement.objects.filter(resolved=True)
+    unresolved_announcements = Announcement.objects.filter(school=user_school, resolved=False)
+    resolved_announcements = Announcement.objects.filter(school=user_school, resolved=True)
     context = {
         'announcements': unresolved_announcements,
         'resolved_announcements': resolved_announcements,

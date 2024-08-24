@@ -9,11 +9,18 @@ def pre_social_login_handler(request, sociallogin, **kwargs):
     user = sociallogin.user
     base_username = f"{sociallogin.account.extra_data.get('given_name', '')} {sociallogin.account.extra_data.get('family_name', '')}".strip()
     username = base_username
-    counter = 1
+    counter = 0
+    
+    if counter == 0:
+        while User.objects.filter(username=username).exists():
+            username = f"{base_username}"
+            counter += 1
+    else:
+        while User.objects.filter(username=username).exists():
+            username = f"{base_username}{counter}"
+            counter += 1
 
-    while User.objects.filter(username=username).exists():
-        username = f"{base_username}{counter}"
-        counter += 1
+    
 
     user.username = username
     user.display_name = base_username  # Store the base username without the number

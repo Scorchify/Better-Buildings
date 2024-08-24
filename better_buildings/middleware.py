@@ -14,7 +14,7 @@ class getIPAddressMw:
             request.client_ip = self.get_client_ip_address(request)
             request.student_school = self.get_student_school(request.client_ip)
             if not request.student_school:
-                return redirect('no_permission')
+                return redirect('better_buildings:no_permission')
 
         response = self.get_response(request)
         return response

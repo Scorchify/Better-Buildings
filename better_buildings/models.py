@@ -5,7 +5,7 @@ from django.contrib.auth import get_user_model
 
 class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
-    domain = models.CharField(max_length=100, unique=True)  # store website domain
+    domain = models.CharField(max_length=100, unique=True)  # store website
     ip_address = models.CharField(max_length=45, unique=True)  # IPv4 and IPv6
 
     def __str__(self):

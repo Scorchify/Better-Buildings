@@ -14,9 +14,9 @@
     <p style="font-size: 14px">
       Encounter a bug on the website? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.<br>
     </p>
-    {% if is_admin %}
+    {% if is_admin or user.is_staff %}
       <p style="font-size: 14px">
-        Looks like you're an admin. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.
+        Looks like you're an admin or staff member. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.
       </p>
     {% endif %}
   {% endif %}

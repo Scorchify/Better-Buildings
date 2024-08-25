@@ -95,7 +95,8 @@ def unsuspend_user(request, user_id):
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def suspended_users(request):
-    suspended_users = CustomUser.objects.filter(is_suspended=True)
+    user_school = request.user.school
+    suspended_users = CustomUser.objects.filter(is_suspended=True, school=user_school)
     context = {'suspended_users': suspended_users}
     return render(request, 'accounts/suspended_users.html', context)
 

@@ -351,7 +351,7 @@ def announcements(request):
     user_school = request.user.school if request.user.is_supervisor() else getattr(request.user, 'student_school', None)
 
     if not user_school:
-        return redirect('better_buildings::no_permission')  
+        return redirect('better_buildings:no_permission')  
 
     # Fetch all announcements related to the user's school
     all_announcements = Announcement.objects.filter(school=user_school)

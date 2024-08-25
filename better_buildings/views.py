@@ -80,10 +80,13 @@ def check_blacklist(text):
 def index(request):
     is_supervisor = False
     unseen_count = 0
-    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
+    user_school = None
+
     if request.user.is_authenticated:
-        is_supervisor = request.user.groups.filter(name='School Supervisors').exists()
+        user_school = request.user.school if request.user.groups.filter(name="School Supervisors").exists() else getattr(request.user, 'student_school', None)
+        is_supervisor = request.user.groups.filter(name="School Supervisors").exists()
         unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=request.user).count()
+
     areas = Area.objects.filter(school=user_school)
     context = {
         'is_supervisor': is_supervisor,
@@ -91,7 +94,6 @@ def index(request):
         'unseen_count': unseen_count
     }
     return render(request, 'better_buildings/index.html', context)
-
 
 @login_required
 def area(request, area_id):

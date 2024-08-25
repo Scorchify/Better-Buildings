@@ -1,12 +1,6 @@
 from django.contrib.auth.models import AbstractUser
 from django.db import models
-
-class School(models.Model):
-    name = models.CharField(max_length=255)
-    ip_address = models.GenericIPAddressField(unique=True)
-
-    def __str__(self):
-        return self.name
+from better_buildings.models import School  # Import the School model from better_buildings
 
 class CustomUser(AbstractUser):
     is_suspended = models.BooleanField(default=False)

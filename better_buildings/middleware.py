@@ -12,7 +12,7 @@ class getIPAddressMw:
 
         if current_url_name not in excluded_urls:
             request.client_ip = self.get_client_ip_address(request)
-            request.student_school = self.get_student_school(request.client_ip)
+            student_school = self.get_student_school(request.client_ip)
 
             # Check if the user is authenticated
             if request.user.is_authenticated:
@@ -20,9 +20,12 @@ class getIPAddressMw:
                     # Set the school based on the supervisor's preset school
                     request.student_school = request.user.school
                 else:
-                    # Ensure the student has an associated school in their profile
-                    if request.user.school is None or request.user.school != request.student_school:
-                        return redirect('better_buildings:no_permission')
+                    # If the user is not a supervisor, set the school by IP
+                    request.student_school = student_school
+                    # Automatically set the user's school if it's not set or doesn't match
+                    if request.user.school is None or request.user.school != student_school:
+                        request.user.school = student_school
+                        request.user.save()
 
         response = self.get_response(request)
         return response

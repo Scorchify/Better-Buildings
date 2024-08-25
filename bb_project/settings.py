@@ -66,7 +66,7 @@ ROOT_URLCONF = 'bb_project.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'better_buildings' / 'templates'],  # Adjusted to point to the templates directory
+        'DIRS': [BASE_DIR / 'better_buildings' / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -74,13 +74,12 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
-                # my context processors
-                'better_buildings.context_processors.add_student_school', 
-                'better_buildings.context_processors.areas', 
-                'better_buildings.context_processors.supervisor_status', 
+                'better_buildings.context_processors.add_student_school',
+                'better_buildings.context_processors.areas',
+                'better_buildings.context_processors.supervisor_status',
                 'better_buildings.context_processors.reports',
                 'better_buildings.context_processors.announcements',
-                'better_buildings.context_processors.unseen_announcements_count',
+                'better_buildings.context_processors.unseen_announcements_count', 
             ],
             'libraries': {
                 'custom_tags': 'better_buildings.templatetags.custom_tags',

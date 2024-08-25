@@ -17,9 +17,8 @@ class getIPAddressMw:
             # Check if the user is authenticated
             if request.user.is_authenticated:
                 if request.user.is_supervisor():
-                    if not request.student_school:
-                        # Set the school based on the supervisor's preset school
-                        request.student_school = request.user.school
+                    # Set the school based on the supervisor's preset school
+                    request.student_school = request.user.school
                 else:
                     # Ensure the student has an associated school in their profile
                     if request.user.school is None or request.user.school != request.student_school:

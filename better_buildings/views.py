@@ -80,7 +80,7 @@ def check_blacklist(text):
 def index(request):
     is_supervisor = False
     unseen_count = 0
-    user_school = getattr(request, 'student_school', None)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
     if request.user.is_authenticated:
         is_supervisor = request.user.groups.filter(name='School Supervisors').exists()
         unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=request.user).count()
@@ -96,7 +96,7 @@ def index(request):
 @login_required
 def area(request, area_id):
     """Show a single issue area and its reports."""
-    user_school = getattr(request, 'student_school', None)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
     area = get_object_or_404(Area, id=area_id, school=user_school)
     reports = area.report_set.filter(resolved=False).order_by('-upvotes', '-date_added')
     user_reports = area.report_set.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
@@ -173,7 +173,7 @@ def new_area(request):
 @login_required
 def new_report(request, area_id=None):
     """Create a new report for a particular issue area."""
-    user_school = getattr(request, 'student_school', None)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
     area = None
     if area_id:
         area = get_object_or_404(Area, id=area_id, school=user_school)
@@ -282,7 +282,9 @@ def view_bug_reports(request):
 @login_required
 def all_reports(request):
     """Page for viewing all reports regardless of issue area"""
-    reports = Report.objects.all()
+    user_school = request.user.school if request.user.groups.filter(name="School Supervisors").exists() else request.user.student_school
+    reports = Report.objects.filter(school=user_school)
+    
     norm_reports = reports.filter(resolved=False).order_by('-upvotes', '-date_added')
     user_reports = reports.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
     resolved_reports = reports.filter(resolved=True).order_by('-resolved_date')
@@ -337,14 +339,14 @@ def remove_area(request, area_id):
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def manage_areas(request):
-    user_school = getattr(request, 'student_school', None)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
     areas = Area.objects.filter(school=user_school)  # Fetch areas for the user's school
     return render(request, 'better_buildings/manage_areas.html', {'areas': areas})
 
 @login_required
 def announcements(request):
     user = request.user
-    user_school = getattr(request, 'student_school', None)  # Get the user's school from middleware
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
 
     if not user_school:
         return redirect('no_permission')  

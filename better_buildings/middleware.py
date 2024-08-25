@@ -14,15 +14,16 @@ class getIPAddressMw:
             request.client_ip = self.get_client_ip_address(request)
             request.student_school = self.get_student_school(request.client_ip)
 
-            # Check if the user is authenticated and is a supervisor
-            if request.user.is_authenticated and request.user.is_supervisor():
-                if not request.student_school:
-                    # Set the school based on the supervisor's preset school
-                    request.student_school = request.user.school
-
-                # Ensure the user has an associated school in their profile
-                if request.user.school is None or request.user.school != request.student_school:
-                    return redirect('better_buildings:no_permission')
+            # Check if the user is authenticated
+            if request.user.is_authenticated:
+                if request.user.is_supervisor():
+                    if not request.student_school:
+                        # Set the school based on the supervisor's preset school
+                        request.student_school = request.user.school
+                else:
+                    # Ensure the student has an associated school in their profile
+                    if request.user.school is None or request.user.school != request.student_school:
+                        return redirect('better_buildings:no_permission')
 
         response = self.get_response(request)
         return response

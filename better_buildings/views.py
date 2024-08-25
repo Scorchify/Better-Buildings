@@ -348,7 +348,7 @@ def manage_areas(request):
 @login_required
 def announcements(request):
     user = request.user
-    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request.user, 'student_school', None)
 
     if not user_school:
         return redirect('no_permission')  
@@ -361,16 +361,12 @@ def announcements(request):
     for announcement in unseen_announcements:
         announcement.seen_by.add(user)
 
-    # Update unseen_count
-    unseen_count = unseen_announcements.count()
-    
     context = {
         'announcements': all_announcements.filter(resolved=False),
         'resolved_announcements': all_announcements.filter(resolved=True),
-        'unseen_count': unseen_count
+        'unseen_count': 0  # Reset unseen count after viewing
     }
     return render(request, 'better_buildings/announcements.html', context)
-
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')

@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.views.decorators.http import require_http_methods, require_POST
 from django.http import JsonResponse
+from django.db.models import Count
 from django.contrib import messages
 from .resources.blacklist import blacklist
 from .models import Area, Report, BugReport, Announcement
@@ -348,25 +349,29 @@ def manage_areas(request):
 @login_required
 def announcements(request):
     user = request.user
-    user_school = request.user.school if request.user.is_supervisor() else getattr(request.user, 'student_school', None)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
 
     if not user_school:
-        return redirect('better_buildings:no_permission')  
+        return redirect('no_permission')
 
     # Fetch all announcements related to the user's school
     all_announcements = Announcement.objects.filter(school=user_school)
     unseen_announcements = all_announcements.exclude(seen_by=user)
     
-    # Mark all unseen announcements as seen by the user
+    # Count unseen announcements before marking them as seen
+    unseen_count = unseen_announcements.count()
+
+    # Mark all unseen announcements as seen by the user after counting
     for announcement in unseen_announcements:
         announcement.seen_by.add(user)
 
     context = {
         'announcements': all_announcements.filter(resolved=False),
         'resolved_announcements': all_announcements.filter(resolved=True),
-        'unseen_count': 0  # Reset unseen count after viewing
+        'unseen_count': unseen_count  # Pass this count to the template
     }
     return render(request, 'better_buildings/announcements.html', context)
+
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')

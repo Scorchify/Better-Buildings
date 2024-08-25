@@ -78,6 +78,9 @@ TEMPLATES = [
                 'better_buildings.context_processors.add_student_school', 
                 'better_buildings.context_processors.areas', 
                 'better_buildings.context_processors.supervisor_status', 
+                'better_buildings.context_processors.reports',
+                'better_buildings.context_processors.announcements',
+                'better_buildings.context_processors.unseen_announcements_count',
             ],
             'libraries': {
                 'custom_tags': 'better_buildings.templatetags.custom_tags',

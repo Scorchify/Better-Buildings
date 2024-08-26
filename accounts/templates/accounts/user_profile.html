@@ -19,41 +19,36 @@
     {% endfor %}
   </ul>
   <hr/>
-  <h4>Resolved Reports:</h4>
-  <ul class="report-list">
-    {% for report in user_reports_resolved %}
-      <li class="report-item">
-        <div class="report-content">
-          <div class="report-text">{{ report.text|linebreaks }}</div>
-          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
-        </div>
-      </li>
-    {% empty %}
-      <p>No resolved reports.</p>
-    {% endfor %}
-  </ul>
-  <hr/>
-  
-  <!-- Display messages -->
-  {% if messages %}
-  <div class="alert-container">
-      {% for message in messages %}
-          {% if "User suspended successfully" in message or "User unsuspended successfully" in message %}
-              <div class="alert alert-{{ message.tags }}">
-                  {{ message }}
-              </div>
-          {% endif %}
-      {% endfor %}
-  </div>
+<h4>Resolved Reports:</h4>
+<ul class="report-list">
+  {% for report in user_reports_resolved %}
+    <li class="report-item">
+      <div class="report-content">
+        <div class="report-text">{{ report.text|linebreaks }}</div>
+        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+      </div>
+    </li>
+  {% empty %}
+    <p>No resolved reports.</p>
+  {% endfor %}
+</ul>
+<hr/>
+
+<!-- Display suspension messages -->
+{% if suspension_message %}
+<div class="alert alert-info alert-dismissible fade show" role="alert">
+    {{ suspension_message }}
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
 {% endif %}
 
-  <form method="post" action="{% url 'suspend_user' user.id %}" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-danger">Suspend User</button>
-  </form>
-  <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
-    {% csrf_token %}
-    <button type="submit" class="btn btn-success">Unsuspend User</button>
-  </form>
+<form method="post" action="{% url 'suspend_user' user.id %}" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-danger">Suspend User</button>
+</form>
+<form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
+  {% csrf_token %}
+  <button type="submit" class="btn btn-success">Unsuspend User</button>
+</form>
 </div>
 {% endblock content %}

@@ -33,11 +33,15 @@ def user_profile(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     user_reports_active = Report.objects.filter(owner=user, resolved=False)
     user_reports_resolved = Report.objects.filter(owner=user, resolved=True)
+    
+    suspension_message = request.session.pop('suspension_message', None)
+    
     context = {
         'user': user,
         'user_reports_active': user_reports_active,
         'user_reports_resolved': user_reports_resolved,
         'viewing_profile': True,
+        'suspension_message': suspension_message,
     }
     return render(request, 'accounts/user_profile.html', context)
 
@@ -75,10 +79,10 @@ def profile(request):
 def suspend_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     if user.is_suspended:
-        messages.info(request, "User is already suspended.")
+        request.session['suspension_message'] = "User is already suspended."
     else:
         user.suspend()
-        messages.success(request, "User suspended successfully.")
+        request.session['suspension_message'] = "User suspended successfully."
     return redirect('user_profile', user_id=user_id)
 
 @login_required
@@ -86,10 +90,10 @@ def suspend_user(request, user_id):
 def unsuspend_user(request, user_id):
     user = get_object_or_404(CustomUser, id=user_id)
     if not user.is_suspended:
-        messages.info(request, "User is not suspended.")
+        request.session['suspension_message'] = "User is not suspended."
     else:
         user.unsuspend()
-        messages.success(request, "User unsuspended successfully.")
+        request.session['suspension_message'] = "User unsuspended successfully."
     return redirect('user_profile', user_id=user_id)
 
 @login_required

@@ -23,7 +23,7 @@ ordinal_map = {
     'eighth': '8',
     'ninth': '9',
     'tenth': '10'
-    # Add more as needed
+    #add more if needed
 }
 
 # Custom functions
@@ -366,9 +366,12 @@ def announcements(request):
     # Count unseen announcements before marking them as seen
     unseen_count = unseen_announcements.count()
 
-    # Mark all unseen announcements as seen by the user after counting
+    
     for announcement in unseen_announcements:
         announcement.seen_by.add(user)
+
+    # Recalculate the unseen count after marking them as seen
+    unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=user).count()
 
     context = {
         'announcements': all_announcements.filter(resolved=False),

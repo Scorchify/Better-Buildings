@@ -377,7 +377,6 @@ def announcements(request):
     }
     return render(request, 'better_buildings/announcements.html', context)
 
-
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')
 def create_announcement(request):

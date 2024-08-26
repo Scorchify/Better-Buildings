@@ -285,13 +285,18 @@ def view_bug_reports(request):
 @login_required
 def all_reports(request):
     """Page for viewing all reports regardless of issue area"""
-    user_school = request.user.school if request.user.groups.filter(name="School Supervisors").exists() else request.user.student_school
+    user = request.user
+    user_school = user.school if user.groups.filter(name="School Supervisors").exists() else getattr(user, 'student_school', None)
+    
+    if not user_school:
+        return redirect('no_permission')
+
     reports = Report.objects.filter(school=user_school)
     
     norm_reports = reports.filter(resolved=False).order_by('-upvotes', '-date_added')
     user_reports = reports.filter(owner=request.user, resolved=False).order_by('-upvotes', '-date_added')
     resolved_reports = reports.filter(resolved=True).order_by('-resolved_date')
-    is_supervisor = request.user.groups.filter(name="School Supervisors").exists()
+    is_supervisor = user.groups.filter(name="School Supervisors").exists()
 
     if request.method == 'POST' and 'resolve' in request.POST:
         report_id = request.POST.get('report_id')

@@ -23,7 +23,7 @@ ordinal_map = {
     'eighth': '8',
     'ninth': '9',
     'tenth': '10'
-    # Add more as needed
+    #add more if needed
 }
 
 # Custom functions
@@ -84,11 +84,11 @@ def index(request):
     user_school = None
 
     if request.user.is_authenticated:
-        user_school = request.user.school if request.user.groups.filter(name="School Supervisors").exists() else getattr(request.user, 'student_school', None)
-        is_supervisor = request.user.groups.filter(name="School Supervisors").exists()
+        is_supervisor = request.user.is_supervisor()
+        user_school = request.user.school if is_supervisor else getattr(request, 'student_school', None)
         unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=request.user).count()
 
-    areas = Area.objects.filter(school=user_school)
+    areas = Area.objects.filter(school=user_school) if user_school else Area.objects.none()
     context = {
         'is_supervisor': is_supervisor,
         'areas': areas,
@@ -366,9 +366,12 @@ def announcements(request):
     # Count unseen announcements before marking them as seen
     unseen_count = unseen_announcements.count()
 
-    # Mark all unseen announcements as seen by the user after counting
+    
     for announcement in unseen_announcements:
         announcement.seen_by.add(user)
+
+    # Recalculate the unseen count after marking them as seen
+    unseen_count = Announcement.objects.filter(school=user_school).exclude(seen_by=user).count()
 
     context = {
         'announcements': all_announcements.filter(resolved=False),
@@ -376,7 +379,6 @@ def announcements(request):
         'unseen_count': unseen_count  # Pass this count to the template
     }
     return render(request, 'better_buildings/announcements.html', context)
-
 
 @login_required
 @user_passes_test(is_supervisor, login_url='/no_permission/')

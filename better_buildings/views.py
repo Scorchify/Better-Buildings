@@ -289,7 +289,7 @@ def all_reports(request):
     user_school = user.school if user.groups.filter(name="School Supervisors").exists() else getattr(user, 'student_school', None)
     
     if not user_school:
-        return redirect('no_permission')
+        return redirect('better_buildings:no_permission')
 
     reports = Report.objects.filter(school=user_school)
     
@@ -357,7 +357,7 @@ def announcements(request):
     user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
 
     if not user_school:
-        return redirect('no_permission')
+        return redirect('better_buildings:no_permission')
 
     # Fetch all announcements related to the user's school
     all_announcements = Announcement.objects.filter(school=user_school)

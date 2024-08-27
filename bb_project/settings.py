@@ -4,10 +4,8 @@ import os
 
 
 #gps
-if 'GDAL_LIBRARY_PATH' in os.environ:
-    GDAL_LIBRARY_PATH = os.environ['GDAL_LIBRARY_PATH']
+GDAL_LIBRARY_PATH = os.getenv('GDAL_LIBRARY_PATH', '/usr/lib/libgdal.so')
 
-    
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

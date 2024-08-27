@@ -284,10 +284,9 @@ def view_bug_reports(request):
 
 @login_required
 def all_reports(request):
-    """Page for viewing all reports regardless of issue area"""
     user = request.user
-    user_school = user.school if user.groups.filter(name="School Supervisors").exists() else getattr(user, 'student_school', None)
-    
+    user_school = user.school if user.groups.filter(name="School Supervisors").exists() else getattr(request, 'student_school', None)
+
     if not user_school:
         return redirect('better_buildings:no_permission')
 

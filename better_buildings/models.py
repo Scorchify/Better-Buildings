@@ -2,15 +2,18 @@ from django.db import models
 from django.utils import timezone
 from django.conf import settings
 from django.contrib.auth import get_user_model
+from django.contrib.gis.db import models as gis_models
 
 class School(models.Model):
     name = models.CharField(max_length=100, unique=True)
     domain = models.CharField(max_length=100, unique=True)  # store website
-    ip_address = models.CharField(max_length=45, unique=True)  # IPv4 and IPv6
+    ip_address = models.CharField(max_length=45, unique=True, required=False)  # IPv4 and IPv6
+    latitude = models.FloatField(null=True, blank=True)
+    longitude = models.FloatField(null=True, blank=True)
 
     def __str__(self):
         return self.name
-    
+
     def save(self, *args, **kwargs):
         is_new = self.pk is None
         super().save(*args, **kwargs)

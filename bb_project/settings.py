@@ -57,8 +57,9 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'better_buildings.middleware.getIPAddressMw',
     'allauth.account.middleware.AccountMiddleware',
+    #my middleware
+    'better_buildings.middleware.getGeolocationMiddleware',
 ] 
 
 ROOT_URLCONF = 'bb_project.urls'

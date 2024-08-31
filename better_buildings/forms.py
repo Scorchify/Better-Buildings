@@ -17,7 +17,11 @@ class ReportForm(forms.ModelForm):
         css = {
             "all": ["css/input.css"]
         }
-    area = forms.ModelChoiceField(queryset=Area.objects.all(), required=True)
+    area = forms.ModelChoiceField(
+    queryset=Area.objects.all(),
+    required=True,
+    widget=forms.Select(attrs={'class': 'dropdown-box'})
+)
 
     class Meta:
         model = Report

@@ -3,8 +3,7 @@ from django.contrib.auth import get_user_model
 from django.shortcuts import redirect
 from django.contrib import messages
 from allauth.core.exceptions import ImmediateHttpResponse
-from .forms import CustomSocialSignupForm
-from django.conf import settings
+from django.db import IntegrityError
 
 class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
     def pre_social_login(self, request, sociallogin):
@@ -13,31 +12,39 @@ class CustomSocialAccountAdapter(DefaultSocialAccountAdapter):
 
         if not email:
             messages.error(request, 'Google account does not have an email.')
-            raise ImmediateHttpResponse(redirect('register'))
+            raise ImmediateHttpResponse(redirect('login'))
 
         try:
             user = user_model.objects.get(email=email)
-            if not user.username or not user.has_usable_password():
-                messages.error(request, 'No account associated with this Google email. Please register first.')
-                raise ImmediateHttpResponse(redirect('register'))
-
             if not user.is_active:
                 messages.error(request, 'Your account is suspended.')
                 raise ImmediateHttpResponse(redirect('account_suspended'))
 
             sociallogin.connect(request, user)
         except user_model.DoesNotExist:
-            messages.error(request, 'No account associated with this Google email. Please register first.')
-            raise ImmediateHttpResponse(redirect('register'))
+            # Create a new user if one doesn't exist
+            user = user_model(email=email)
+            base_username = f"{sociallogin.account.extra_data.get('given_name', '')} {sociallogin.account.extra_data.get('family_name', '')}".strip()
+            username = base_username
+            counter = 1
+
+            while user_model.objects.filter(username=username).exists():
+                username = f"{base_username}{counter}"
+                counter += 1
+
+            user.username = username
+            user.display_name = base_username  # Store the base username without the number
+            user.set_unusable_password()
+            try:
+                user.save()
+            except IntegrityError:
+                messages.error(request, 'An error occurred while creating your account.')
+                raise ImmediateHttpResponse(redirect('login'))
+
+            sociallogin.connect(request, user)
 
     def save_user(self, request, sociallogin, form=None):
-        # Only save the user if the form is complete and valid
-        if form and isinstance(form, CustomSocialSignupForm):
-            user = super().save_user(request, sociallogin, form=form)
-            user.set_password(form.cleaned_data["password1"])
-            user.save()
-        else:
-            # Prevent account creation if form is not valid
-            return None
-
-        return super().save_user(request, sociallogin, form=form)
+        user = sociallogin.user
+        user.set_unusable_password()
+        user.save()
+        return user

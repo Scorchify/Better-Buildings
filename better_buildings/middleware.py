@@ -1,28 +1,33 @@
 from django.shortcuts import redirect
 from django.urls import resolve
+from better_buildings.models import School
 
 class getIPAddressMw:
     def __init__(self, get_response):
         self.get_response = get_response
 
     def __call__(self, request):
-        # List of URL names to exclude from IP check
         excluded_urls = ['no_permission']
-
         current_url_name = resolve(request.path_info).url_name
-        # Prevents infinite redirect
+
         if current_url_name not in excluded_urls:
             request.client_ip = self.get_client_ip_address(request)
-            if not self.is_allowed_ip(request.client_ip):
-                return redirect('no_permission')
+            student_school = self.get_student_school(request.client_ip)
 
-            # Set the student_school based on IP address
-            request.student_school = self.get_student_school(request.client_ip)
+            # Check if the user is authenticated
+            if request.user.is_authenticated:
+                if request.user.is_supervisor():
+                    request.student_school = request.user.school
+                else:
+                    request.student_school = student_school
+                    # Automatically set the user's school if it's not set or doesn't match
+                    if request.user.school is None or request.user.school != student_school:
+                        request.user.school = student_school
+                        request.user.save()
 
         response = self.get_response(request)
         return response
 
-    # Grabs IP address
     def get_client_ip_address(self, request):
         req_headers = request.META
         x_forwarded_for_value = req_headers.get('HTTP_X_FORWARDED_FOR')
@@ -32,16 +37,10 @@ class getIPAddressMw:
             ip_addr = req_headers.get('REMOTE_ADDR')
         return ip_addr
 
-    # Checks if IP address is allowed
-    def is_allowed_ip(self, ip_addr):
-        allowed_ips = ['127.0.0.1', '::1']  # allowed IPS TODO find MCPS ips 
-        return ip_addr in allowed_ips
-
-    # Maps IP address to student_school
     def get_student_school(self, ip_addr):
-        ip_school_map = {
-            '127.0.0.1': 'Wheaton High',  # Example mapping
-            '::1': 'Wheaton High',
-            #TODO Upload to server and put other school ips here to do testing 
-        }
-        return ip_school_map.get(ip_addr, 'Unknown School')
+        # Iterate over all schools and check if the user IP starts with the school's IP
+        schools = School.objects.all()
+        for school in schools:
+            if ip_addr.startswith(school.ip_address):
+                return school
+        return None

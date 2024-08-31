@@ -11,10 +11,15 @@
             <div class="user-name">{{ user.username }}</div>
             <div class="user-email">{{ user.email }}</div>
           </div>
-          <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
-            {% csrf_token %}
-            <button type="submit" class="btn btn-warning">Unsuspend User</button>
-          </form>
+          <div class="user-actions">
+            <a href="{% url 'user_profile' user.id %}" class="btn btn-secondary">
+              <i class="bi bi-person"></i> View Profile
+            </a>
+            <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-warning">Unsuspend User</button>
+            </form>
+          </div>
         </div>
       </li>
     {% empty %}

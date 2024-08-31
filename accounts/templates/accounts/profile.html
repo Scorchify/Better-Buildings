@@ -5,7 +5,8 @@
   <meta name="csrf-token" content="{{ csrf_token }}"> 
 </head>
 <div class="box2">
-  <h3>Hello {{ username }}!</h3>
+
+  <h3>Hello {{user.display_name|default:user.username }}!</h3>
 
   <h4>Active reports:</h4>
   <ul class="report-list">

@@ -1,10 +1,16 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!---PWAS-->
+  {% load pwa %}
+  {% progressive_web_app_meta %}
+  
   {% load static %}
+  {% load socialaccount %} 
   {% load django_bootstrap5 %}
+  {% load custom_tags %} <!-- Load custom template tags -->
 
-  <!-- Boostrap CSS -->
+  <!-- Boostrap CSS/JS -->
   {% bootstrap_css %}
   {% bootstrap_javascript %}
 
@@ -24,14 +30,15 @@
   
   <!--My Script-->
   <script src="{% static 'javascript/base.js' %}"></script>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 </head>
 
 <body class="p-0 m-0 border-0">
 
   <!-- Navbar Start -->
   <nav class="navbar navbar-expand-lg fixed-top">
-    <a class="navbar-brand fs-5" href="{% url 'better_buildings:index' %}">
-      <img src="{% static 'images/bb_logo_text2.png' %}" alt="MCPS Better Buildings Logo" style="height: 50px; width: auto;">
+    <a class="navbar-brand" href="{% url 'better_buildings:index' %}">
+      <img src="{% static 'images/bb_logo_text2.png' %}" alt="MCPS Better Buildings" style="height: 50px; width: auto;">
     </a>
     <div class="d-flex align-items-center">
       <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -42,57 +49,61 @@
       </button>
     </div>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
-      <div class="bg-box">
-        <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-          {% if user.is_authenticated %}
-            <li class="nav-item">
-              <a class="nav-link text active fs-5" href="{% url 'profile' %}">Profile</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link text active fs-5" href="{% url 'better_buildings:announcements' %}">Announcements</a>
-            </li>
-            <li class="nav-item dropdown">
-              <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                  Issues
-              </a>
-              <ul class="dropdown-menu dropdown-menu-end">
-                <div class="issues-container">
-                {% for area in areas %}
-                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
-                {% empty %}
-                  <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
-                {% endfor %}
-                <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:all_reports' %}">All Reports</a></li>
-                </div>
-              </ul>
-            </li>
-          {% endif %}
-          {% if user.is_authenticated and user.is_superuser %}
-            <li class="nav-item dropdown">
+      {% if user.is_authenticated %}
+        <div class="bg-box">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link text active fs-5" href="{% url 'profile' %}">Profile</a>
+              </li>
+              <li class="nav-item dropdown">
                 <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Admin Panel
+                    Issues
                 </a>
                 <ul class="dropdown-menu dropdown-menu-end">
-                  <div class="admin-container"> 
-                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
-                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
-                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_announcements' %}">Manage Announcements</a></li>
-                    <li><a class="dropdown-item fs-6" href="{% url 'suspended_users' %}">Suspended Users</a></li>
+                  <div class="issues-container">
+                  {% for area in areas %}
+                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
+                  {% empty %}
+                    <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
+                  {% endfor %}
+                  {% if user.is_authenticated and user.school is not None %}
+                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:all_reports' %}">All Reports</a></li>
+                  {% endif %}
                   </div>
                 </ul>
-            </li>
-          {% endif %}
-        </ul>
-      </div>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text active fs-5" href="{% url 'better_buildings:announcements' %}">
+                  Announcements{% if unseen_count > 0 %} (<span class="unseen-count">{{ unseen_count }}</span>){% endif %}
+                </a>
+              </li>
+            {% if user|has_group:"School Supervisors" %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Supervisor Panel
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <div class="admin-container"> 
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_announcements' %}">Manage Announcements</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'suspended_users' %}">Suspended Users</a></li>
+                    </div>
+                  </ul>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
       <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
         {% if user.is_authenticated %}
-          <span class="navbar-user-info">
-            {% if viewing_profile %}
-              Viewing {{ user.username }}'s profile
-            {% else %}
-              Hello, {{ user.username }} ({{ student_school }})
-            {% endif %}
-          </span>
+        <span class="navbar-user-info">
+          {% if viewing_profile %}
+            Viewing {{ user.display_name|default:user.username }}'s profile
+          {% else %}
+          Hello, {{ user.display_name|default:user.username }} {% if student_school %} ({{ student_school }}) {% endif %}
+          {% endif %}
+        </span>
           <li class="nav-item">
             <a href="{% url 'better_buildings:new_report_no_area' %}">
                 <button class="btn btn-primary btn-sm fs-6" type="button" style="margin-right: 10px;">Report</button>
@@ -106,10 +117,10 @@
           </li>
         {% else %}
           <li class="nav-item login-register">
-            <a class="nav-link fs-5" href="{% url 'register' %}">Register</a>
+            <a class="nav-link fs-5" href="{% provider_login_url 'google' %}">Students</a>
           </li>
           <li class="nav-item login-register">
-            <a class="nav-link fs-5" href="{% url 'login' %}">Login</a>
+            <a class="nav-link fs-5" href="{% url 'login' %}">Staff</a>
           </li>
         {% endif %}
       </ul>
@@ -128,4 +139,23 @@
   <!-- Main Content End -->
 
 </body>
+<style>
+  .unseen-count {
+    font-weight: bold;
+    display: inline-block;
+    animation: bounce 1.5s infinite;
+  }
+
+  @keyframes bounce {
+    0%, 20%, 50%, 80%, 100% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-7px);
+    }
+    60% {
+      transform: translateY(-5px);
+    }
+  }
+</style>
 </html>

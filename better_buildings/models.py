@@ -1,10 +1,33 @@
 from django.db import models
 from django.utils import timezone
 from django.conf import settings
+from django.contrib.auth import get_user_model
 
+class School(models.Model):
+    name = models.CharField(max_length=100, unique=True)
+    domain = models.CharField(max_length=100, unique=True)  # store website
+    ip_address = models.CharField(max_length=45, unique=True)  # IPv4 and IPv6
+
+    def __str__(self):
+        return self.name
+    
+    def save(self, *args, **kwargs):
+        is_new = self.pk is None
+        super().save(*args, **kwargs)
+        default_areas = [
+            'Bathrooms',
+            'Hallways',
+            'Classrooms',
+            'Cafeteria',
+        ]
+        if is_new:
+            for area_name in default_areas:
+                Area.objects.create(text=area_name, school=self)
+    
 class Area(models.Model):
-    text = models.CharField(max_length=50, unique=True)
+    text = models.CharField(max_length=50)
     date_added = models.DateTimeField(auto_now_add=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, default=1)
 
     def __str__(self):
         return self.text
@@ -18,6 +41,7 @@ class Report(models.Model):
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
     upvoted_by = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='upvoted_reports', blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, default=1)
 
     def toggle_upvote(self, user):
         if user in self.upvoted_by.all():
@@ -51,6 +75,8 @@ class Announcement(models.Model):
     date_added = models.DateTimeField(auto_now_add=True)
     resolved = models.BooleanField(default=False)
     resolved_date = models.DateTimeField(null=True, blank=True)
+    seen_by = models.ManyToManyField(get_user_model(), related_name='seen_announcements', blank=True)
+    school = models.ForeignKey(School, on_delete=models.CASCADE, default=1)
 
     def save(self, *args, **kwargs):
         if self.resolved and not self.resolved_date:

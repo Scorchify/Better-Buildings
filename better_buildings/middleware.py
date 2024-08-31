@@ -38,8 +38,9 @@ class getIPAddressMw:
         return ip_addr
 
     def get_student_school(self, ip_addr):
-        try:
-            school = School.objects.filter(ip_address__icontains=ip_addr).first()
-            return school
-        except School.DoesNotExist:
-            return None
+        # Iterate over all schools and check if the user IP starts with the school's IP
+        schools = School.objects.all()
+        for school in schools:
+            if ip_addr.startswith(school.ip_address):
+                return school
+        return None

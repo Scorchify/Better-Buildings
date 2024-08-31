@@ -39,7 +39,7 @@ class getIPAddressMw:
 
     def get_student_school(self, ip_addr):
         try:
-            school = School.objects.get(ip_address=ip_addr)
+            school = School.objects.filter(ip_address__icontains=ip_addr).first()
             return school
         except School.DoesNotExist:
             return None

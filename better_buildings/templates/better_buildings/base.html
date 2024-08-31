@@ -66,7 +66,9 @@
                   {% empty %}
                     <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
                   {% endfor %}
+                  {% if user.is_authenticated and user.school is not None %}
                   <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:all_reports' %}">All Reports</a></li>
+                  {% endif %}
                   </div>
                 </ul>
               </li>

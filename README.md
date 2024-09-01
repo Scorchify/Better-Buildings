@@ -16,7 +16,7 @@ Better-Buildings is an app designed to report building issues to the school buil
   - Mark Reports and Announcements as 'Resolved'
     
 - Areas Management
-   -Edit and Delete Areas
+  - Edit and Delete Areas
 
 - Create Areas
  

@@ -1,5 +1,5 @@
-# better_buildings/templatetags/custom_tags.py
 from django import template
+from django.contrib.auth.models import Group
 
 register = template.Library()
 

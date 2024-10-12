@@ -1,6 +1,7 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
+{% load static %}
 <nav class="navbar navbar-expand-lg fixed-top">
     <a class="navbar-brand" href="{% url 'better_buildings:index' %}">
       <img src="{% static 'images/bb_logo_text2.png' %}" alt="MCPS Better Buildings" style="height: 50px; width: auto;">

@@ -5,10 +5,8 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
   <title>{% block title %}MCPS Better Buildings{% endblock %}</title>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-
-     <!-- Load Django template tags -->
+  
+  <!-- Load Django template tags -->
   {% load static %}
   {% load socialaccount %}
   {% load django_bootstrap5 %}
@@ -71,12 +69,13 @@
 
           <li class="nav-item"><a class="nav-link" href="new-report.html">Report</a></li>
           <li class="nav-item"><a class="nav-link" href="profile.html">Profile</a></li>
-          <li class="nav-item"><a class="nav-link" href="announcements.html"> Announcements{% if unseen_count > 0 %} (<span class="unseen-count">{{ unseen_count }}</span>){% endif %}</a></li>
+          <li class="nav-item"><a class="nav-link" href="announcements.html">Announcements {% if unseen_count > 0 %}(<span class="unseen-count">{{ unseen_count }}</span>){% endif %}</a></li>
           <li class="nav-item">
             <div class="nav-item dropdown nav-link"><a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: rgba(255,255,255,.85);">Areas</a>
-              
               {% for area in areas %}
-              <div class="dropdown-menu"><a class="dropdown-item" href="{% url 'better_buildings:area' area.slug %}">{{ area.name }}</a></div>
+                <div class="dropdown-menu">
+                  <a class="dropdown-item" href="{% url 'better_buildings:area' area.id %}">{{ area.name }}</a>
+                </div>
               {% empty %}
                     <li><a class="dropdown-item" href="#">No issue areas available</a></li>
                   {% endfor %}
@@ -109,13 +108,10 @@
                   Hello, {{ user.display_name|default:user.username }} {% if student_school %} ({{ student_school }}) {% endif %}
                   {% endif %}
                   {% endif %}
-
-            
-      
         {% if user.is_authenticated %}
         <form class="d-inline" action="{% url 'logout' %}" method="post">
           {% csrf_token %}
-          <button class="btn btn-danger btn-sm fs-6" type="submit">Log out</button>
+          <button class="btn btn-info btn-sm shadow-sm" type="submit">Log out</button>
         </form>
         {% else %}
         </ul><a class="btn btn-info btn-sm shadow-sm me-2" role="button" href="{% provider_login_url 'google' %}">Students</a>

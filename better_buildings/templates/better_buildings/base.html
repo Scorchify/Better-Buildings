@@ -71,16 +71,16 @@
             <li class="nav-item">
               <div class="nav-item dropdown nav-link">
                 <a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: rgba(255,255,255,.85);">Areas</a>
-                {% for area in areas %}
-                  <div class="dropdown-menu">
-                    <a class="dropdown-item" href="area.html">{{ area.name }}</a>
-                  </div>
-                {% empty %}
-                  <li><a class="dropdown-item" href="#">No issue areas available</a></li>
-                {% endfor %}
-                {% if areas %}
-                  <li><a class="dropdown-item" href="all-reports.html">All Reports</a></li>
-                {% endif %}
+                <div class="dropdown-menu">
+                  {% for area in areas %}
+                    <li><a class="dropdown-item" href="area.html">{{ area.name }}</a></li>
+                  {% empty %}
+                    <li><a class="dropdown-item" href="#">No issue areas available</a></li>
+                  {% endfor %}
+                  {% if areas %}
+                    <li><a class="dropdown-item" href="all-reports.html">All Reports</a></li>
+                  {% endif %}
+                </div>
               </div>
             </li>
             {% if user|has_group:"School Supervisors" %}

@@ -1,6 +1,17 @@
 {% extends 'better_buildings/base.html' %}
 {% load custom_tags %}
 {% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
 {% block content %}
 <nav class="navbar navbar-expand-lg fixed-top">
     <a class="navbar-brand" href="{% url 'better_buildings:index' %}">

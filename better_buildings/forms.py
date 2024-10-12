@@ -39,7 +39,7 @@ class ReportForm(forms.ModelForm):
 class BugReportForm(forms.ModelForm):
     class Media:
         css = {
-            "all": ["css/input.css"]
+            "all": ["bootstrap/css/bootstrap.min.css"]
         }
 
     class Meta:
@@ -48,10 +48,10 @@ class BugReportForm(forms.ModelForm):
         labels = {'text': ''}
         widgets = {
             'text': forms.Textarea(attrs={
-                'class': 'input-box',
+                'class': 'form-control',
                 'placeholder': 'Enter bug-related info here',
                 'cols': 80,
-                'rows': 10,
+                'rows': 3,
             })
         }
 

@@ -1,0 +1,63 @@
+{% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<html data-bs-theme="auto" lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+    <title>Report-Bug - MCPS Better Buildings v2</title>
+    <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+    <link rel="stylesheet" href="{% static 'css/bs-theme-overrides.css' %}">
+    <link rel="stylesheet" href="{% static 'css/untitled.css' %}">
+</head>
+
+<body>
+
+    <section class="text-bg-dark py-5">
+        <div class="container-md">
+            <div class="row mb-3">
+                <div class="col-md-8 col-xl-6 text-center mx-auto">
+                    <h2 class="fw-bold">Report a website bug</h2>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-center mb-4">
+                <div class="col d-flex justify-content-center">
+                    <div class="accordion" role="tablist" id="accordion-1">
+                        <div class="accordion-item">
+                            <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="false" aria-controls="accordion-1 .item-1">What should I write here?&nbsp; &nbsp;</button></h2>
+                            <div class="accordion-collapse collapse item-1" role="tabpanel" data-bs-parent="#accordion-1">
+                                <div class="accordion-body">
+                                    <p class="mb-0">Please provide as much information about the issue as you can. Make sure to include the location of the bug and the specific conditions which generated the bug (for example you could write, "the error occurred after creating a report and then attempting to view it from the profile page").</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row d-flex justify-content-xl-center" style="padding: 12px 0px;">
+                <div class="col">
+                    <form action="{% url 'better_buildings:report_bug' %}" method="post">
+                        <!-- <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="3" placeholder="Report your bug here!"></textarea></div> -->
+                        {% csrf_token %}
+                        {{ form.media }}
+                        {{ form.as_div }}
+                        <div><button class="btn btn-primary shadow d-block w-100" type="submit">Report</button></div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+
+</html>

@@ -97,7 +97,7 @@ WSGI_APPLICATION = 'bb_project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',    #overwritten by postgresql
+        'NAME': BASE_DIR / 'db.sqlite3',    # Ensure this is not commented out
     },
 }
 

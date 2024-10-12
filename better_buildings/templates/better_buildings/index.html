@@ -30,7 +30,7 @@
           <div style="max-width: 450px;background: rgba(190,237,170,0);">
             <h2 class="fs-1 fw-bold">Welcome!</h2>
             <p class="fs-5 my-3">MCPS Better Buildings is a website designed to allow students to report buildings issues they notice in and around their school.</p>
-            <small>Notice a website bug? Report it <a href="report_bug.html">here</a>.</small>
+            <small>Notice a website bug? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.</small>
             {% if is_admin or user.is_staff %}
               <p style="font-size: 14px"> <!--Check!-->
                 Looks like you're an admin or staff member. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.

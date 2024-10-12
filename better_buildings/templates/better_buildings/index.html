@@ -1,24 +1,162 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
-<div class="wrapper">
-  <h2 class="fw-bold">
-    Welcome!
-  </h2>
-  <p class="fw-bold">
-    MCPS Better Buildings is a webapp designed by MCPS students that allows students
-    to report building issues they notice in and around their school.
-  </p>
+<nav class="navbar navbar-expand-lg fixed-top">
+    <a class="navbar-brand" href="{% url 'better_buildings:index' %}">
+      <img src="{% static 'images/bb_logo_text2.png' %}" alt="MCPS Better Buildings" style="height: 50px; width: auto;">
+    </a>
+    <div class="d-flex align-items-center">
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+      <button id="theme-toggle-small" class="btn btn-light ms-2 d-lg-none">
+        <i id="theme-toggle-icon-small" class="bi bi-brightness-high-fill"></i>
+      </button>
+    </div>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      {% if user.is_authenticated %}
+        <div class="bg-box">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+              <li class="nav-item">
+                <a class="nav-link text active fs-5" href="{% url 'profile' %}">Profile</a>
+              </li>
+              <li class="nav-item dropdown">
+                <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                    Issues
+                </a>
+                <ul class="dropdown-menu dropdown-menu-end">
+                  <div class="issues-container">
+                  {% for area in areas %}
+                    <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:area' area.id %}">{{ area.text }}</a></li>
+                  {% empty %}
+                    <li><a class="dropdown-item fs-6" href="#">No issue areas available</a></li>
+                  {% endfor %}
+                  {% if user.is_authenticated and user.school is not None %}
+                  <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:all_reports' %}">All Reports</a></li>
+                  {% endif %}
+                  </div>
+                </ul>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link text active fs-5" href="{% url 'better_buildings:announcements' %}">
+                  Announcements{% if unseen_count > 0 %} (<span class="unseen-count">{{ unseen_count }}</span>){% endif %}
+                </a>
+              </li>
+            {% if user|has_group:"School Supervisors" %}
+              <li class="nav-item dropdown">
+                  <a class="nav-link text active dropdown-toggle fs-5" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                      Supervisor Panel
+                  </a>
+                  <ul class="dropdown-menu dropdown-menu-end">
+                    <div class="admin-container"> 
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:create_announcement' %}">Create Announcement</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_areas' %}">Manage Areas</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'better_buildings:manage_announcements' %}">Manage Announcements</a></li>
+                      <li><a class="dropdown-item fs-6" href="{% url 'suspended_users' %}">Suspended Users</a></li>
+                    </div>
+                  </ul>
+              </li>
+            {% endif %}
+          </ul>
+        </div>
+      {% endif %}
+      <ul class="navbar-nav mb-2 mb-lg-0 ms-auto">
+        {% if user.is_authenticated %}
+        <span class="navbar-user-info">
+          {% if viewing_profile %}
+            Viewing {{ user.display_name|default:user.username }}'s profile
+          {% else %}
+          Hello, {{ user.display_name|default:user.username }} {% if student_school %} ({{ student_school }}) {% endif %}
+          {% endif %}
+        </span>
+          <li class="nav-item">
+            <a href="{% url 'better_buildings:new_report_no_area' %}">
+                <button class="btn btn-primary btn-sm fs-6" type="button" style="margin-right: 10px;">Report</button>
+            </a>
+          </li>        
+          <li class="nav-item">
+            <form class="d-inline" action="{% url 'logout' %}" method="post">
+              {% csrf_token %}
+              <button class="btn btn-danger btn-sm fs-6" type="submit">Log out</button>
+            </form>
+          </li>
+        {% else %}
+          <li class="nav-item login-register">
+            <a class="nav-link fs-5" href="{% provider_login_url 'google' %}">Students</a>
+          </li>
+          <li class="nav-item login-register">
+            <a class="nav-link fs-5" href="{% url 'login' %}">Staff</a>
+          </li>
+        {% endif %}
+      </ul>
+      <button id="theme-toggle" class="btn btn-light ms-3 d-none d-lg-block">
+        <i id="theme-toggle-icon" class="bi bi-brightness-high-fill"></i>
+      </button>
+    </div>
+</nav>
 
-  {% if user.is_authenticated %}
-    <p style="font-size: 14px">
-      Encounter a bug on the website? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.<br>
-    </p>
-    {% if is_admin or user.is_staff %}
-      <p style="font-size: 14px">
-        Looks like you're an admin or staff member. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.
-      </p>
-    {% endif %}
-  {% endif %}
-</div>
+<header class="bg-dark">
+    <div class="container py-5">
+        <div class="row d-flex py-5">
+            <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center justify-content-md-start align-items-md-center align-items-lg-center justify-content-xl-end">
+                <div style="max-width: 450px;background: rgba(190,237,170,0);">
+                    <h2 class="fs-1 fw-bold">Welcome!</h2>
+                    <p class="fs-5 my-3">MCPS Better Buildings is a website designed to allow students to report buildings issues they notice in and around their school.</p>
+                    <small>Notice a website bug? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.</small>
+                </div>
+            </div>
+            <div class="col-md-6 col-lg-6">
+                <div class="p-5 mx-lg-5" style="background: url('{% static 'img/blob.svg' %}') center / contain no-repeat;">
+                    <img class="rounded img-fluid shadow w-100 fit-cover" alt="brown and white concrete building under blue sky during daytime" style="min-height: 300px;" src="{% static 'img/photo-1595665455856-0141b6dd764a.jpg' %}">
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+
+<section class="py-5">
+    <div class="container-md py-2">
+        <div class="row mb-3">
+            <div class="col-md-8 col-xl-6 text-center mx-auto">
+                <h2 class="fw-bold"><strong>About MCPS BB</strong></h2>
+            </div>
+        </div>
+        <div class="row d-flex justify-content-md-center mb-3" style="padding: 0px 12px;">
+            <div class="col-auto text-center mx-auto">
+                <p class="bg-dark border rounded border-dark p-4">
+                    <span style="background-color: rgb(39, 38, 46);">MCPS Better Buildings is a passion project created by&nbsp;</span>
+                    <span style="color: rgb(207, 77, 197);">Ayden Yeung</span>
+                    <span style="color: rgb(55, 99, 244);">&nbsp;</span>
+                    <span style="background-color: rgb(39, 38, 46);">and&nbsp;</span>
+                    <span style="color: rgb(206, 78, 198);">Julian Givens</span>
+                    <span style="background-color: rgb(39, 38, 46);">&nbsp;of Montgomery County Public Schools. The project is a response to complaints from students about building conditions at a number of middle and high schools in the county.</span>
+                    <br><br>
+                    <span style="background-color: rgb(39, 38, 46);">MCPS BB is designed to allow for direct communication between students and their building service teams, as well as to administrators in the central office. We hope this has the effect of speeding up the repair process, ensuring a safe and enjoyable environment for MCPS students to learn in.</span>
+                </p>
+            </div>
+            <div class="w-100"></div>
+            <div class="w-100"></div>
+        </div>
+    </div>
+</section>
+
+<footer class="bg-body">
+    <div class="container-md py-3 navbar-dark">
+        <div class="row d-flex justify-content-between flex-wrap">
+            <div class="col-3">
+                <h3 class="fs-6 fw-bold">Reach out</h3>
+            </div>
+            <div class="col-auto d-flex justify-content-lg-end">
+                <h5><strong>MCPS Better Buildings</strong></h5>
+            </div>
+        </div>
+        <hr>
+        <div class="text-muted d-flex justify-content-between align-items-center">
+            <p class="mb-0">Copyright © 2024 MCPS Better Buildings v2</p>
+        </div>
+    </div>
+</footer>
+
+<script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+<script src="{% static 'js/bold-and-dark.js' %}"></script>
 {% endblock content %}

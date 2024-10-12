@@ -73,12 +73,12 @@
                 <a class="dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" href="#" style="color: rgba(255,255,255,.85);">Areas</a>
                 <div class="dropdown-menu">
                   {% for area in areas %}
-                    <li><a class="dropdown-item" href="area.html">{{ area.name }}</a></li>
+                    <a class="dropdown-item" href="area.html">{{ area.name }}</a>
                   {% empty %}
-                    <li><a class="dropdown-item" href="#">No issue areas available</a></li>
+                    <a class="dropdown-item" href="#">No issue areas available</a>
                   {% endfor %}
                   {% if areas %}
-                    <li><a class="dropdown-item" href="all-reports.html">All Reports</a></li>
+                    <a class="dropdown-item" href="all-reports.html">All Reports</a>
                   {% endif %}
                 </div>
               </div>

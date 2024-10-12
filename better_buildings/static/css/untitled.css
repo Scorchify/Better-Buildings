@@ -1,0 +1,32 @@
+@media (min-width: 992px) {
+  .row-cols-lg-3 > * {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-4 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-6 {
+    flex: 0 0 auto;
+    width: 70%;
+  }
+}
+
+@media (min-width: 768px) {
+  .date-box {
+    margin-left: 0.75rem !important;
+  }
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+

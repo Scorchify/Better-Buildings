@@ -36,17 +36,6 @@
             <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
               {{ report.date_added|date:'M d, Y g:i A' }}
             </div>
-
-            <!-- resolve button -->
-            <form method="post" action="{% url 'accounts:user_profile' area.id %}">
-              {% csrf_token %}
-              <input type="hidden" name="report_id" value="{{ report.id }}">
-              <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2">
-                <button class="btn btn-success" type="submit" name="resolve">
-                  Resolve
-                </button>
-              </div>
-            </form>
           </div>
           {% empty %}
             <p>Looks like you don't have any active reports!</p>

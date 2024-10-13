@@ -16,12 +16,12 @@
   <section class="bg-dark d-flex flex-fill py-5">
     <div class="container-md">
       <div class="row mb-3">
-        <div class="col-md-12">
-          <h2><strong>Report an Issue</strong></h2>
+        <div class="col-md-12 text-center">
+          <h2 clas="fw-bold">Report an Issue</h2>
         </div>
       </div>
-      <div class="row d-flex justify-content-xl-center">
-        <div class="col-lg-12">
+      <div class="row d-flex justify-content-xl-center mb-4">
+        <div class="col">
           <form method="post" action="{% if area %}{% url 'better_buildings:new_report' area.id %}{% else %}{% url 'better_buildings:new_report_no_area' %}{% endif %}">
             {% csrf_token %}
             {{ form.media }}

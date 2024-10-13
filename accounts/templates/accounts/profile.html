@@ -17,12 +17,12 @@
             <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
               <p style="font-size: 14px; color: var(--bs-dark);">{{ report.text|linebreaks }}</p>
             </div>
-          
+
             <!-- date -->
             <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
-              <p style="font-size: 14px">{{ report.date_added|date: 'M d, Y g:i A' }}</p>
+              <p style="font-size: 14px">{{ report.date_added|date:'M d, Y g:i A' }}</p>
             </div>
-            
+
             <!-- edit button (collapsed) -->
             <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="background: var(--bs-info);border-style: solid;border-radius: 10px;">
             <a href="edit-report.html">
@@ -32,7 +32,7 @@
               </svg>
             </a>
             </div>
-          
+
             <!-- upvote button (collapsed) -->
             <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2" style="border-style: solid;border-radius: 10px;background: var(--bs-info);">
             <a href="edit-report.html">
@@ -56,7 +56,7 @@
             <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
               <p style="font-size: 14px; color: var(--bs-dark);">{{ report.text|linebreaks }}</p>
             </div>
-          
+
             <!-- date -->
             <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
               <p style="font-size: 14px">{{ report.date_added|date: 'M d, Y g:i A' }}</p>

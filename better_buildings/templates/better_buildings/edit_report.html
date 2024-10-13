@@ -1,29 +1,46 @@
-{% extends "better_buildings/base.html" %}
+{% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
 {% load static %}
-{% block content %}
-<link rel="stylesheet" href="{% static 'css/input.css' %}">
-<div class="box">
-  <h4>Current Issue Area:</h4>
-  <form action="{% url 'better_buildings:area' area.id %}" method="get">
-    <button type="submit" class="btn btn-primary">{{ area }}</button>
-  </form>
-  <br> 
-  <h2>Edit report:</h2>
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
 
-  <div class="form-container">
-    <form action="{% url 'better_buildings:edit_report' report.id %}" method="post">
-      {% csrf_token %}
-      {{ form.as_div }}
-      <br>
-      <button type="submit" class="btn btn-dark">Save Changes</button>
-      <button type="submit" name="delete" class="btn btn-danger">Delete Report</button>
-    </form>
-  </div>
-</div>
-<style>
-  .dark-mode .ibox input{ 
-    border-color: white;
-    color: white;
-  }
-</style>
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+<section class="bg-dark d-flex flex-fill py-5">
+    <div class="container-md">
+        <h2 class="mb-3"><strong>Edit Report</strong></h2>
+        <p class="mb-3">Current issue area: {{ area }}</p>
+        <div class="row g-0">
+            <div class="col">
+                <div class="row g-0 d-flex mb-3" style="margin: 0px;">
+                    <div class="col">
+                        <form action="{% url 'better_buildings:edit_report' report.id %}" method="post">
+                            {% csrf_token %}
+                            {{ form.as_div }}
+                            <br>
+                            <button type="submit" class="btn btn-dark">Save Changes</button>
+                            <button type="submit" name="delete" class="btn btn-danger">Delete Report</button>
+                        </form>
+                    </div>
+                </div>
+                <div class="row gx-0 gy-2 d-flex justify-content-center">
+                    <div class="col" style="min-width: 230px;">
+                        <form action="{% url 'better_buildings:area' area.id %}" method="get">
+                            <button type="submit" class="btn btn-primary">{{ area }}</button>
+                        </form>
+                    </div>
+                    <div class="col-12 col-md-auto d-flex justify-content-center align-items-center px-2 date-box" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
+                        <p style="font-size: 14px;margin: 0px;">Reported: {{ report.date_added|date:'M d, Y g:i A' }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock content %}

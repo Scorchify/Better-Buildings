@@ -11,6 +11,7 @@
 {% bootstrap_css %}
 {% bootstrap_javascript %}
 
+
 {% block content %}
   <section class="bg-dark d-flex flex-fill py-5">
     <div class="container-md">
@@ -19,7 +20,7 @@
           <h2><strong>Report an Issue</strong></h2>
         </div>
       </div>
-      <div class="row d-flex justify-content-xl-center" style="padding: 12px 0px;">
+      <div class="row d-flex justify-content-xl-center">
         <div class="col-lg-12">
           {% if area %}
             <form action="{% url 'better_buildings:area' area.id %}" method="get">

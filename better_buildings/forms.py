@@ -1,7 +1,6 @@
 from django import forms
 from .models import Area, Report, BugReport, Announcement
 
-
 class AreaForm(forms.ModelForm):
     class Media:
         css = {
@@ -11,7 +10,7 @@ class AreaForm(forms.ModelForm):
         model = Area
         fields = ['text']
         labels = {'text': ''}
-        
+
 class ReportForm(forms.ModelForm):
     class Media:
         css = {
@@ -20,9 +19,9 @@ class ReportForm(forms.ModelForm):
                     "css/untitled.css"]
         }
     area = forms.ModelChoiceField(
-    queryset=Area.objects.all(),
-    required=True,
-    widget=forms.Select(attrs={'class': 'form-select'})
+        queryset=Area.objects.all().distinct(),
+        required=True,
+        widget=forms.Select(attrs={'class': 'form-select'})
     )
 
     class Meta:

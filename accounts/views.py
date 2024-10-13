@@ -34,14 +34,13 @@ def user_profile(request, user_id):
     user_reports_active = Report.objects.filter(owner=user, resolved=False)
     user_reports_resolved = Report.objects.filter(owner=user, resolved=True)
     
-    suspension_message = request.session.pop('suspension_message', None)
     
     context = {
         'user': user,
         'user_reports_active': user_reports_active,
         'user_reports_resolved': user_reports_resolved,
         'viewing_profile': True,
-        'suspension_message': suspension_message,
+        'is_suspended': user.is_suspended,
     }
     return render(request, 'accounts/user_profile.html', context)
 

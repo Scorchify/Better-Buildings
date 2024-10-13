@@ -1,4 +1,4 @@
-{% extends "better_buildings/base.html" %}
+{% comment %} {% extends "better_buildings/base.html" %}
 
 {% block content %}
 <div class="wrapper">
@@ -22,4 +22,45 @@
     </div>
   </form>
   </div>
+{% endblock content %} {% endcomment %}
+
+
+
+{% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
+{% block content %}
+<section class="bg-dark d-flex flex-fill py-5">
+  <div class="container-md">
+    <div class="row mb-3">
+      <div class="col-md-12 text-center">
+        <h2 class="fw-bold">Create an Issue Area</h2>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-xl-center mb-4">
+      <div class="col">
+        <form action="{% url 'better_buildings:new_area' %}" method="post">
+          {% csrf_token %}
+          {{ form.media }}
+          {{ form.as_div }}
+
+          <div class="mt-3">
+            <button class="btn btn-info shadow d-block w-100" type="submit">Report</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</section>
 {% endblock content %}

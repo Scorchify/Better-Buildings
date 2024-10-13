@@ -10,6 +10,14 @@ class AreaForm(forms.ModelForm):
         model = Area
         fields = ['text']
         labels = {'text': ''}
+        widgets = {
+            'text': forms.Textarea(attrs={
+                'class': 'form-control',
+                'placeholder': 'Enter area text here',
+                'cols': 40,
+                'rows': 5,
+            }),
+        }
 
 class ReportForm(forms.ModelForm):
     class Media:

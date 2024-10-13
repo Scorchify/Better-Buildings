@@ -22,7 +22,7 @@
     </div>
     <div class="row d-flex justify-content-center mb-4">
       <div class="col d-flex justify-content-center">
-        <div class="accordion" role="tablist" id="accordion-1">
+        <div class="accordion" role="tablist" id="accordion-1" style="width: 100%">
           <div class="accordion-item">
             <h2 class="accordion-header" role="tab"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#accordion-1 .item-1" aria-expanded="false" aria-controls="accordion-1 .item-1">What should I write here?&nbsp; &nbsp;</button></h2>
             <div class="accordion-collapse collapse item-1" role="tabpanel" data-bs-parent="#accordion-1">
@@ -40,7 +40,6 @@
           {% csrf_token %}
           {{ form.media }}
           {{ form.as_div }}
-          <br>
           <div><button class="btn btn-primary shadow d-block w-100" type="submit">Report</button></div>
         </form>
       </div>

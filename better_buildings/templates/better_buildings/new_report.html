@@ -22,13 +22,6 @@
       </div>
       <div class="row d-flex justify-content-xl-center">
         <div class="col-lg-12">
-          {% if area %}
-            <form action="{% url 'better_buildings:area' area.id %}" method="get">
-              <button type="submit" class="btn btn-primary">{{ area }}</button>
-            </form>
-            <br>
-          {% endif %}
-          
           <form method="post" action="{% if area %}{% url 'better_buildings:new_report' area.id %}{% else %}{% url 'better_buildings:new_report_no_area' %}{% endif %}">
             {% csrf_token %}
             {{ form.media }}

@@ -4,8 +4,8 @@
   <section class="bg-dark d-flex flex-fill py-5">
     <div class="container-md">
       <div class="row d-flex justify-content-between mb-3">
-        <div class="col-auto">
-            <h2><strong>User Profile: {{ user.display_name|default:user.username }}</strong></h2>
+        <div class="col">
+            <h2 class="fw-bold">User Profile: {{ user.display_name|default:user.username }}</h2>
             <p>Email:  {{ user.email }}</p>
         </div>
         {% if user.is_suspended %}
@@ -38,7 +38,7 @@
             </div>
           </div>
           {% empty %}
-            <p>Looks like you don't have any active reports!</p>
+            <p>This user does not have any resolved reports.</p>
           {% endfor %}
         </div>
       </div>

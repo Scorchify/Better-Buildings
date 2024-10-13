@@ -25,14 +25,9 @@
           <form method="post" action="{% if area %}{% url 'better_buildings:new_report' area.id %}{% else %}{% url 'better_buildings:new_report_no_area' %}{% endif %}">
             {% csrf_token %}
             {{ form.media }}
-            <div class="mb-3">
-              {{ form.text.label_tag }}
-              {{ form.text }}
-            </div>
-            <div class="mb-3">
-              {{ form.area.label_tag }}
-              {{ form.area }}
-            </div>
+            
+             {{ form.as_div}}
+            
             <div>
               <button class="btn btn-info shadow d-block w-100" type="submit">Report</button>
             </div>

@@ -38,10 +38,10 @@
             </div>
 
             <!-- resolve button -->
-            <form method="post" action="{% url 'better_buildings:area' area.id %}">
+            <form method="post" action="{% url 'better_buildings:user_profile' area.id %}">
               {% csrf_token %}
+              <input type="hidden" name="report_id" value="{{ report.id }}">
               <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2">
-                <input type="hidden" name="report_id" value="{{ report.id }}">
                 <button class="btn btn-success" type="submit" name="resolve">
                   Resolve
                 </button>

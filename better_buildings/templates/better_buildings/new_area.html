@@ -1,31 +1,3 @@
-{% comment %} {% extends "better_buildings/base.html" %}
-
-{% block content %}
-<div class="wrapper">
-  <h3 class="fw-bold">Add a New Issue Area</h3>
-  <br>
-
-  <form action="{% url 'better_buildings:new_area' %}" method="post">
-    {% csrf_token %}
-    <div class="container mt-4">
-      <div class="row mb-3">
-        <div class="col-12">
-          {{ form.as_p }} 
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <br>
-          <button type="submit" class="btn btn-dark w-100">Add Area</button>
-        </div>
-      </div>
-    </div>
-  </form>
-  </div>
-{% endblock content %} {% endcomment %}
-
-
-
 {% extends 'better_buildings/base.html' %}
 {% load custom_tags %}
 {% load static %}
@@ -56,7 +28,7 @@
           {{ form.as_div }}
 
           <div class="mt-3">
-            <button class="btn btn-info shadow d-block w-100" type="submit">Create</button>
+            <button class="btn btn-info primary d-block w-100" type="submit">Create Area</button>
           </div>
         </form>
       </div>

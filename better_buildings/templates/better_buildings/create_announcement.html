@@ -1,17 +1,38 @@
 {% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+
 {% block content %}
-<div class="box">
-  <div class="form-container">
-    <h2>Create a new announcement:</h2>
-    <div class="form-container">
-      <form action="{% url 'better_buildings:create_announcement' %}" method="post">
-        {% csrf_token %}
-        {{ form.media }}
-        {{ form.as_div }}
-        <br>
-        <button type="submit" class="btn btn-dark">Create Announcement</button>
-      </form>
+<section class="bg-dark d-flex flex-fill py-5">
+  <div class="container-md">
+    <div class="row mb-3">
+      <div class="col-md-12 text-center">
+        <h2 class="fw-bold">Create a New Announcement </h2>
+      </div>
+    </div>
+    <div class="row d-flex justify-content-xl-center mb-4">
+      <div class="col">
+        <form action="{% url 'better_buildings:create_announcement' %}" method="post">
+          {% csrf_token %}
+          {{ form.media }}
+          {{ form.as_div }}
+
+          <div class="mt-3">
+            <button class="btn btn-info primary d-block w-100" type="submit">Create Announcement</button>
+          </div>
+        </form>
+      </div>
     </div>
   </div>
-</div>
+</section>
 {% endblock content %}

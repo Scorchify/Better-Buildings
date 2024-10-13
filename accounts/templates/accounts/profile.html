@@ -14,8 +14,8 @@
           {% for report in user_reports_active %}
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
-            <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
-              <p style="font-size: 14px; color: var(--bs-dark);">{{ report.text|linebreaks }}</p>
+            <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
+              <p style="font-size: 14px; color: var(--bs-body-bg);">{{ report.text|linebreaks }}</p>
             </div>
 
             <!-- date -->
@@ -53,7 +53,7 @@
           {% for report in user_reports_resolved %}
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
-            <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
+            <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
               <p style="font-size: 14px; color: var(--bs-dark);">{{ report.text|linebreaks }}</p>
             </div>
 

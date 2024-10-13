@@ -1,21 +1,35 @@
-{% extends "better_buildings/base.html" %}
-{% block content %}
-<div class="box">
-  <h4>Current Issue Area:</h4>
-  <form action="{% url 'better_buildings:area' area.id %}" method="get">
-    <button type="submit" class="btn btn-primary">{{ area }}</button>
-  </form>
-  <br> 
-  <h2>Edit report:</h2>
+{% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
 
-  <div class="form-container">
-    <form action="{% url 'better_buildings:edit_area' area.id %}" method="post">
-      {% csrf_token %}
-      {{ form.as_div }}
-      <br>
-      <button type="submit" class="btn btn-dark">Save Changes</button>
-      <button type="submit" name="delete" class="btn btn-danger">Delete Area</button>
-    </form>
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+<section class="bg-dark d-flex flex-fill py-5">
+  <div class="container-md">
+    <h2 class="mb-3"><strong>Edit Area</strong></h2>
+    <div class="row g-0">
+      <div class="col">
+        <div class="row g-0 d-flex mb-3" style="margin: 0px;">
+          <div class="col">
+            <form action="{% url 'better_buildings:edit_area' area.id %}" method="post">
+              {% csrf_token %}
+              {{ form.as_div }}
+              <br>
+              <button type="submit" class="b v btn btn-success">Save Changes</button>
+              <button type="submit" name="delete" class="btn btn-danger">Delete Area</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
-</div>
+</section>
 {% endblock content %}

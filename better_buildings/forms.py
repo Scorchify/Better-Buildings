@@ -77,9 +77,9 @@ class AnnouncementForm(forms.ModelForm):
         labels = {'text': ''}
         widgets = {
             'text': forms.Textarea(attrs={
-                'class': 'input-box',
-                'placeholder': 'Enter announcement text here',
-                'cols': 80,
+                'class': 'form-control',
+                'placeholder': 'Enter area text here',
+                'cols': 40,
                 'rows': 5,
             }),
         }

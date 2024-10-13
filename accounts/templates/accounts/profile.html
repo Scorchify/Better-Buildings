@@ -59,7 +59,7 @@
 
             <!-- date -->
             <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
-              <p style="font-size: 14px">{{ report.date_added|date: 'M d, Y g:i A' }}</p>
+              <p style="font-size: 14px">{{ report.date_added|date:'M d, Y g:i A' }}</p>
             </div>
           </div>
           {% empty %}

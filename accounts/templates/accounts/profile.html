@@ -14,7 +14,8 @@
           {% for report in user_reports_active %}
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
-            <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
+            <div class="col me-2 pt-1 pb-3 px-2 text-dark" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
+              {{ report.text|linebreaks }}
               <p style="font-size: 14px; color: var(--bs-dar-rgb);">{{ report.text|linebreaks }}</p>
             </div>
 

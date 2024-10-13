@@ -22,6 +22,7 @@
     <link rel="stylesheet" href="{% static 'css/untitled.css' %}">
 </head>
 
+{% block content %}
 <body>
 
     <section class="text-bg-dark py-5">
@@ -48,7 +49,7 @@
             <div class="row d-flex justify-content-xl-center" style="padding: 12px 0px;">
                 <div class="col">
                     <form action="{% url 'better_buildings:report_bug' %}" method="post">
-                        <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="3" placeholder="Report your bug here!"></textarea></div>
+                        {% comment %} <div class="mb-3"><textarea class="form-control" id="message-1" name="message" rows="3" placeholder="Report your bug here!"></textarea></div> {% endcomment %}
                         {% csrf_token %}
                         {{ form.media }}
                         {{ form.as_div }}
@@ -59,5 +60,6 @@
         </div>
     </section>
 </body>
+{% endblock content %}
 
 </html>

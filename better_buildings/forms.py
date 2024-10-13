@@ -15,13 +15,15 @@ class AreaForm(forms.ModelForm):
 class ReportForm(forms.ModelForm):
     class Media:
         css = {
-            "all": ["css/input.css"]
+            "all": ["bootstrap/css/bootstrap.min.css",
+                    "css/bs-theme-overrides.css",
+                    "css/untitled.css"]
         }
     area = forms.ModelChoiceField(
     queryset=Area.objects.all(),
     required=True,
-    widget=forms.Select(attrs={'class': 'dropdown-box'})
-)
+    widget=forms.Select(attrs={'class': 'form-select'})
+    )
 
     class Meta:
         model = Report
@@ -29,7 +31,7 @@ class ReportForm(forms.ModelForm):
         labels = {'text': ''}
         widgets = {
             'text': forms.Textarea(attrs={
-                'class': 'input-box',
+                'class': 'form-control',
                 'placeholder': 'Enter report text here',
                 'cols': 80,
                 'rows': 5,
@@ -39,7 +41,9 @@ class ReportForm(forms.ModelForm):
 class BugReportForm(forms.ModelForm):
     class Media:
         css = {
-            "all": ["bootstrap/css/bootstrap.min.css"]
+              "all": ["bootstrap/css/bootstrap.min.css",
+                    "css/bs-theme-overrides.css",
+                    "css/untitled.css"]
         }
 
     class Meta:

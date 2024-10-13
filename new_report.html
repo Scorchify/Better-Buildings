@@ -1,0 +1,23 @@
+{% extends 'better_buildings/base.html' %}
+
+{% block content %}
+
+
+
+
+
+    {% if area %}
+      <form action="{% url 'better_buildings:area' area.id %}" method="get">
+        <button type="submit" class="btn btn-primary">{{ area }}</button>
+      </form>
+      <br>
+    {% endif %}
+    
+      <form action="{% if area %}{% url 'better_buildings:new_report' area.id %}{% else %}{% url 'better_buildings:new_report_no_area' %}{% endif %}" method="post">
+        {% csrf_token %}
+        {{ form.media }}
+        {{ form.as_div }}
+        <br>
+      </form>
+ 
+{% endblock content %}

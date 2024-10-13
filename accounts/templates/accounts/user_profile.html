@@ -17,7 +17,7 @@
         {% else %}
         <div class="col-auto pe-0">
           <form>
-              <button class="btn btn-success" type="submit">Suspend User</button>
+              <button class="btn btn-danger" type="submit">Suspend User</button>
           </form>
         </div>
       {% endif %}
@@ -33,7 +33,7 @@
             </div>
 
             <!-- date -->
-            <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+            <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
               {{ report.date_added|date:'M d, Y g:i A' }}
             </div>
           </div>
@@ -53,7 +53,7 @@
             </div>
 
             <!-- date -->
-            <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+            <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
               {{ report.date_added|date:'M d, Y g:i A' }}
             </div>
           </div>

@@ -1,0 +1,65 @@
+{% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block content %}
+    <section class="bg-dark d-flex flex-fill py-5">
+        <div class="container-md">
+            <div class="row gy-2 d-flex justify-content-between mb-3">
+              <div class="col-auto">
+                <h2><strong>Issue Area: Test</strong></h2>
+              </div>
+              <div class="col-auto"><a class="btn btn-info" role="button" href="new-report.html">Add new report</a></div>
+            </div>
+            <div class="row mb-4">
+              <div class="col">
+                <h5 class="mb-3"><strong>My reports:</strong></h5>
+                <div class="row g-0 d-flex">
+                  <div class="col me-3 pt-2 pb-3 px-3" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
+                    <p style="font-size: 14px;margin: 0px;color: var(--bs-body-bg);">One of the doors to the stall in the main hallway bathroom (first floor) is broken.</p>
+                  </div>
+                  <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
+                    <p style="font-size: 14px;margin: 0px;">Sep 08, 2024 10:05 PM</p>
+                  </div>
+                  <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2"><a href="edit-report.html"><i class="far fa-edit text-primary" style="font-size: 26px;"></i></a></div>
+                </div>
+              </div>
+            </div>
+            <div class="row mb-4">
+              <div class="col">
+                <h5 class="mb-3"><strong>All reports:</strong></h5>
+                <div class="row g-0 d-flex">
+                  <div class="col me-3 pt-2 pb-3 px-3" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
+                    <p style="font-size: 14px;margin: 0px;color: var(--bs-body-bg);">One of the doors to the stall in the main hallway bathroom (first floor) is broken.</p>
+                  </div>
+                  <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
+                    <p style="font-size: 14px;margin: 0px;">Sep 08, 2024 10:05 PM</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <h5 class="mb-3"><strong>Resolved Reports</strong></h5>
+                    <div class="row g-0 d-flex">
+                      <div class="col me-3 pt-2 pb-3 px-3" style="background: var(--bs-body-color);border-radius: 10px;border-style: solid;border-color: var(--bs-body-color);">
+                        <p style="font-size: 14px;margin: 0px;color: var(--bs-body-bg);">A soap dispenser was damaged in the orchestra bathroom.</p>
+                      </div>
+                      <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
+                        <p style="font-size: 14px;margin: 0px;">Sep 08, 2024 10:05 PM</p>
+                      </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

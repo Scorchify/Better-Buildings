@@ -227,17 +227,18 @@ def edit_report(request, report_id):
     if report.owner != request.user:
         return redirect('better_buildings:no_permission')
 
-    if request.method != 'POST':
-        # No data submitted; create a form with the current report instance.
-        form = ReportForm(instance=report)
-    else:
-        # POST data submitted; process data.
-        form = ReportForm(instance=report, data=request.POST)
-        if form.is_valid():
-            form.save()
+    if request.method == 'POST':
+        if 'delete' in request.POST:
+            report.delete()
             return redirect('better_buildings:area', area_id=report.area.id)
+        else:
+            form = ReportForm(instance=report, data=request.POST)
+            if form.is_valid():
+                form.save()
+                return redirect('better_buildings:area', area_id=report.area.id)
+    else:
+        form = ReportForm(instance=report)
 
-    # Filter the area queryset by the user's school.
     form.fields['area'].queryset = Area.objects.filter(school=user_school)
 
     context = {'report': report, 'area': report.area, 'form': form}

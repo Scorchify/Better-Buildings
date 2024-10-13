@@ -14,14 +14,13 @@
           {% for report in user_reports_active %}
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
-            <div class="col me-2 pt-1 pb-3 px-2 text-dark" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
+            <div class="col me-2 pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px; border-style: solid;">
               {{ report.text|linebreaks }}
-              <p style="font-size: 14px; color: var(--bs-dar-rgb);">{{ report.text|linebreaks }}</p>
             </div>
 
             <!-- date -->
-            <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
-              <p style="font-size: 14px">{{ report.date_added|date:'M d, Y g:i A' }}</p>
+            <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-dark bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+              {{ report.date_added|date:'M d, Y g:i A' }}
             </div>
 
             <!-- edit button (collapsed) -->
@@ -54,12 +53,12 @@
           {% for report in user_reports_resolved %}
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
-            <div class="col me-2 pt-1 pb-3 px-2" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
+            <div class="col me-2 pt-1 pb-3 px-2 text-dark" style="background: var(--bs-light);border-radius: 10px; border-style: solid;">
               <p style="font-size: 14px; color: var(--bs-dark);">{{ report.text|linebreaks }}</p>
             </div>
 
             <!-- date -->
-            <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3" style="background: var(--bs-secondary-bg);border-radius: 10px;border-style: solid;border-color: var(--bs-secondary-bg);">
+            <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-dark bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
               <p style="font-size: 14px">{{ report.date_added|date:'M d, Y g:i A' }}</p>
             </div>
           </div>

@@ -34,13 +34,13 @@
         </div>
       </div>
     </div>
-    <div class="row d-flex justify-content-xl-center px-3 mt-2">
+    <div class="row d-flex justify-content-xl-center px-3">
       <div class="col">
         <form action="{% url 'better_buildings:report_bug' %}" method="post">
           {% csrf_token %}
           {{ form.media }}
           {{ form.as_div }}
-          <div>
+          <div class="mt-2">
             <button class="btn btn-primary shadow d-block w-100" type="submit">Report</button>
           </div>
         </form>

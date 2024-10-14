@@ -34,9 +34,17 @@ document.addEventListener('DOMContentLoaded', function () {
     .then(response => response.json())
     .then(data => {
       if (data.upvotes !== undefined) {
+        // Update the upvotes count
         upvotesCount.value = data.upvotes;
-        thumbsUpIcon.classList.toggle('bi-hand-thumbs-up-fill');
-        thumbsUpIcon.classList.toggle('bi-hand-thumbs-up');
+
+        // Toggle the thumbs-up icon between outlined and filled
+        if (thumbsUpIcon.classList.contains('bi-hand-thumbs-up')) {
+          thumbsUpIcon.classList.remove('bi-hand-thumbs-up');
+          thumbsUpIcon.classList.add('bi-hand-thumbs-up-fill');
+        } else {
+          thumbsUpIcon.classList.remove('bi-hand-thumbs-up-fill');
+          thumbsUpIcon.classList.add('bi-hand-thumbs-up');
+        }
 
         // Apply animation
         thumbsUpIcon.classList.add('thumbs-up-animate');
@@ -93,19 +101,19 @@ document.addEventListener('DOMContentLoaded', function () {
       themeToggleIconSmall.classList.remove('bi-brightness-high-fill');
       themeToggleIconSmall.classList.add('bi-moon-stars-fill');
       themeToggleButton.classList.add('btn-dark2');
-      themeToggleButtonSmall.classList.add('btn-dark2'); 
-      themeToggleButton.classList.remove('btn-light')
-      themeToggleButtonSmall.classList.remove('btn-light')
+      themeToggleButtonSmall.classList.add('btn-dark2');
+      themeToggleButton.classList.remove('btn-light');
+      themeToggleButtonSmall.classList.remove('btn-light');
     } else {
       document.body.classList.remove(darkModeClass);
       themeToggleIcon.classList.remove('bi-moon-stars-fill');
       themeToggleIcon.classList.add('bi-brightness-high-fill');
       themeToggleIconSmall.classList.remove('bi-moon-stars-fill');
       themeToggleIconSmall.classList.add('bi-brightness-high-fill');
-      themeToggleButton.classList.remove('btn-dark2'); 
-      themeToggleButtonSmall.classList.remove('btn-dark2'); 
-      themeToggleButton.classList.add('btn-light')
-      themeToggleButtonSmall.classList.add('btn-light')
+      themeToggleButton.classList.remove('btn-dark2');
+      themeToggleButtonSmall.classList.remove('btn-dark2');
+      themeToggleButton.classList.add('btn-light');
+      themeToggleButtonSmall.classList.add('btn-light');
     }
   }
 

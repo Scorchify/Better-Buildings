@@ -38,17 +38,23 @@
               <button id="thumbs-up-{{ report.id }}" class="thumbs-up-icon bi bi-hand-thumbs-up text-light" style="font-size: 26px; background: none; border: none;"></button>
             </div>
           </div>
+          
+          <!-- Upvotes count -->
           <div class="row mb-3">
-            <div class="col">
+            <div class="col-auto">
               <label for="upvotes-{{ report.id }}" class="form-label">Upvotes:</label>
-              <input type="text" id="upvotes-{{ report.id }}" class="form-control" value="{{ report.upvotes }}" readonly>
+            </div>
+            <div class="col-auto">
+              <input type="text" id="upvotes-{{ report.id }}" class="form-control" value="{{ report.upvotes }}" readonly style="max-width: 70px;">
             </div>
           </div>
+
           {% empty %}
             <p>Looks like you don't have any active reports!</p>
           {% endfor %}
         </div>
       </div>
+      
       <div class="row">
         <div class="col">
           <h5 class="mb-3 fw-bold">Your Resolved Reports</h5>

@@ -15,10 +15,10 @@
 {% block content %}
   <header class="bg-dark">
     <div class="container py-5">
-      <div class="row d-flex py-5">
+      <div class="row d-flex py-5" style="border-radius: 12px;background: linear-gradient(124deg, #4b5cba 0%, #24f2ad 200%), #4b5cba;">
         <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center justify-content-md-start align-items-md-center align-items-lg-center justify-content-xl-end">
           <div style="max-width: 450px;background: rgba(190,237,170,0);">
-            <h2 class="fs-1 fw-bold">Welcome!</h2>
+            <h2 class="fw-bold" style="font-style: italic; font-size: 70px;">Welcome!</h2>
             <p class="fs-5 my-3">MCPS Better Buildings is a website designed to allow students to report buildings issues they notice in and around their school.</p>
             <small>Notice a website bug? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.</small>
             {% if is_admin or user.is_staff %}

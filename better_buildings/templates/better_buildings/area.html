@@ -78,7 +78,7 @@
               <!-- resolve report -->
               <form method="post" action="{% url 'better_buildings:area' area.id %}">
                 {% csrf_token %}
-                <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center me-2" style="min-height: 40px;">
+                <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="min-height: 40px;">
                   <input type="hidden" name="report_id" value="{{ report.id }}">
                   <button class="btn btn-primary px-2" type="button" style="background: var(--bs-info);border: 3px solid rgb(255,255,255);border-radius: 10px;height: 100%;width: 100%;">
                     <svg class="bi bi-check-square fs-2 text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
@@ -92,7 +92,7 @@
               <!-- delete report -->
               <form method="post" action="{% url 'better_buildings:delete_report' report.id %}">
                 {% csrf_token %}
-                <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center me-2" style="min-height: 40px;">
+                <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="min-height: 40px;">
                   <button class="btn btn-primary px-2" type="button" style="background: var(--bs-danger);border: 3px solid rgb(255,255,255);border-radius: 10px;height: 100%;width: 100%;">
                     <svg class="bi bi-x-square fs-2 text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16">
                       <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>

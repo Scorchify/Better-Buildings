@@ -45,7 +45,7 @@
           {% for report in reports %}
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
-            <div class="col me-2 text-box-thing pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px; border-style: solid;">
+            <div class="col-12 col-md me-2 text-box-thing pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px; border-style: solid;">
               {{ report.text|linebreaks }}
             </div>
 
@@ -89,7 +89,6 @@
                 </form>
               </div>
 
-
               <!-- delete report -->
               <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="min-height: 40px;">
                 <form method="post" action="{% url 'better_buildings:delete_report' report.id %}">
@@ -102,7 +101,6 @@
                     </button>
                 </form>
               </div>
-
             {% endif %}
           </div>
           {% empty %}

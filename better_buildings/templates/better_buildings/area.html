@@ -71,7 +71,7 @@
 
             <!-- upvote count -->
             <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="border-style: solid;border-radius: 10px;background: var(--bs-light);min-height: 40px;">
-              <input type="text" id="upvotes-{{ report.id }}" class="form-control" value="{{ report.upvotes }}" readonly style="width: 50px;">
+              <input type="text" id="upvotes-{{ report.id }}" class="form-control" value="{{ report.upvotes|default_if_none:"0" }}" readonly style="width: 50px;">
             </div>
 
             {% if is_supervisor %}
@@ -111,9 +111,9 @@
 
   <script>
     document.addEventListener('DOMContentLoaded', function() {
-        document.querySelectorAll('.thumbs-up-icon').forEach(icon => {
-            icon.addEventListener('click', function() {
-                const reportId = this.id.split('-')[2];
+        document.querySelectorAll('.upvote-btn').forEach(button => {
+            button.addEventListener('click', function() {
+                const reportId = this.getAttribute('data-report-id');
                 const upvotesCount = document.getElementById(`upvotes-${reportId}`);
                 const csrfToken = '{{ csrf_token }}';
 
@@ -129,17 +129,18 @@
                     if (data.upvotes !== undefined) {
                         upvotesCount.value = data.upvotes;
 
-                        if (this.classList.contains('bi-hand-thumbs-up')) {
-                            this.classList.remove('bi-hand-thumbs-up');
-                            this.classList.add('bi-hand-thumbs-up-fill');
+                        const svgIcon = this.querySelector('svg');
+                        if (svgIcon.classList.contains('bi-hand-thumbs-up')) {
+                            svgIcon.classList.remove('bi-hand-thumbs-up');
+                            svgIcon.classList.add('bi-hand-thumbs-up-fill');
                         } else {
-                            this.classList.remove('bi-hand-thumbs-up-fill');
-                            this.classList.add('bi-hand-thumbs-up');
+                            svgIcon.classList.remove('bi-hand-thumbs-up-fill');
+                            svgIcon.classList.add('bi-hand-thumbs-up');
                         }
 
-                        this.classList.add('thumbs-up-animate');
+                        svgIcon.classList.add('thumbs-up-animate');
                         setTimeout(() => {
-                            this.classList.remove('thumbs-up-animate');
+                            svgIcon.classList.remove('thumbs-up-animate');
                         }, 500);
                     }
                 })

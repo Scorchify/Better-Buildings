@@ -1,7 +1,7 @@
 {% extends 'better_buildings/base.html' %}
 
 {% block content %}
-  <section class="bg-dark d-flex flex-fill py-5">
+  <section class="bg-dark d-flex flex-fill py-5 nice-bg">
     <div class="container-md">
       <div class="row d-flex justify-content-between mb-3">
         <div class="col">
@@ -12,14 +12,14 @@
           <div class="col-auto pe-0">
             <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
               {% csrf_token %}
-              <button type="submit" class="btn btn-success">Unsuspend User</button>
+              <button type="submit" class="btn nice-danger-button">Unsuspend User</button>
             </form>
           </div>
         {% else %}
         <div class="col-auto pe-0">
           <form method="post" action="{% url 'suspend_user' user.id %}" style="display:inline;">
             {% csrf_token %}
-            <button type="submit" class="btn btn-danger">Suspend User</button>
+            <button type="submit" class="btn nice-danger-button">Suspend User</button>
           </form>
         </div>
       {% endif %}

@@ -1,17 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-  // Adjust textarea height based on content
-  var textareas = document.querySelectorAll('.input-box');
-
-  textareas.forEach(function (textarea) {
-    textarea.style.overflow = 'hidden';
-    textarea.style.height = 'auto'; // Reset the height
-    textarea.style.height = textarea.scrollHeight + 'px';
-
-    textarea.addEventListener('input', function () {
-      this.style.height = 'auto';
-      this.style.height = (this.scrollHeight) + 'px';
-    });
-  });
 
   // Function to get CSRF token from meta tag
   function getCsrfToken() {
@@ -85,50 +71,3 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Set initial state of thumbs-up icons
   setInitialThumbsUpState();
-
-  // Theme toggle functionality
-  const themeToggleButton = document.getElementById('theme-toggle');
-  const themeToggleButtonSmall = document.getElementById('theme-toggle-small');
-  const themeToggleIcon = document.getElementById('theme-toggle-icon');
-  const themeToggleIconSmall = document.getElementById('theme-toggle-icon-small');
-  const darkModeClass = 'dark-mode';
-
-  function setTheme(isDarkMode) {
-    if (isDarkMode) {
-      document.body.classList.add(darkModeClass);
-      themeToggleIcon.classList.remove('bi-brightness-high-fill');
-      themeToggleIcon.classList.add('bi-moon-stars-fill');
-      themeToggleIconSmall.classList.remove('bi-brightness-high-fill');
-      themeToggleIconSmall.classList.add('bi-moon-stars-fill');
-      themeToggleButton.classList.add('btn-dark2');
-      themeToggleButtonSmall.classList.add('btn-dark2');
-      themeToggleButton.classList.remove('btn-light');
-      themeToggleButtonSmall.classList.remove('btn-light');
-    } else {
-      document.body.classList.remove(darkModeClass);
-      themeToggleIcon.classList.remove('bi-moon-stars-fill');
-      themeToggleIcon.classList.add('bi-brightness-high-fill');
-      themeToggleIconSmall.classList.remove('bi-moon-stars-fill');
-      themeToggleIconSmall.classList.add('bi-brightness-high-fill');
-      themeToggleButton.classList.remove('btn-dark2');
-      themeToggleButtonSmall.classList.remove('btn-dark2');
-      themeToggleButton.classList.add('btn-light');
-      themeToggleButtonSmall.classList.add('btn-light');
-    }
-  }
-
-  function toggleTheme() {
-    const isDarkMode = document.body.classList.toggle(darkModeClass);
-    setTheme(isDarkMode);
-    localStorage.setItem('theme', isDarkMode ? 'dark' : 'light');
-  }
-
-  themeToggleButton.addEventListener('click', toggleTheme);
-  themeToggleButtonSmall.addEventListener('click', toggleTheme);
-
-  // Check local storage for theme preference
-  const savedTheme = localStorage.getItem('theme');
-  if (savedTheme) {
-    setTheme(savedTheme === 'dark');
-  }
-});

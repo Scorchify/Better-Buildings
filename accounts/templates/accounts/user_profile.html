@@ -10,14 +10,16 @@
         </div>
         {% if user.is_suspended %}
           <div class="col-auto pe-0">
-            <form>
-                <button class="btn btn-success" type="submit">Unsuspend User</button>
+            <form method="post" action="{% url 'unsuspend_user' user.id %}" style="display:inline;">
+              {% csrf_token %}
+              <button type="submit" class="btn btn-success">Unsuspend User</button>
             </form>
           </div>
         {% else %}
         <div class="col-auto pe-0">
-          <form>
-              <button class="btn btn-danger" type="submit">Suspend User</button>
+          <form method="post" action="{% url 'suspend_user' user.id %}" style="display:inline;">
+            {% csrf_token %}
+            <button type="submit" class="btn btn-danger">Suspend User</button>
           </form>
         </div>
       {% endif %}

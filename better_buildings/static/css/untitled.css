@@ -59,3 +59,13 @@ p {
   left: -250px;
   background: rgba(255, 150, 200, 0.5);
 }
+
+.nice-button {
+  background: linear-gradient(45deg, #2e4a98, #3a62e6) !important;
+  border-style: solid !important;
+  border-radius: 9px !important;
+}
+
+.nice-bg {
+  background: linear-gradient(114deg, #1e3a8a, #32a09b 100%) !important;
+}

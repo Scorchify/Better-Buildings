@@ -4,7 +4,7 @@
 <head> 
   <meta name="csrf-token" content="{{ csrf_token }}"> 
 </head>
-<section class="bg-dark d-flex flex-fill py-5" style="background: linear-gradient(114deg, #1e3a8a, #32a09b 100%)">
+<section class="nice-bg d-flex flex-fill py-5">
   <div class="container-md">
     <div class="row mb-3">
       <div class="col-md-12">
@@ -27,7 +27,7 @@
           </div>
 
           <!-- edit button -->
-          <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="background: var(--bs-info);border-style: solid;border-radius: 10px;">
+          <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="background: linear-gradient(45deg, #2e4a98, #3a62e6);border-style: solid;border-radius: 10px;">
             <a href="{% url 'better_buildings:edit_report' report.id %}">
               <svg class="bi bi-pencil-square text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
                 <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>

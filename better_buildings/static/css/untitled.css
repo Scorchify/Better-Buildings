@@ -72,4 +72,12 @@ p {
 
 .nice-danger-button {
   background: linear-gradient(22deg, #b02d39, var(--bs-danger));
+  border-style: solid !important;
+  border-radius: 9px !important;
+}
+
+.testy-button {
+  background: linear-gradient(22deg, #363636, #505050);
+  border-style: solid !important;
+  border-radius: 9px !important;
 }

@@ -70,3 +70,4 @@ document.querySelectorAll('.thumbs-up-icon').forEach(icon => {
 
 // Set initial state of thumbs-up icons
 setInitialThumbsUpState();
+

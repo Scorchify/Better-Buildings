@@ -2,6 +2,7 @@
 {% block content %}
   <section class="py-5 nice-bg">
     <div class="container">
+      
       <h2 class="fw-bold mb-4">Manage Areas</h2>
       <div class="row mb-4">
         <div class="col">
@@ -9,7 +10,7 @@
           {% for area in areas %}
           <div class="row g-0 d-flex mb-3">
             <!-- area text -->
-            <div class="col-12 col-md me-2 mb-2 text-box-thing pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
+            <div id="area-{{ area.id }}" class="col-12 col-md me-2 mb-2 text-box-thing pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
               {{ area.text }}
             </div>
 

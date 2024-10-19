@@ -38,12 +38,12 @@ p {
 
 .blob {
   position: absolute;
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
 }
 
 .blob-1 {
-  top: 200px;
+  top: 600px;
   left: 50px;
 }
 

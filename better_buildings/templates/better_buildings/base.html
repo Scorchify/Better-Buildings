@@ -21,7 +21,7 @@
   {% bootstrap_javascript %}
 
   <!-- Javascript-->
-  <script "{% static 'javascript/base.js'%}"></script>
+  <script src="{% static 'javascript/base.js' %}"></script>  
 
   <!-- Favicon -->
   <link rel="icon" type="image/x-icon" href="{% static 'images/bb_logo.png' %}">
@@ -90,7 +90,7 @@
         {% if user.is_authenticated %}
           <form class="d-inline" action="{% url 'logout' %}" method="post">
             {% csrf_token %}
-            <button class="btn btn-info btn-sm shadow-sm" type="submit">Log out</button>
+            <button class="btn btn-info btn-sm shadow-sm" type="submit" style="background: linear-gradient(45deg, #2e4a98, #3a62e6);">Log out</button>
           </form>
         {% else %}
           </ul><a class="btn btn-info btn-sm shadow-sm me-2" role="button" href="{% provider_login_url 'google' %}">Students</a>
@@ -145,7 +145,7 @@
       </div>
     </div>
   </footer>
-  <script"{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
-  <script"{% static 'javascript/bold-and-dark.js'%}"></script>
+  <script src="{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  <script src="{% static 'javascript/bold-and-dark.js' %}"></script>
 </body>
 </html>

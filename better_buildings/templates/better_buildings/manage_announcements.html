@@ -10,11 +10,11 @@
           <div class="row g-0 d-flex mb-3">
             <!-- report text -->
             <div class="col-12 col-md me-2 mb-2 text-box-thing pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
-              {{ announcement|linebreaks }}
+              {{ announcement.text|linebreaks }}
             </div>
             <!-- date -->
             <div class="col-3 me-2 col-lg-auto d-flex align-items-center d-none d-lg-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
-              {{ announcement|date:'M d, Y g:i A' }}
+              {{ announcement.date_added|date:'M d, Y g:i A' }}
             </div>
 
             <!-- edit button (collapsed) -->

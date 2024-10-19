@@ -3,10 +3,10 @@
 {% block content %}
   <section class="py-5 nice-bg">
     <div class="container">
-      <h2 class="fw-bold mb-2">Issue Area: {{ area.text }}</h2>
+      <h2 class="fw-bold mb-4">Issue Area: {{ area.text }}</h2>
       <div class="row mb-4">
         <div class="col">
-          <h4 class="mb-4 fw-bold">Your Reports:</h4>
+          <h4 class="mb-3 fw-bold">Your Reports:</h4>
           {% for report in user_reports %}
           <div class="row g-0 d-flex mb-3">
             <div class="col pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">

@@ -10,13 +10,13 @@
           {% for announcement in announcements %}
             <div class="row g-0 d-flex mb-3">
               <div class="col pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
-                {{ anouncement.text|linebreaks }}
+                {{ announcement.text|linebreaks }}
               </div>
               <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
-                Created on: {{ anouncement.date_added|date:'M d, Y g:i A' }}
+                Created on: {{ announcement.date_added|date:'M d, Y g:i A' }}
               </div>
               <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
-                Resolved on: {{ anouncement.resolved_date|date:'M d, Y g:i A' }}
+                Resolved on: {{ announcement.resolved_date|date:'M d, Y g:i A' }}
               </div>
             </div>
           {% empty %}
@@ -30,10 +30,10 @@
           {% for announcement in resolved_announcements %}
             <div class="row g-0 d-flex mb-3">
               <div class="col pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
-                {{ anouncement.text|linebreaks }}
+                {{ announcement.text|linebreaks }}
               </div>
               <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
-                {{ anouncement.date_added|date:'M d, Y g:i A' }}
+                {{ announcement.date_added|date:'M d, Y g:i A' }}
               </div>
             </div>
           {% empty %}

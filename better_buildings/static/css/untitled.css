@@ -40,11 +40,12 @@ p {
   position: absolute;
   width: 400px;
   height: 300px;
+  z-index: -1;
 }
 
 .blob-1 {
   top: 600px;
-  left: 50px;
+  left: 10px;
 }
 
 .blob-2 {

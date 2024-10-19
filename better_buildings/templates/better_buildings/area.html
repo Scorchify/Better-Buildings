@@ -71,7 +71,7 @@
               
             <!-- upvote count -->
               <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="border-style: solid;border-radius: 10px;background: var(--bs-light);min-height: 40px;">
-                <input type="text" id="upvotes-{{ report.id }}" class="form-control" value="{{ report.upvotes }}" readonly style="width: 50px;">
+                <input type="text" id="upvotes-{{ report.id }}" class="form-control" readonly value="{{ report.upvotes }}" readonly style="width: 50px;">
               </div>
 
             {% if is_supervisor %}

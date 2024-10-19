@@ -35,16 +35,16 @@
               </svg>
             </a>
           </div>
-
-          <!-- upvote button -->
+        </div>
         {% empty %}
           <p>Looks like you don't have any active reports!</p>
         {% endfor %}
+
       </div>
     </div>
     <div class="row">
       <div class="col">
-        <h5 class="mb-3 fw-bold">Your Resolved Reports</h5>
+        <h5 class="mb-3 fw-bold">Your Resolved Reports:</h5>
         {% for report in user_reports_resolved %}
         <div class="row g-0 d-flex mb-3">
           <!-- report text -->

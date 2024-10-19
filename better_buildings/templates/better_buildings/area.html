@@ -25,7 +25,7 @@
             </div>
 
             <!-- edit button (collapsed) -->
-            <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 ms-2 nice-button" style="min-height: 40px;">
+            <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 ms-2 nice-button" style="height: 40px;">
               <a href="{% url 'better_buildings:edit_report' report.id %}">
                 <svg class="bi bi-pencil-square text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
@@ -35,7 +35,7 @@
             </div>
 
             <!-- delete report -->
-            <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center ms-2" style="min-height: 40px;">
+            <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center ms-2" style="height: 40px;">
               <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" class="w-100">
                 {% csrf_token %}
                 <button class="btn btn-primary px-2 w-100 nice-danger-button" type="button" style="border: 3px solid rgb(255,255,255);border-radius: 10px;">
@@ -69,7 +69,7 @@
             </div>
 
             <!-- upvote button and count -->
-            <div class="thumbs-up-container col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2 nice-button" style="min-height: 40px;">
+            <div class="thumbs-up-container col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2 nice-button" style="height: 40px;">
               <i id="thumbs-up-{{ report.id }}" class="bi 
                 {% if user in report.upvoted_by.all %}
                   bi-hand-thumbs-up-fill
@@ -83,7 +83,7 @@
             {% if is_supervisor %}
               {% if report.owner.id %}
                 <!-- view profile -->
-                <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2 nice-button" style="min-height: 40px;">
+                <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2 nice-button" style="height: 40px;">
                   <a href="{% url 'user_profile' report.owner.id %}">
                     <svg class="bi bi-person text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
                       <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"></path>
@@ -93,7 +93,7 @@
               {% endif %}
 
              <!-- resolve report -->
-            <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center me-2" style="min-height: 40px;">
+            <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center me-2" style="height: 40px;">
                 <form method="post" action="{% url 'better_buildings:area' area.id %}" class="w-100">
                     {% csrf_token %}
                     <input type="hidden" name="report_id" value="{{ report.id }}">
@@ -107,7 +107,7 @@
             </div>
 
               <!-- delete report -->
-              <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center" style="min-height: 40px;">
+              <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center" style="height: 40px;">
                 <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" class="w-100">
                   {% csrf_token %}
                   <button class="btn btn-primary px-2 w-100 nice-danger-button" type="submit" style="border: 3px solid rgb(255,255,255);border-radius: 10px;">

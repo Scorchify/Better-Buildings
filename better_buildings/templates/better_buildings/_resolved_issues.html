@@ -1,17 +1,29 @@
-<h4>Resolved Reports:</h4>
-<p>Below you can find the reports resolved by your building services team in the past 3 days.</p>
-<ul class="report-list">
-  {% for report in resolved_reports %}
-    <li class="report-item">
-      <div class="report-content">
-        <div class="report-text">{{ report.text|linebreaks }}</div>
-        <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+<section class="py-5 nice-bg">
+    <div class="container">
+      <h2 class="fw-bold mb-4">Resolved Reports</h2>
+      <p>Below you can find the reports resolved by your building services team in the past 3 days.</p>
+      <div class="row mb-4">
+        <div class="col">
+          <ul class="report-list">
+            {% for report in resolved_reports %}
+            <li class="report-item">
+              <div class="row g-0 d-flex mb-3">
+                <div class="col pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
+                  {{ report.text|linebreaks }}
+                </div>
+                <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+                  {{ report.date_added|date:'M d, Y g:i A' }}
+                </div>
+                <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+                  Resolved on: {{ report.resolved_date|date:'M d, Y g:i A' }}
+                </div>
+              </div>
+            </li>
+            {% empty %}
+              <p class="fw-bold">No reports have been resolved in the past week.</p>
+            {% endfor %}
+          </ul>
+        </div>
       </div>
-      <div>
-        <p>Resolved on: {{ report.resolved_date|date:'M d, Y g:i A' }}</p> 
-      </div>
-    </li>
-    {% empty %}
-      <p class="fw-bold">No reports have been resolved in the past week.</p>
-    {% endfor %}
-</ul>
+    </div>
+  </section>

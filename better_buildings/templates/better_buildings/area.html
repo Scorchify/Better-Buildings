@@ -6,19 +6,19 @@
       <h2 class="fw-bold mb-2">Issue Area: {{ area.text }}</h2>
       <div class="row mb-4">
         <div class="col">
-          <h4 class="mb-3 fw-bold">Your Reports:</h4>
+          <h4 class="mb-4 fw-bold">Your Reports:</h4>
           {% for report in user_reports %}
           <div class="row g-0 d-flex mb-3">
-            <div class="col pt-1 pb-3 px-2 text-dark bg-light me-2" style="border-radius: 10px;">
+            <div class="col pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px;">
               {{ report.text|linebreaks }}
             </div>
 
-            <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark me-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+            <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
               {{ report.date_added|date:'M d, Y g:i A' }}
             </div>
 
             <!-- edit button (collapsed) -->
-            <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2 nice-button" style="min-height: 40px;">
+            <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 ms-2 nice-button" style="min-height: 40px;">
               <a href="{% url 'better_buildings:edit_report' report.id %}">
                 <svg class="bi bi-pencil-square text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
                   <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
@@ -28,10 +28,10 @@
             </div>
 
             <!-- delete report -->
-            <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center" style="min-height: 40px;">
+            <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center ms-2" style="min-height: 40px;">
               <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" class="w-100">
                 {% csrf_token %}
-                <button class="btn btn-primary px-2 w-100" type="button" style="background: var(--bs-danger);border: 3px solid rgb(255,255,255);border-radius: 10px;">
+                <button class="btn btn-primary px-2 w-100 nice-danger-button" type="button" style="border: 3px solid rgb(255,255,255);border-radius: 10px;">
                   <svg class="bi bi-x-square text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
                     <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>
                     <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
@@ -98,6 +98,20 @@
                   </button>
                 </form>
               </div>
+
+              <!-- delete report -->
+              <div class="col-2 col-md-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center" style="min-height: 40px;">
+                <form method="post" action="{% url 'better_buildings:delete_report' report.id %}" class="w-100">
+                  {% csrf_token %}
+                  <button class="btn btn-primary px-2 w-100 nice-danger-button" type="button" style="border: 3px solid rgb(255,255,255);border-radius: 10px;">
+                    <svg class="bi bi-x-square text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
+                      <path d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2z"></path>
+                      <path d="M4.646 4.646a.5.5 0 0 1 .708 0L8 7.293l2.646-2.647a.5.5 0 0 1 .708.708L8.707 8l2.647 2.646a.5.5 0 0 1-.708.708L8 8.707l-2.646 2.647a.5.5 0 0 1-.708-.708L7.293 8 4.646 5.354a.5.5 0 0 1 0-.708"></path>
+                    </svg>
+                  </button>
+                </form>
+              </div>
+
             {% endif %}
           </div>
           {% empty %}

@@ -69,3 +69,7 @@ p {
 .nice-bg {
   background: linear-gradient(114deg, #1e3a8a, #32a09b 100%) !important;
 }
+
+.nice-danger-button {
+  background: linear-gradient(22deg, #b02d39, var(--bs-danger));
+}

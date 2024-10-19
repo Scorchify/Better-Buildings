@@ -71,3 +71,6 @@ document.querySelectorAll('.thumbs-up-icon').forEach(icon => {
 // Set initial state of thumbs-up icons
 setInitialThumbsUpState();
 
+function confirmDelete(){
+  return confirm("Are you sure you want to delete this area? It will also delete all the reports in this area.")
+}

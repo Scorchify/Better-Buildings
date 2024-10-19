@@ -24,7 +24,7 @@
               {{ form.as_div }}
               <br>
               <button type="submit" class="b v btn btn-success">Save Changes</button>
-              <button type="submit" name="delete" class="btn btn-danger">Delete Area</button>
+              <button type="submit" name="delete" class="btn btn-danger" onsubmit="return confirmDelete();">Delete Area</button>
             </form>
           </div>
         </div>

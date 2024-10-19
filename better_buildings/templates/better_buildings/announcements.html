@@ -15,9 +15,6 @@
               <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
                 Created on: {{ announcement.date_added|date:'M d, Y g:i A' }}
               </div>
-              <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
-                Resolved on: {{ announcement.resolved_date|date:'M d, Y g:i A' }}
-              </div>
             </div>
           {% empty %}
             <p>There are no announcements yet, check back later!</p>
@@ -34,6 +31,9 @@
               </div>
               <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
                 {{ announcement.date_added|date:'M d, Y g:i A' }}
+              </div>
+              <div class="col-3 col-lg-auto d-flex align-items-center d-none d-md-flex px-3 text-light bg-dark ms-2" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+                Resolved on: {{ announcement.resolved_date|date:'M d, Y g:i A' }}
               </div>
             </div>
           {% empty %}

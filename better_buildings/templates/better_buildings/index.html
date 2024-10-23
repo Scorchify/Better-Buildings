@@ -1,24 +1,85 @@
 {% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+<style>
+  .typing-animation {
+      font-family: monospace;
+      white-space: nowrap;
+      overflow: hidden;
+      width: 0;
+      border-right: .15em solid rgb(174, 0, 255);
+      animation: typing 3.5s steps(30, end) forwards, blink-caret .75s step-end infinite;
+  }
+
+  @keyframes typing {
+      from { width: 0 }
+      to { width: 100% }
+  }
+
+  @keyframes blink-caret {
+      from, to { border-color: transparent }
+      50% { border-color: rgb(174, 0, 255); }
+  }
+</style>
 
 {% block content %}
-<div class="wrapper">
-  <h2 class="fw-bold">
-    Welcome!
-  </h2>
-  <p class="fw-bold">
-    MCPS Better Buildings is a webapp designed by MCPS students that allows students
-    to report building issues they notice in and around their school.
-  </p>
-
-  {% if user.is_authenticated %}
-    <p style="font-size: 14px">
-      Encounter a bug on the website? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.<br>
-    </p>
-    {% if is_admin or user.is_staff %}
-      <p style="font-size: 14px">
-        Looks like you're an admin or staff member. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.
-      </p>
-    {% endif %}
-  {% endif %}
-</div>
+  <header class="nice-bg">
+    <div class="container py-5">
+      <div class="row d-flex py-5">
+        <div class="col-md-6 text-center text-md-start d-flex d-sm-flex d-md-flex justify-content-center justify-content-md-start align-items-md-center align-items-lg-center justify-content-xl-end">
+          <div style="max-width: 450px;background: rgba(190,237,170,0);">
+            <h2 class="fw-bold typing-animation" style="font-size: clamp(20px, 7vw, 70px); color: #ffffff; font-style: italic;">Welcome!</h2>
+            <p class="fs-5 my-3">Better Buildings is a website designed to allow students to report buildings issues they notice in and around their school.</p>
+            <small>Notice a website bug? Report it <a href="{% url 'better_buildings:report_bug' %}">here</a>.</small>
+            {% if is_admin or user.is_staff %}
+              <p style="font-size: 14px"> <!--Check!-->
+                Looks like you're an admin or staff member. View bug reports from <a href="{% url 'better_buildings:view_bug_reports' %}">here</a>.
+              </p>
+            {% endif %}
+          </div>
+        </div>
+        <div class="col-md-6 col-lg-6">
+          <div class="p-5 mx-lg-5" style="background: url('{% static 'images/blob.svg' %}') center / contain no-repeat;">
+            <img class="rounded img-fluid shadow w-100 fit-cover" alt="brown and white concrete building under blue sky during daytime" style="min-height: 300px;" src="{% static 'images/image.png' %}">
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+  <section class="py-5">
+    <div class="container-md py-2">
+      <div class="row mb-3">
+        <div class="col-md-8 col-xl-6 text-center mx-auto">
+          <h2 class="fw-bold"><strong>About Better Buildings</strong></h2>
+        </div>
+      </div>
+      <div class="row d-flex justify-content-md-center mb-3" style="padding: 0px 12px;">
+        <div class="col-auto text-center mx-auto">
+          <p class="bg-dark border rounded border-dark p-4">
+            <span style="background-color: rgb(39, 38, 46);">Better Buildings is a passion project created by&nbsp;</span>
+            <span style="color: rgb(207, 77, 197);">Ayden Yeung</span>
+            <span style="color: rgb(55, 99, 244);">&nbsp;</span>
+            <span style="background-color: rgb(39, 38, 46);">and&nbsp;</span>
+            <span style="color: rgb(206, 78, 198);">Julian Givens</span>
+            <span style="background-color: rgb(39, 38, 46);">&nbsp;of Montgomery County Public Schools. The project is a response complaints from students about building conditions at a number of middle and high schools in the county.</span>
+            <br>
+            <br>
+            <span style="background-color: rgb(39, 38, 46);">Better Buildings is designed to allow for direct communication between students and their building service teams, as well as to administrators in the central office. We hope this has the effect of speeding up the repair process, ensuring a safe and enjoyable environment for MCPS students to learn in. If you're a student interested in bringing this to your school, reach out to us!</span>
+          </p>
+        </div>
+        <div class="w-100"></div>
+        <div class="w-100"></div>
+      </div>
+    </div>
+  </section>
 {% endblock content %}

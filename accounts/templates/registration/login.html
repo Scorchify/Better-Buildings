@@ -1,31 +1,48 @@
 {% extends 'better_buildings/base.html' %}
 {% load socialaccount %}
-{% block content %}
-<div class="wrapper">
-    {% if form.errors %}
-      <div class="alert alert-danger" role="alert">
-        Your username/email or password didn't match. Please try again.
-      </div>
-    {% endif %}
+{% load static %}
 
-    <h2 class="mb-4">Login</h2>
-
-    <form action="{% url 'login' %}" method="post" class="form-inline w-100">
-      {% csrf_token %}
-      <div class="ibox">
-        <input type="text" name="username" placeholder="Username or Email" class="form-control2">
-        <span class="icon bi bi-person"></span>
+ {% block content %}
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
+  <title>Log in - MCPS Better Buildings v2</title>
+  <link rel="stylesheet" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
+  <link rel="stylesheet" href="{% static 'css/bs-theme-overrides.css' %}">
+  <link rel="stylesheet" href="{% static 'css/untitled.css' %}">
+</head>
+<body>
+  <section class="py-5">
+      <div class="container py-5">
+          <div class="row mb-4 mb-lg-5">
+              <div class="col-md-8 col-xl-6 text-center mx-auto">
+                  <p class="fw-bold text-success mb-2">Login</p>
+                  <h2 class="fw-bold">Welcome back</h2>
+              </div>
+          </div>
+          <div class="row d-flex justify-content-center">
+              <div class="col-md-6 col-xl-4">
+                  <div class="card">
+                      <div class="card-body text-center d-flex flex-column align-items-center">
+                          <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
+                                  <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6m2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0m4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4m-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664z"></path>
+                              </svg></div>
+                            <form action="{% url 'login' %}" method="post">
+                            {% csrf_token %}
+                              <div class="mb-3"><input class="form-control" type="username" name="username" placeholder="Username"></div>
+                              <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"></div>
+                              <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit">Log in</button></div>
+                              <a href="{% url 'password_reset' %}">Forgot Password?</a>
+                          </form>
+                      </div>
+                  </div>
+              </div>
+          </div>
       </div>
-      <div class="ibox">
-        <input type="password" name="password" placeholder="Password" class="form-control2">
-        <span class="icon bi bi-lock"></span>
-      </div>
+  </section>
 
-      <button type="submit" class="btn btn-dark">Login</button>
-    </form>
-    <div class="mt-3">
-      <br>
-      <a href="{% url 'password_reset' %}">Forgot Password?</a>
-    </div>
-</div>
+  <script"{% static 'bootstrap/js/bootstrap.min.js' %}"></script>
+  <script"{% static 'javascript/bold-and-dark.js'%}"></script>
+</body>
 {% endblock content %}

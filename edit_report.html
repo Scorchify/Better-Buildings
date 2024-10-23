@@ -1,0 +1,23 @@
+{% extends "better_buildings/base.html" %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/input.css' %}">
+<div class="box">
+  <h4>Current Issue Area:</h4>
+  <form action="{% url 'better_buildings:area' area.id %}" method="get">
+    <button type="submit" class="btn btn-primary">{{ area }}</button>
+  </form>
+  <br> 
+  <h2>Edit report:</h2>
+
+  <div class="form-container">
+    <form action="{% url 'better_buildings:edit_report' report.id %}" method="post">
+      {% csrf_token %}
+      {{ form.as_div }}
+      <br>
+      <button type="submit" class="btn btn-dark">Save Changes</button>
+      <button type="submit" name="delete" class="btn btn-danger">Delete Report</button>
+    </form>
+  </div>
+</div>
+{% endblock content %}

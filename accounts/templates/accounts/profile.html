@@ -4,41 +4,65 @@
 <head> 
   <meta name="csrf-token" content="{{ csrf_token }}"> 
 </head>
-<div class="box2">
+<section class="nice-bg d-flex flex-fill py-5">
+  <div class="container-md">
+    <div class="row mb-3">
+      <div class="col-md-12">
+        <h2 class="fw-bold">Hello {{ user.display_name|default:user.username }}!</h2>
+      </div>
+    </div>
+    <div class="row mb-4">
+      <div class="col">
+        <h5 class="mb-3 fw-bold">Your Active Reports:</h5>
+        {% for report in user_reports_active %}
+        <div class="row g-0 d-flex mb-3">
+          <!-- report text -->
+          <div class="col me-2 pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px; border-style: solid;">
+            {{ report.text|linebreaks }}
+          </div>
 
-  <h3>Hello {{user.display_name|default:user.username }}!</h3>
+          <!-- date -->
+          <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+            {{ report.date_added|date:'M d, Y g:i A' }}
+          </div>
 
-  <h4>Active reports:</h4>
-  <ul class="report-list">
-    {% for report in user_reports_active %}
-      <li class="report-item">
-        <div class="report-content">
-          <div class="report-text">{{ report.text|linebreaks }}</div>
-          <div class="report-date-edit-container">
-            <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
-            <a href="{% url 'better_buildings:edit_report' report.id %}" class="btn btn-outline-secondary edit-button">
-              <i class="bi bi-pencil-square"></i>
+          <!-- edit button -->
+          <div class="col-auto d-flex justify-content-center align-items-center justify-content-xl-center align-items-xl-center px-2 me-2" style="background: linear-gradient(45deg, #2e4a98, #3a62e6);border-style: solid;border-radius: 10px;">
+            <a href="{% url 'better_buildings:edit_report' report.id %}">
+              <svg class="bi bi-pencil-square text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="font-size: 26px;">
+                <path d="M15.502 1.94a.5.5 0 0 1 0 .706L14.459 3.69l-2-2L13.502.646a.5.5 0 0 1 .707 0l1.293 1.293zm-1.75 2.456-2-2L4.939 9.21a.5.5 0 0 0-.121.196l-.805 2.414a.25.25 0 0 0 .316.316l2.414-.805a.5.5 0 0 0 .196-.12l6.813-6.814z"></path>
+                <path fill-rule="evenodd" d="M1 13.5A1.5 1.5 0 0 0 2.5 15h11a1.5 1.5 0 0 0 1.5-1.5v-6a.5.5 0 0 0-1 0v6a.5.5 0 0 1-.5.5h-11a.5.5 0 0 1-.5-.5v-11a.5.5 0 0 1 .5-.5H9a.5.5 0 0 0 0-1H2.5A1.5 1.5 0 0 0 1 2.5z"></path>
+              </svg>
             </a>
           </div>
         </div>
-      </li>
-    {% empty %}
-      <p>Looks like you don't have any active reports!</p>
-    {% endfor %}
-  </ul>
+        {% empty %}
+          <p>Looks like you don't have any active reports!</p>
+        {% endfor %}
 
-  <h4>Resolved reports:</h4>
-  <ul class="report-list">
-    {% for report in user_reports_resolved %}
-      <li class="report-item">
-        <div class="report-content">
-          <div class="report-text">{{ report.text|linebreaks }}</div>
-          <div class="report-date">{{ report.date_added|date:'M d, Y g:i A' }}</div>
+      </div>
+    </div>
+    <div class="row">
+      <div class="col">
+        <h5 class="mb-3 fw-bold">Your Resolved Reports:</h5>
+        {% for report in user_reports_resolved %}
+        <div class="row g-0 d-flex mb-3">
+          <!-- report text -->
+          <div class="col me-2 pt-1 pb-3 px-2 text-dark bg-light" style="border-radius: 10px; border-style: solid;">
+            {{ report.text|linebreaks }}
+          </div>
+
+          <!-- date -->
+          <div class="col-3 col-lg-auto d-flex align-items-center me-2 d-none d-md-flex px-3 text-light bg-dark" style="border-radius: 10px; border-style: solid; border-color: var(--bs-secondary-bg);">
+            {{ report.date_added|date:'M d, Y g:i A' }}
+          </div>
         </div>
-      </li>
-    {% empty %}
-      <p>Looks like you don't have any resolved reports!</p>
-    {% endfor %}
-  </ul>
-</div>
+        {% empty %}
+          <p>Looks like you don't have any resolved reports!</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+</section>
+
 {% endblock content %}

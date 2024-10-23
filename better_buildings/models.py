@@ -33,7 +33,7 @@ class Area(models.Model):
         return self.text
 
 class Report(models.Model):
-    area = models.ForeignKey(Area, null=True, blank=True, on_delete=models.SET_NULL)
+    area = models.ForeignKey(Area, null=True, blank=True, on_delete=models.CASCADE)
     text = models.TextField()
     date_added = models.DateTimeField(auto_now_add=True)
     upvotes = models.IntegerField(default=0)

@@ -1,25 +1,38 @@
-{% extends "better_buildings/base.html" %}
+{% extends 'better_buildings/base.html' %}
+{% load custom_tags %}
+{% load static %}
+{% load socialaccount %}
+{% load django_bootstrap5 %}
+<!-- PWA -->
+{% load pwa %}
+{% progressive_web_app_meta %}
+
+<!-- Bootstrap CSS/JS -->
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
 
 {% block content %}
-<div class="wrapper">
-  <h3 class="fw-bold">Add a New Issue Area</h3>
-  <br>
-
-  <form action="{% url 'better_buildings:new_area' %}" method="post">
-    {% csrf_token %}
-    <div class="container mt-4">
-      <div class="row mb-3">
-        <div class="col-12">
-          {{ form.as_p }} 
-        </div>
-      </div>
-      <div class="row">
-        <div class="col-12">
-          <br>
-          <button type="submit" class="btn btn-dark w-100">Add Area</button>
-        </div>
+<section class="bg-dark d-flex flex-fill py-5">
+  <div class="container-md">
+    <div class="row mb-3">
+      <div class="col-md-12 text-center">
+        <h2 class="fw-bold">Create an Issue Area</h2>
       </div>
     </div>
-  </form>
+    <div class="row d-flex justify-content-xl-center mb-4">
+      <div class="col">
+        <form action="{% url 'better_buildings:new_area' %}" method="post">
+          {% csrf_token %}
+          {{ form.media }}
+          {{ form.as_div }}
+
+          <div class="mt-3">
+            <button class="btn btn-info primary d-block w-100" type="submit">Create Area</button>
+          </div>
+        </form>
+      </div>
+    </div>
   </div>
+</section>
 {% endblock content %}

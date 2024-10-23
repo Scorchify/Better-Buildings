@@ -1,0 +1,83 @@
+@media (min-width: 992px) {
+  .row-cols-lg-3 > * {
+    flex: 0 0 auto;
+    width: 100%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-4 {
+    flex: 0 0 auto;
+    width: 75%;
+  }
+}
+
+@media (min-width: 1200px) {
+  .col-xl-6 {
+    flex: 0 0 auto;
+    width: 70%;
+  }
+}
+
+@media (min-width: 768px) {
+  .date-box {
+    margin-left: 0.75rem !important;
+  }
+}
+
+p {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+@media (min-width: 768px) {
+    .text-box-thing {
+      margin-bottom: 0rem !important;
+    }
+}
+
+.blob {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  z-index: -1;
+}
+
+.blob-1 {
+  left: 0.1vw;
+  bottom: 200px;
+}
+
+.blob-2 {
+  top: 400px;
+  right: -200px;
+  background: rgba(200, 255, 150, 0.5);
+}
+
+.blob-3 {
+  top: 600px;
+  left: -250px;
+  background: rgba(255, 150, 200, 0.5);
+}
+
+.nice-button {
+  background: linear-gradient(45deg, #2e4a98, #3a62e6) !important;
+  border-style: solid !important;
+  border-radius: 9px !important;
+}
+
+.nice-bg {
+  background: linear-gradient(114deg, #1e3a8a, #32a09b 100%) !important;
+}
+
+.nice-danger-button {
+  background: linear-gradient(22deg, #b02d39, var(--bs-danger));
+  border-style: solid !important;
+  border-radius: 9px !important;
+}
+
+.testy-button {
+  background: linear-gradient(-7deg, #0a2cde 0%, #2ca6ff);
+  border-style: solid !important;
+  border-radius: 9px !important;
+}

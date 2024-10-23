@@ -221,28 +221,27 @@ def new_report(request, area_id=None):
 @login_required
 def edit_report(request, report_id):
     """Edit an existing report."""
-    report = Report.objects.get(id=report_id)
-    
-    area = report.area
+    report = get_object_or_404(Report, id=report_id)
+    user_school = request.user.school if request.user.is_supervisor() else getattr(request, 'student_school', None)
 
     if report.owner != request.user:
         return redirect('better_buildings:no_permission')
 
-    if request.method != 'POST':
-        # Initial request; pre-fill form with the current entry.
-        form = ReportForm(instance=report, initial={'area': area})
-    else:
-        # POST data submitted; process data.
-        form = ReportForm(instance=report, data=request.POST)
+    if request.method == 'POST':
         if 'delete' in request.POST:
             report.delete()
-            return redirect('better_buildings:area', area_id=area.id)
+            return redirect('better_buildings:area', area_id=report.area.id)
         else:
+            form = ReportForm(instance=report, data=request.POST)
             if form.is_valid():
                 form.save()
-                return redirect('better_buildings:area', area_id=area.id)
+                return redirect('better_buildings:area', area_id=report.area.id)
+    else:
+        form = ReportForm(instance=report)
 
-    context = {'report': report, 'area': area, 'form': form}
+    form.fields['area'].queryset = Area.objects.filter(school=user_school)
+
+    context = {'report': report, 'area': report.area, 'form': form}
     return render(request, 'better_buildings/edit_report.html', context)
 
 def no_permission(request):

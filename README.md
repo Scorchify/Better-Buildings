@@ -46,10 +46,15 @@ Better-Buildings is an app designed to report building issues to the school buil
 
 
 ## Images: 
-![image](https://github.com/user-attachments/assets/f0dfeec4-3460-464f-8f0b-dcfb5343c78d)
-![image](https://github.com/user-attachments/assets/f0ad134b-184e-4725-b4e8-8eaa93e36db8)
-![image](https://github.com/user-attachments/assets/77a50a73-fdce-4da9-aa47-45c0a615291e)
-![image](https://github.com/user-attachments/assets/b04ef75f-24bc-44b1-b3e8-bcb754c5d020)
+![image](https://github.com/user-attachments/assets/7e0cf823-bae0-4c63-ba30-10d2c287619d)
+![image](https://github.com/user-attachments/assets/27fa5a50-9a7a-4f1b-ad90-fe9660ac5136)
+![image](https://github.com/user-attachments/assets/bfd073ec-a220-40a6-8392-aaa7e5e9ed1e)
+![image](https://github.com/user-attachments/assets/79b2fedd-906c-490d-bd89-3fb877eadb9c)
+![image](https://github.com/user-attachments/assets/f815d2aa-4bc5-4fff-9d90-697f5aff278a)
+![image](https://github.com/user-attachments/assets/57117155-17d2-4e36-a240-531d9415829c)
+
+
+
 
 
 

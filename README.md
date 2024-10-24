@@ -24,7 +24,7 @@ Better-Buildings is an app designed to report building issues to the school buil
 - View Announcements
  
 - Create Reports 
-
+  - With Word Blacklist and Similar Report Algorithm 
 - Edit Own Reports
 
 - Upvote Reports  
